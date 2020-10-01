@@ -1,9 +1,12 @@
 import React from 'react';
 
+import ButtonText from './components/ButtonTest';
+
 function App() {
   return (
-    <div>
-      Hello world!
+    <div className='main'>
+      Вывод в консоли
+      <ButtonText/>
     </div>
   );
 }
