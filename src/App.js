@@ -1,20 +1,12 @@
 import React from 'react';
-import { Button } from './components';
+import {Header} from './components';
 
-function App() {
+function App(props) {
   return (
-    <div>
-      <Button
-        text='Тестовая кнопка'
-        classes={['btn-rounded', 'btn--red']}
-      />
-      <br />
-      <Button
-        href='http://google.com'
-        text='Тестовая кнопка 2'
-        classes={['btn-rounded', 'btn--red']}
-      />
-    </div>
+    <React.Fragment>
+      <Header/>
+      <div style={{ height: 3000, backgroundColor: 'green', }} />
+    </React.Fragment>
   );
 }
 
