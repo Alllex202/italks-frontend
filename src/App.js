@@ -5,7 +5,7 @@ function App(props) {
   return (
     <React.Fragment>
       <Header/>
-      <div style={{ height: 3000, backgroundColor: 'green', }} />
+      <div style={{ height: 3000, backgroundColor: 'white', }} />
     </React.Fragment>
   );
 }
