@@ -1,11 +1,12 @@
 import React from 'react';
-import {Header} from './components';
+import { Header, Main, Sidebar } from './components';
 
 function App(props) {
   return (
     <React.Fragment>
-      <Header/>
-      <div style={{ height: 3000, backgroundColor: 'white', }} />
+      <Header />
+      <Sidebar />
+      <Main />
     </React.Fragment>
   );
 }
