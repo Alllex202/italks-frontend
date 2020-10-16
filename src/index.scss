@@ -5,6 +5,14 @@
   font-family: "Roboto", sans-serif;
 }
 
+@font-face {
+  font-family: "Jetbrains Mono Normal";
+  src: url('./assets/fonts/Jetbrains_Mono/web/woff2/JetBrainsMono-Regular.woff2')
+         format('woff2'),
+       url('./assets/fonts/Jetbrains_Mono/web/woff/JetBrainsMono-Regular.woff')
+         format('woff');
+}
+
 // @media (min-width: 1920px) {
 //   .makeStyles-mainqwe-7 {
 //     background-color: blue;
