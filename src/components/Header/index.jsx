@@ -5,9 +5,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from '@material-ui/core';
 import { HideOnScroll } from '..';
+import HeaderSearch from '../HeaderSearch';
 
 import LogoSvg from '../../assets/img/Logo.svg';
-import HeaderSearch from '../HeaderSearch';
 
 const useStyles = makeStyles({
   header: {

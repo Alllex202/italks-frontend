@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Main, Sidebar } from './components';
 
 function App(props) {
+
   return (
     <React.Fragment>
       <Header />
