@@ -152,7 +152,7 @@ const Sidebar = () => {
   const classes = useStyles();
 
   const categories = axios
-    .get('http://127.0.0.1:8000/')
+    .get('http://127.0.0.1:8000/category/')
     .then((response) => {
       console.log(response);
     });
