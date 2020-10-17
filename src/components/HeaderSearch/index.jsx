@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {useHistory} from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -53,10 +55,12 @@ const useStyles = makeStyles({
 
 const HeaderSearch = ({inputSearch, handleCloseSearch, setInputSearch}) => {
   const classes = useStyles();
+  let history = useHistory();
 
   const submitSearch = (value) => {
     if (value) {
       console.log(value);
+      history.push('/search');
     }
     // TODO
   }

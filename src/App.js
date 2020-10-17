@@ -1,13 +1,20 @@
 import React from 'react';
+import {
+  useLocation,
+} from 'react-router-dom';
 import { Header, Main, Sidebar } from './components';
 
-function App(props) {
+const App = (props) => {
+
+  let location = useLocation();
 
   return (
     <React.Fragment>
       <Header />
       <Sidebar />
-      <Main />
+      <Main
+        text={location.pathname}
+      />
     </React.Fragment>
   );
 }

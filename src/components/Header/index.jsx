@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link as RLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -109,15 +111,15 @@ const Header = (props) => {
           ? (<HideOnScroll {...props}>
             <AppBar className={classes.header}>
               <Toolbar className={classes.toolbar}>
-                <Link className={classes.logo} href='#'>
+                <RLink className={classes.logo} to='/'>
                   <img src={LogoSvg} alt="logo icon" />
-                </Link>
-                <Link className={classes.login} href='#'>
+                </RLink>
+                <RLink className={classes.login} to='/login'>
                   <span>Войти</span>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
                   </svg>
-                </Link>
+                </RLink>
                 <Link className={classes.searchOpenButton} onClick={handleOpenSearch}>
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.6667 18.6667H19.6133L19.24 18.3067C20.5467 16.7867 21.3333 14.8133 21.3333 12.6667C21.3333 7.88 17.4533 4 12.6667 4C7.88 4 4 7.88 4 12.6667C4 17.4533 7.88 21.3333 12.6667 21.3333C14.8133 21.3333 16.7867 20.5467 18.3067 19.24L18.6667 19.6133V20.6667L25.3333 27.32L27.32 25.3333L20.6667 18.6667ZM12.6667 18.6667C9.34667 18.6667 6.66667 15.9867 6.66667 12.6667C6.66667 9.34667 9.34667 6.66667 12.6667 6.66667C15.9867 6.66667 18.6667 9.34667 18.6667 12.6667C18.6667 15.9867 15.9867 18.6667 12.6667 18.6667Z" fill="#828588" />
@@ -127,10 +129,10 @@ const Header = (props) => {
             </AppBar>
           </HideOnScroll>)
           : (<HeaderSearch
-              inputSearch={inputSearch}
-              handleCloseSearch={handleCloseSearch}
-              setInputSearch={setInputSearch}
-            />)
+            inputSearch={inputSearch}
+            handleCloseSearch={handleCloseSearch}
+            setInputSearch={setInputSearch}
+          />)
       }
     </React.Fragment>
   );
