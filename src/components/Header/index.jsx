@@ -13,15 +13,34 @@ import LogoSvg from '../../assets/img/Logo.svg';
 
 const useStyles = makeStyles({
   header: {
-    transition: 'background-color .2s',
+    transition: 'all .2s',
     backgroundColor: '#EE6002',
     height: 96,
+    '@media (max-width: 1599px)': {
+      height: 65,
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+    },
+    '@media (min-width: 1920px)': {
+
+    }
   },
   toolbar: {
     paddingLeft: 32,
     paddingRight: 32,
     height: '100%',
     alignItems: 'center',
+    '@media (max-width: 1599px)': {
+      paddingLeft: 18,
+      paddingRight: 18,
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+    },
+    '@media (min-width: 1920px)': {
+
+    }
   },
   logo: {
     padding: 0,
@@ -31,7 +50,21 @@ const useStyles = makeStyles({
     height: 32,
     '& img': {
       width: 101,
-      height: 32
+      height: 32,
+    },
+    '@media (max-width: 1599px)': {
+      width: 59,
+      height: 17,
+      '& img': {
+        width: 59,
+        height: 17,
+      },
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+    },
+    '@media (min-width: 1920px)': {
+
     }
   },
   login: {
@@ -63,6 +96,21 @@ const useStyles = makeStyles({
         fill: '#000000',
         transition: 'fill .2s',
       }
+    },
+    '@media (max-width: 1599px)': {
+      fontSize: 14,
+      height: 16,
+      '& svg': {
+        marginLeft: 4,
+        width: 14,
+        height: 14,
+      },
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+    },
+    '@media (min-width: 1920px)': {
+
     }
   },
   searchOpenButton: {
@@ -86,8 +134,21 @@ const useStyles = makeStyles({
         fill: '#000000',
         transition: 'fill .2s',
       }
-    }
-  }
+    },
+    '@media (max-width: 1599px)': {
+      marginLeft: 18,
+      '& svg': {
+        width: 18,
+        height: 18,
+      }
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+    },
+    '@media (min-width: 1920px)': {
+
+    },
+  },
 });
 
 const Header = (props) => {

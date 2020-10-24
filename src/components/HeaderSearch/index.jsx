@@ -9,15 +9,34 @@ import { IconButton, Input, ClickAwayListener } from '@material-ui/core';
 
 const useStyles = makeStyles({
   searchPanel: {
-    transition: 'background-color .2s',
+    transition: 'all .2s',
     backgroundColor: '#FAFAFA',
     height: 96,
+    '@media (max-width: 1599px)': {
+      height: 64,
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+      
+    },
+    '@media (min-width: 1920px)': {
+      
+    }
   },
   searchToolbar: {
     paddingLeft: 75,
     paddingRight: 32,
     height: '100%',
     alignItems: 'center',
+    '@media (max-width: 1599px)': {
+      paddingLeft: 54,
+      paddingRight: 18,      
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+      
+    },
+    '@media (min-width: 1920px)': {
+      
+    }
   },
   searchInput: {
     width: '90%',
@@ -27,6 +46,18 @@ const useStyles = makeStyles({
       margin: 0,
       fontSize: 36,
       lineHeight: 42,
+    },
+    '@media (max-width: 1599px)': {
+      '& input': {
+        fontSize: 18,
+        lineHeight: '21px',
+      },
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+      
+    },
+    '@media (min-width: 1920px)': {
+      
     }
   },
   searchCloseButtonRoot: {
@@ -49,6 +80,18 @@ const useStyles = makeStyles({
       '& svg path': {
         fill: '#ede5fa'
       },
+    },
+    '@media (max-width: 1599px)': {
+      '& svg': {
+        width: 18,
+        height: 18,
+      }
+    },
+    '@media (min-width: 1600px) and (max-width: 1919px)': {
+      
+    },
+    '@media (min-width: 1920px)': {
+      
     }
   }
 });
