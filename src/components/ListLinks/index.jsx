@@ -12,8 +12,8 @@ const useStyles = makeStyles({
     padding: 0,
   },
   listLinksItem: {
-    height: 72,
-    paddingLeft: 32,
+    height: 42,
+    paddingLeft: 18,
     backgroundColor: 'transparent',
     color: '#333333',
     transition: '.2s all',
@@ -27,61 +27,30 @@ const useStyles = makeStyles({
         fill: '#6D1EFF',
       }
     },
-    '@media (max-width: 1599px)': {
-      height: 42,
-      paddingLeft: 18,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   listLinksIcon: {
-    width: 32,
-    height: 32,
-    minWidth: 32,
+    width: 18,
+    height: 18,
+    minWidth: 18,
+    minHeight: 18,
     marginRight: 18,
     '& path': {
       transition: '.2s fill',
       fill: '#333333',
     },
-    '@media (max-width: 1599px)': {
+    '& svg': {
       width: 18,
       height: 18,
-      minWidth: 18,
-      minHeight: 18,
-      marginRight: 18,
-      '& svg': {
-        width: 18,
-        height: 18,
-      }
     },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   listLinksText: {
     fontFamily: 'Jetbrains Mono Normal',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 24,
+    fontSize: 14,
+    lineHeight: '17px',
     '& span': {
     },
-    '@media (max-width: 1599px)': {
-      fontSize: '14px',
-      lineHeight: '17px',
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   listLinksSelected: {
     color: '#6D1EFF',
@@ -97,6 +66,97 @@ const useStyles = makeStyles({
       display: 'none',
     },
   },
+  buttonShowMoreRoot: {
+    justifyContent: 'start',
+    height: 42,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: 'transparent',
+    color: '#828588',
+    transition: '.2s all',
+    textTransform: 'none',
+    cursor: 'pointer',
+    '&:hover, &:focus': {
+      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      color: '#6D1EFF',
+      '& path': {
+        fill: '#6D1EFF',
+      }
+    },
+    '&:active': {
+      color: '#6D1EFF',
+      '& path': {
+        fill: '#6D1EFF',
+      }
+    },
+  },
+  buttonShowMoreLabel: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    lineHeight: '16px',
+  },
+  buttonShowMoreStartIconUp: {
+    width: 18,
+    height: 18,
+    minWidth: 18,
+    minHeight: 18,
+    marginRight: 18,
+    marginLeft: 0,
+    '& path': {
+      transition: '.2s fill',
+      fill: '#828588',
+    },
+    '& svg': {
+      width: 18,
+      height: 18,
+    },
+  },
+  buttonShowMoreStartIconDown: {
+    width: 18,
+    height: 18,
+    minWidth: 18,
+    minHeight: 18,
+    marginRight: 18,
+    marginLeft: 0,
+    transform: 'rotate(180deg)',
+    '& path': {
+      transition: '.2s fill',
+      fill: '#828588',
+    },
+    '& svg': {
+      width: 18,
+      height: 18,
+    },
+  },
+  '@media (max-width: 1599px)': {
+    listLinksItem: {
+      height: 42,
+      paddingLeft: 18,
+    },
+    listLinksIcon: {
+      width: 18,
+      height: 18,
+      minWidth: 18,
+      minHeight: 18,
+      marginRight: 18,
+      '& svg': {
+        width: 18,
+        height: 18,
+      },
+    },
+    listLinksText: {
+      fontSize: '14px',
+      lineHeight: '17px',
+    },
+  },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+  },
+  '@media (min-width: 1920px)': {
+
+  }
 });
 
 const ListLinks = ({ items, className = '', showMore, divider }) => {
@@ -149,15 +209,17 @@ const ListLinks = ({ items, className = '', showMore, divider }) => {
             <Button
               onClick={handlerClick}
               disableRipple
-              endIcon={(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
-              </svg>
+              startIcon={(
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 6L4.5 10.5L5.5575 11.5575L9 8.1225L12.4425 11.5575L13.5 10.5L9 6Z" fill="#828588" />
+                </svg>
               )}
               classes={{
-                // root: classes.listLinksItem,
-                // label: classes.labelRoundedButton,
-                // endIcon: classes.iconRoudedButton,
+                root: classes.buttonShowMoreRoot,
+                label: classes.buttonShowMoreLabel,
+                startIcon: !listOpened ? classes.buttonShowMoreStartIconDown : classes.buttonShowMoreStartIconUp,
               }}
+              component='div'
             >
               {listOpened ? 'Свернуть' : 'Развернуть'}
             </Button>

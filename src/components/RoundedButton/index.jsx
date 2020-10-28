@@ -27,37 +27,37 @@ const useStyles = makeStyles({
   labelRoundedButton: {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: '24px',
-    lineHeight: '28px',
+    fontSize: '14px',
+    lineHeight: '16px',
     textTransform: 'none',
     color: '#6D1EFF',
-    '@media (max-width: 1599px)': {
-      fontSize: '14px',
-      lineHeight: '16px',
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   iconRoudedButton: {
     '& path': {
       fill: '#6D1EFF',
     },
     '& svg': {
-      '@media (max-width: 1599px)': {
+      width: 14,
+      height: 14,
+    },
+  },
+  '@media (max-width: 1599px)': {
+    labelRoundedButton: {
+      fontSize: '14px',
+      lineHeight: '16px',
+    },
+    iconRoudedButton: {
+      '& svg': {
         width: 14,
         height: 14,
       },
-      '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-      },
-      '@media (min-width: 1920px)': {
-
-      }
     }
+  },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+  },
+  '@media (min-width: 1920px)': {
+
   }
 });
 

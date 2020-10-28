@@ -15,65 +15,32 @@ const useStyles = makeStyles({
   header: {
     transition: 'all .2s',
     backgroundColor: '#EE6002',
-    height: 96,
-    '@media (max-width: 1599px)': {
-      height: 65,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
+    height: 65,
   },
   toolbar: {
-    paddingLeft: 32,
-    paddingRight: 32,
+    paddingLeft: 18,
+    paddingRight: 18,
     height: '100%',
     alignItems: 'center',
-    '@media (max-width: 1599px)': {
-      paddingLeft: 18,
-      paddingRight: 18,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   logo: {
     padding: 0,
     margin: 0,
     marginRight: 'auto',
-    width: 101,
-    height: 32,
+    width: 59,
+    height: 17,
     '& img': {
-      width: 101,
-      height: 32,
-    },
-    '@media (max-width: 1599px)': {
       width: 59,
       height: 17,
-      '& img': {
-        width: 59,
-        height: 17,
-      },
     },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   login: {
     padding: 0,
     margin: 0,
     marginLeft: 'auto',
-    fontSize: 24,
+    fontSize: 14,
     color: '#000000',
-    height: 28,
+    height: 16,
     textDecoration: 'none',
     cursor: 'pointer',
     textAlign: 'medium',
@@ -89,7 +56,9 @@ const useStyles = makeStyles({
       }
     },
     '& svg': {
-      marginLeft: 9,
+      marginLeft: 4,
+      width: 14,
+      height: 14,
       marginTop: 'auto',
       marginBottom: 'auto',
       '& path': {
@@ -97,26 +66,11 @@ const useStyles = makeStyles({
         transition: 'fill .2s',
       }
     },
-    '@media (max-width: 1599px)': {
-      fontSize: 14,
-      height: 16,
-      '& svg': {
-        marginLeft: 4,
-        width: 14,
-        height: 14,
-      },
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   searchOpenButton: {
     padding: 0,
     margin: 0,
-    marginLeft: 32,
+    marginLeft: 18,
     cursor: 'pointer',
     display: 'inline-flex',
     '&:hover, &:focus': {
@@ -130,25 +84,53 @@ const useStyles = makeStyles({
     '& svg': {
       marginTop: 'auto',
       marginBottom: 'auto',
+      width: 18,
+      height: 18,
       '& path': {
         fill: '#000000',
         transition: 'fill .2s',
       }
     },
-    '@media (max-width: 1599px)': {
+  },
+  '@media (max-width: 1599px)': {
+    header: {
+      height: 65,
+    },
+    toolbar: {
+      paddingLeft: 18,
+      paddingRight: 18,
+    },
+    logo: {
+      width: 59,
+      height: 17,
+      '& img': {
+        width: 59,
+        height: 17,
+      },
+    },
+    login: {
+      fontSize: 14,
+      height: 16,
+      '& svg': {
+        marginLeft: 4,
+        width: 14,
+        height: 14,
+      },
+    },
+    searchOpenButton: {
       marginLeft: 18,
       '& svg': {
         width: 18,
         height: 18,
       }
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    },
+    }
   },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+  },
+  '@media (min-width: 1920px)': {
+
+  }
 });
 
 const Header = (props) => {

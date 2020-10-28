@@ -5,6 +5,27 @@
   font-family: "Roboto", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  width: 6px;
+  background-color: #c4c4c4;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  width: 6px;
+  background: transparent;
+}
+
+body::-webkit-scrollbar-track-piece {
+  width: 6px;
+  background: transparent;
+}
+
 @font-face {
   font-family: "Jetbrains Mono Normal";
   src: url('./assets/fonts/Jetbrains_Mono/web/woff2/JetBrainsMono-Regular.woff2')

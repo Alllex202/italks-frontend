@@ -11,32 +11,13 @@ const useStyles = makeStyles({
   searchPanel: {
     transition: 'all .2s',
     backgroundColor: '#FAFAFA',
-    height: 96,
-    '@media (max-width: 1599px)': {
-      height: 64,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      
-    },
-    '@media (min-width: 1920px)': {
-      
-    }
+    height: 64,
   },
   searchToolbar: {
-    paddingLeft: 75,
-    paddingRight: 32,
+    paddingLeft: 54,
+    paddingRight: 18,   
     height: '100%',
     alignItems: 'center',
-    '@media (max-width: 1599px)': {
-      paddingLeft: 54,
-      paddingRight: 18,      
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      
-    },
-    '@media (min-width: 1920px)': {
-      
-    }
   },
   searchInput: {
     width: '90%',
@@ -44,27 +25,19 @@ const useStyles = makeStyles({
     '& input': {
       padding: 0,
       margin: 0,
-      fontSize: 36,
-      lineHeight: 42,
+      fontSize: 18,
+      lineHeight: '21px',
     },
-    '@media (max-width: 1599px)': {
-      '& input': {
-        fontSize: 18,
-        lineHeight: '21px',
-      },
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      
-    },
-    '@media (min-width: 1920px)': {
-      
-    }
   },
   searchCloseButtonRoot: {
     margin: 0,
     marginLeft: 'auto',
     padding: 0,
     transition: 'all .2s',
+    '& svg': {
+      width: 18,
+      height: 18,
+    },
     '& path': {
       fill: '#000000',
       transition: 'all .2s',
@@ -81,18 +54,33 @@ const useStyles = makeStyles({
         fill: '#ede5fa'
       },
     },
-    '@media (max-width: 1599px)': {
+  },  
+  '@media (max-width: 1599px)': {
+    searchPanel: {
+      height: 64,
+    },
+    searchToolbar: {
+      paddingLeft: 54,
+      paddingRight: 18,   
+    },
+    searchInput: {
+      '& input': {
+        fontSize: 18,
+        lineHeight: '21px',
+      },
+    },
+    searchCloseButtonRoot: {
       '& svg': {
         width: 18,
         height: 18,
       }
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      
-    },
-    '@media (min-width: 1920px)': {
-      
     }
+  },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+    
+  },
+  '@media (min-width: 1920px)': {
+    
   }
 });
 

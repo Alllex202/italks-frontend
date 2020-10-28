@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link as RLink, useLocation, useHistory } from 'react-router-dom';
+import { Link as RLink, useLocation, useHistory, Switch, Route, useParams } from 'react-router-dom';
 
 import axios from 'axios';
+
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -21,59 +23,23 @@ const useStyles = makeStyles({
     backgroundColor: '#fff',
     overflow: 'auto',
     borderRight: '1px solid #D2D3D4',
-    '@media (max-width: 1599px)': {
-      width: 232,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      width: 300,
-    },
-    '@media (min-width: 1920px)': {
-      width: 400,
-    }
   },
   logo: {
-    height: 32,
-    width: 101,
-    marginLeft: 32,
-    marginTop: 32,
-    marginBottom: 33,
+    height: 17,
+    width: 59,
+    marginLeft: 18,
+    marginTop: 24,
+    marginBottom: 23,
     display: 'inline-block',
     '& img': {
       mixBlendMode: 'luminosity',
-      height: 32,
-      width: 101,
-    },
-    '@media (max-width: 1599px)': {
       height: 17,
       width: 59,
-      marginLeft: 18,
-      marginTop: 24,
-      marginBottom: 23,
-      '& img': {
-        mixBlendMode: 'luminosity',
-        height: 17,
-        width: 59,
-      },
     },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      width: 300,
-    },
-    '@media (min-width: 1920px)': {
-      width: 400,
-    }
   },
   loginBlock: {
     width: '100%',
-    height: 232,
-    '@media (max-width: 1599px)': {
-      height: 116,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-      height: 300,
-    },
-    '@media (min-width: 1920px)': {
-      height: 400,
-    }
+    height: 116,
   },
   loginBlockText: {
     fontStyle: 'normal',
@@ -85,61 +51,69 @@ const useStyles = makeStyles({
     marginLeft: 18,
     paddingTop: 12,
     marginBottom: 11,
-    '@media (max-width: 1599px)': {
-
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
   },
   titleText: {
     fontStyle: 'normal',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 14,
     color: '#828588',
     width: 'auto',
-    lineHeight: '28px',
-    marginLeft: 32,
-    paddingTop: 22,
-    marginBottom: 22,
-    '@media (max-width: 1599px)': {
+    lineHeight: '16px',
+    marginLeft: 18,
+    paddingTop: 13,
+    marginBottom: 13,
+  },
+  loginButton: {
+    marginLeft: 18,
+    marginBottom: 12,
+    width: 96,
+    height: 32,
+  },
+  link: {
+    textDecoration: 'none',
+  },
+  '@media (max-width: 1599px)': {
+    sidebar: {
+      width: 232,
+    },
+    logo: {
+      height: 17,
+      width: 59,
+      marginLeft: 18,
+      marginTop: 24,
+      marginBottom: 23,
+      '& img': {
+        mixBlendMode: 'luminosity',
+        height: 17,
+        width: 59,
+      },
+    },
+    loginBlock: {
+      height: 116,
+    },
+    loginBlockText: {
+
+    },
+    titleText: {
       fontSize: 14,
       lineHeight: '16px',
       marginLeft: 18,
       paddingTop: 13,
       marginBottom: 13,
     },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
-    }
-  },
-  loginButton: {
-    marginLeft: 32,
-    marginBottom: 12,
-    width: 181,
-    height: 48,
-    '@media (max-width: 1599px)': {
+    loginButton: {
       marginLeft: 18,
       marginBottom: 12,
       width: 96,
       height: 32,
-    },
-    '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-    },
-    '@media (min-width: 1920px)': {
-
     }
   },
-  link: {
-    textDecoration: 'none',
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
   },
+  '@media (min-width: 1920px)': {
+
+  }
 });
 
 const mainSidebarItems = [
@@ -169,6 +143,7 @@ const Sidebar = () => {
   const classes = useStyles();
   let location = useLocation();
   const [categories, setCategories] = useState(null);
+  const [subcategories, setSubcategories] = useState(null);
 
   useEffect(() => {
     if (!categories)
@@ -185,49 +160,92 @@ const Sidebar = () => {
         });
   });
 
+  useEffect(() => {
+    // let { id } = useParams();
+    if (location.pathname.match(/\/category\/[0-9]+/)) {
+      const categoryId = location.pathname.split(/\/category\//).filter(e => e);
+      axios
+        .get(`http://127.0.0.1:8000/category/${categoryId}`)
+        .then((response) => {
+          setSubcategories(response.data.map(el => {
+            return {
+              ...el,
+              href: `/category/${el.id}`,
+            }
+          }));
+          console.log([response.data, subcategories]);
+        })
+    }
+  })
+
   return (
     <div className={classes.sidebar}>
-      <RLink className={classes.logo} to='/'>
-        <img src={LogoSvg} alt="logo icon" />
-      </RLink>
-
-      <Divider />
-
-      <ListLinks
-        items={mainSidebarItems}
-        divider
-      />
-
-      <div className={classes.loginBlock}>
-        <Typography
-          align='left'
-          display='block'
-          className={classes.loginBlockText}
-        >
-          Войдите,&nbsp;чтобы&nbsp;отслеживать
-          категории и добавлять
-          видео в избранное.
-        </Typography>
-        <RLink className={classes.link} to='/login'>
-          <RoundedButton className={classes.loginButton}>
-            Вход
-          </RoundedButton>
-        </RLink>
-        <Divider />
-      </div>
-
-      <Typography
-        align='left'
-        display='block'
-        className={classes.titleText}
+      <Scrollbars
+        autoHide
+        autoHideTimeout={1000}
+        autoHideDuration={400}
       >
-        Поиск по категориям
-      </Typography>
+        <RLink className={classes.logo} to='/'>
+          <img src={LogoSvg} alt="logo icon" />
+        </RLink>
 
-      <ListLinks
-        items={categories}
-        showMore
-      />
+        <Divider />
+
+        <Switch>
+          <Route path='/category/:id'>
+            Кнопка Назад
+          </Route>
+          <Route path='/'>
+            <ListLinks
+              items={mainSidebarItems}
+              divider
+            />
+          </Route>
+        </Switch>
+
+        {/* Блок для входа */}
+        <div className={classes.loginBlock}>
+          <Typography
+            align='left'
+            display='block'
+            className={classes.loginBlockText}
+          >
+            Войдите,&nbsp;чтобы&nbsp;отслеживать
+            категории и добавлять
+            видео в избранное.
+          </Typography>
+          <RLink className={classes.link} to='/login'>
+            <RoundedButton className={classes.loginButton}>
+              Вход
+            </RoundedButton>
+          </RLink>
+          <Divider />
+        </div>
+
+        {/* Отображаемый список */}
+        <Switch>
+          <Route path='/category'>
+            {/* <ListSubcategories /> */}
+          </Route>
+          <Route path='/'>
+            {/* <ListCategories /> */}
+            <Typography
+              align='left'
+              display='block'
+              className={classes.titleText}
+            >
+              Поиск по категориям
+            </Typography>
+
+            <ListLinks
+              items={categories}
+              showMore
+            />
+          </Route>
+        </Switch>
+
+
+      </Scrollbars>
     </div>
   )
 };
