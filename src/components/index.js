@@ -5,3 +5,6 @@ export {default as Sidebar} from './Sidebar';
 export {default as HideOnScroll} from './HideOnScroll';
 export {default as RoundedButton} from './RoundedButton';
 export {default as ListLinks} from './ListLinks';
+export {default as Test} from './Test';
+export {default as RoundedInput} from './RoundedInput';
+export {default as RoundedButton_} from './RoundedButton_';

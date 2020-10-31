@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
 
+import classNames from 'classnames';
+
 const useStyles = makeStyles({
   rootRoundedButton: {
     borderRadius: '32px',
@@ -41,43 +43,44 @@ const useStyles = makeStyles({
       height: 14,
     },
   },
-  '@media (max-width: 1599px)': {
-    labelRoundedButton: {
-      fontSize: '14px',
-      lineHeight: '16px',
-    },
-    iconRoudedButton: {
-      '& svg': {
-        width: 14,
-        height: 14,
-      },
-    }
-  },
-  '@media (min-width: 1600px) and (max-width: 1919px)': {
+  // '@media (max-width: 1599px)': {
+  //   labelRoundedButton: {
+  //     fontSize: '14px',
+  //     lineHeight: '16px',
+  //   },
+  //   iconRoudedButton: {
+  //     '& svg': {
+  //       width: 14,
+  //       height: 14,
+  //     },
+  //   }
+  // },
+  // '@media (min-width: 1600px) and (max-width: 1919px)': {
 
-  },
-  '@media (min-width: 1920px)': {
+  // },
+  // '@media (min-width: 1920px)': {
 
-  }
+  // }
 });
 
-const RoundedButton = ({ children, className = '' }) => {
+const RoundedButton = (props) => {
   const classes = useStyles();
 
   return (
     <Button
-      endIcon={(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
-      </svg>
-      )}
-      component='div'
+      endIcon={props.endIcon}
+      startIcon={props.startIcon}
+      component={props.component}
       disableRipple
+      className={props.className}
       classes={{
-        root: `${classes.rootRoundedButton} ${className}`,
-        label: classes.labelRoundedButton,
-        endIcon: classes.iconRoudedButton,
+        root: classNames(classes.rootRoundedButton, props.classes && props.classes.root),
+        label: classNames(classes.labelRoundedButton, props.classes && props.classes.label),
+        endIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.endIcon),
+        startIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.startIcon),
       }}
-      children={children}
+      children={props.children}
+      onClick={props.onClick}
     />
   )
 }

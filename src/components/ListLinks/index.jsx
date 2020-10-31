@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     },
   },
   listLinksText: {
-    fontFamily: 'Jetbrains Mono Normal',
+    fontFamily: 'Jetbrains Mono',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 14,
