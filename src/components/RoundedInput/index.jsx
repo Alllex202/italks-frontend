@@ -34,20 +34,30 @@ const useStyle = makeStyles({
   }
 });
 
-const RoundedInput = (props) => {
+const RoundedInput = ({
+  className,
+  type,
+  autoComplete,
+  maxLength,
+  autoFocus,
+  placeholder,
+  disabled,
+  onChange,
+  value
+}) => {
   const classes = useStyle();
 
   return (
     <input
-      className={classNames(classes.roundedInput, props.className)}
-      type={props.type}
-      autoComplete={props.autoComplete}
-      maxLength={props.maxLength}
-      autoFocus={props.autoFocus}
-      placeholder={props.placeholder}
-      disabled={props.disabled}
-      onChange={props.onChange}
-      value={props.value}
+      className={classNames(classes.roundedInput, className)}
+      type={type}
+      autoComplete={autoComplete}
+      maxLength={maxLength}
+      autoFocus={autoFocus}
+      placeholder={placeholder}
+      disabled={disabled}
+      onChange={onChange}
+      value={value}
     />
   )
 };

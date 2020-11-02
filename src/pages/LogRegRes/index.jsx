@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
 
-import { Link as RLink, Switch, Route } from 'react-router-dom';
+import { Link as RLink, Switch, Route, useHistory } from 'react-router-dom';
 
 import LogoSvg from '../../assets/img/Logo.svg';
 import HelloSvg from '../../assets/img/Hello.svg';
@@ -75,15 +75,15 @@ const LogRegRes = (props) => {
         <div className={classes.bigText}>
           <Switch>
             <Route exact path='/login'>
-              <img className={classes.bigTextImg} src={HelloSvg} alt={'Hello!'}/>
+              <img className={classes.bigTextImg} src={HelloSvg} alt={'Hello!'} />
               {/* {'Hello! (^０^)ノ'} */}
             </Route>
             <Route exact path='/register'>
-              <img className={classes.bigTextImg} src={DoitSvg} alt={'Do it!'}/>
+              <img className={classes.bigTextImg} src={DoitSvg} alt={'Do it!'} />
               {/* {'Do it! (^_−)☆'} */}
             </Route>
             <Route exact path='/restore'>
-              <img className={classes.bigTextImg} src={ItsOKSvg} alt={'It’s OK'}/>
+              <img className={classes.bigTextImg} src={ItsOKSvg} alt={'It’s OK'} />
               {/* {'It’s OK (ノ_<、)'} */}
             </Route>
           </Switch>
@@ -92,7 +92,10 @@ const LogRegRes = (props) => {
       <div className={classes.actionBlock}>
         <Switch>
           <Route exact path='/login'>
-            <Login />
+            <Login
+              auth={props.auth}
+              setAuth={props.setAuth}
+            />
           </Route>
           <Route exact path='/register'>
             <Register />

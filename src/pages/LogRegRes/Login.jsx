@@ -3,7 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { RoundedButton, RoundedInput } from '../../components';
 
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink, useHistory } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -64,7 +64,7 @@ const useStyle = makeStyles({
   }
 });
 
-const Login = () => {
+const Login = (props) => {
   const classes = useStyle();
 
   const [emailError, setEmailError] = React.useState('');
@@ -72,20 +72,28 @@ const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  let history = useHistory();
+
   const handleLoginButtonClick = () => {
     axios
-      .post(`http://127.0.0.1:8000/auth/token/login/`)
+      .post(`http://127.0.0.1:8000/auth/token/login/`, {
+        username: email,
+        password: password,
+      })
       .then(response => {
         setEmailError('');
         setPasswordError('');
         setEmail('');
         setPassword('');
         // Записать токен
+        localStorage.setItem('auth_token', response.data.auth_token);
+        // props.setAuth(true);
+        history.push('/');
       })
       .catch((error) => {
-        // console.log('e', error.response);
         if (error.response.status === 400) {
-          setEmailError(error.response.data.non_field_errors[0]);
+          console.log(error.response.data)
+          // setEmailError(error.response.data.non_field_errors[0]);
         }
       });
   };
@@ -112,10 +120,11 @@ const Login = () => {
         }
         <RoundedInput
           className={classes.input}
-          type='text'
+          type='email'
           placeholder='Почта'
           onChange={(event) => setEmail(event.target.value)}
           value={email}
+          autoComplete='true'
         />
       </div>
 
@@ -131,6 +140,7 @@ const Login = () => {
           placeholder='Пароль'
           onChange={(event) => setPassword(event.target.value)}
           value={password}
+          autoComplete='true'
         />
       </div>
 
