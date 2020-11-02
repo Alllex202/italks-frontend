@@ -164,7 +164,7 @@ const ListLinks = ({ items, className = '', showMore, divider }) => {
   let location = useLocation();
   const [listOpened, setListOpened] = React.useState(false);
 
-  const handlerClick = () => {
+  const handleClickShowMore = () => {
     setListOpened(!listOpened);
   };
 
@@ -183,7 +183,7 @@ const ListLinks = ({ items, className = '', showMore, divider }) => {
                   >
                     <ListItemIcon
                       className={classes.listLinksIcon}
-                      dangerouslySetInnerHTML={el.icon_base_64 && { __html: atob(el.icon_base_64) }}
+                      dangerouslySetInnerHTML={el.iconBase64 && { __html: atob(el.iconBase64) }}
                     >
                       {el.icon}
                     </ListItemIcon>
@@ -204,10 +204,10 @@ const ListLinks = ({ items, className = '', showMore, divider }) => {
           : 'Загрузка...'
       }
       {
-        items && showMore
+        items && showMore && items.length > 4
           ? (
             <Button
-              onClick={handlerClick}
+              onClick={handleClickShowMore}
               disableRipple
               startIcon={(
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -10,10 +10,12 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import LogoSvg from '../../assets/img/Logo.svg';
 import { Link, Divider, List, ListItem, ListItemIcon, ListItemText, Typography, Button } from '@material-ui/core';
 
-import { RoundedButton, ListLinks } from '../'
+import { RoundedButton, ListLinks } from '../';
+
+import LogoSvg from '../../assets/img/Logo.svg';
+import CategorySvg from '../../assets/img/category-24px.svg';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -37,6 +39,53 @@ const useStyles = makeStyles({
       mixBlendMode: 'luminosity',
       height: 17,
       width: 59,
+    },
+  },
+  buttonMainMenuBackRoot: {
+    justifyContent: 'start',
+    height: 42,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: 'transparent',
+    color: '#828588',
+    transition: '.2s all',
+    textTransform: 'none',
+    cursor: 'pointer',
+    '&:hover, &:focus': {
+      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      color: '#6D1EFF',
+      '& path': {
+        fill: '#6D1EFF',
+      }
+    },
+    '&:active': {
+      color: '#6D1EFF',
+      '& path': {
+        fill: '#6D1EFF',
+      }
+    },
+  },
+  buttonMainMenuBackLabel: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    lineHeight: '16px',
+  },
+  buttonMainMenuBackStartIcon: {
+    width: 18,
+    height: 18,
+    minWidth: 18,
+    minHeight: 18,
+    marginRight: 18,
+    marginLeft: 0,
+    '& path': {
+      transition: '.2s fill',
+      fill: '#828588',
+    },
+    '& svg': {
+      width: 18,
+      height: 18,
     },
   },
   loginBlock: {
@@ -141,7 +190,7 @@ const mainSidebarItems = [
   }
 ];
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const classes = useStyles();
   let location = useLocation();
   const [categories, setCategories] = useState(null);
@@ -149,17 +198,45 @@ const Sidebar = () => {
   useEffect(() => {
     if (!categories)
       axios
-        .get('http://127.0.0.1:8000/category/')
+        .get('http://127.0.0.1:8000/categories_and_subcategories/')
         .then((response) => {
-          setCategories(response.data.map(el => {
+          setCategories(response.data.map(category => {
             return {
-              ...el,
-              href: `/category/${el.id}`,
+              subcategories: [{
+                id: 0,
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
+                  </svg>
+                ),
+                name: 'Все',
+                href: `/category/${category.id}`,
+              }, ...category.subcategory.map(subcategory => {
+                return {
+                  id: subcategory.id,
+                  iconBase64: subcategory.icon_base_64,
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
+                    </svg>
+                  ),
+                  name: subcategory.name,
+                  href: `/category/${category.id}/subcategory/${subcategory.id}`,
+                }
+              })],
+              id: category.id,
+              iconBase64: category.icon_base_64,
+              name: category.name,
+              href: `/category/${category.id}`,
             }
           }));
-          console.log(response.data)
+          // console.log(response.data)
         });
   });
+
+  const handleClickMainMenuBack = () => {
+    console.log(1)
+  }
 
   return (
     <div className={classes.sidebar}>
@@ -176,7 +253,24 @@ const Sidebar = () => {
 
         <Switch>
           <Route path='/category/:id'>
-            Кнопка Назад
+            <Button
+              onClick={handleClickMainMenuBack}
+              disableRipple
+              startIcon={(
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 8.24951H5.8725L10.065 4.05701L9 2.99951L3 8.99951L9 14.9995L10.0575 13.942L5.8725 9.74951H15V8.24951Z" fill="#828588" />
+                </svg>
+              )}
+              classes={{
+                root: classes.buttonMainMenuBackRoot,
+                label: classes.buttonMainMenuBackLabel,
+                startIcon: classes.buttonMainMenuBackStartIcon,
+              }}
+              component='div'
+            >
+              Главное меню
+            </Button>
+            <Divider />
           </Route>
           <Route path='/'>
             <ListLinks
@@ -214,29 +308,65 @@ const Sidebar = () => {
 
         {/* Отображаемый список */}
         <Switch>
-          <Route path='/category'>
-            {/* <ListSubcategories /> */}
+          <Route path='/category/:categoryId'>
+            <ListSubcategories
+              categories={categories}
+              className={classes.titleText}
+            />
           </Route>
           <Route path='/'>
-            {/* <ListCategories /> */}
-            <Typography
-              align='left'
-              display='block'
+            <ListCategories
+              categories={categories}
               className={classes.titleText}
-            >
-              Поиск по категориям
-            </Typography>
-
-            <ListLinks
-              items={categories}
-              showMore
             />
           </Route>
         </Switch>
 
-
       </Scrollbars>
     </div>
+  )
+};
+
+const ListCategories = (props) => {
+
+  return (
+    <React.Fragment>
+      <Typography
+        align='left'
+        display='block'
+        className={props.className}
+      >
+        Поиск по категориям
+      </Typography>
+
+      <ListLinks
+        items={props.categories}
+        showMore
+      />
+    </React.Fragment>
+  )
+};
+
+const ListSubcategories = (props) => {
+  const { categoryId } = useParams();
+  const selectedCategory = props.categories
+    && props.categories.find(category => category.id.toString() === categoryId);
+
+  return (
+    <React.Fragment>
+      <Typography
+        align='left'
+        display='block'
+        className={props.className}
+      >
+        {selectedCategory && selectedCategory.name}
+      </Typography>
+
+      <ListLinks
+        items={selectedCategory && selectedCategory.subcategories}
+        showMore
+      />
+    </React.Fragment>
   )
 };
 
