@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { List, ListItem, ListItemIcon, ListItemText, Button, Divider } from '@material-ui/core';
 
-import { Link as RLink, useLocation } from 'react-router-dom';
+import { Link as RLink, useLocation, useParams } from 'react-router-dom';
 
 const useStyles = makeStyles({
   listLinks: {
@@ -159,9 +159,13 @@ const useStyles = makeStyles({
   }
 });
 
-const ListLinks = ({ items, className = '', showMore, divider }) => {
+const ListLinks = ({
+  items, className = '', showMore, divider,
+  showSidebarSecondLevel, categoryType, subcategoryType, mainType
+}) => {
   const classes = useStyles();
   let location = useLocation();
+  const { categoryId, subcategoryId, pageName } = useParams();
   const [listOpened, setListOpened] = React.useState(false);
 
   const handleClickShowMore = () => {
@@ -179,7 +183,18 @@ const ListLinks = ({ items, className = '', showMore, divider }) => {
                   <ListItem
                     component='span'
                     classes={{ root: classes.listLinksItem }}
-                    className={el.href === location.pathname ? classes.listLinksSelected : ''}
+                    className={
+                      (categoryType && categoryId === el.id.toString())
+                        || (subcategoryType
+                          && ((subcategoryId === el.id.toString() && categoryId === el.categoryId.toString())
+                            || (!subcategoryId && el.id === 0)))
+                        || (!categoryId && !subcategoryId
+                          && ((mainType && el.pageName === pageName)
+                            || (!pageName && el.pageName === 'overview')))
+                        ? classes.listLinksSelected
+                        : ''
+                    }
+                    onClick={showSidebarSecondLevel}
                   >
                     <ListItemIcon
                       className={classes.listLinksIcon}

@@ -28,6 +28,11 @@ const useStyles = makeStyles({
     overflow: 'auto',
     borderRight: '1px solid #D2D3D4',
   },
+  sidebarHide: {
+    transition: 'left .4s',
+    // display: 'none',
+    left: -232,
+  },
   logo: {
     height: 17,
     width: 59,
@@ -90,15 +95,15 @@ const useStyles = makeStyles({
   },
   loginBlock: {
     width: '100%',
-    height: 116,
+    // height: 116,
   },
   loginBlockText: {
     fontStyle: 'normal',
-    fontWeight: 500,
-    fontSize: 14,
+    fontWeight: '500',
+    fontSize: '14px',
+    lineHeight: '16px',
     color: '#828588',
     width: 195,
-    lineHeight: '16px',
     marginLeft: 18,
     paddingTop: 12,
     marginBottom: 11,
@@ -114,9 +119,13 @@ const useStyles = makeStyles({
     paddingTop: 13,
     marginBottom: 13,
   },
-  loginButton: {
+  linkLoginButton: {
+    display: 'inline-block',
     marginLeft: 18,
     marginBottom: 12,
+  },
+  loginButton: {
+    margin: 0,
     width: 96,
     height: 32,
   },
@@ -140,7 +149,7 @@ const useStyles = makeStyles({
       },
     },
     loginBlock: {
-      height: 116,
+      // height: 116,
     },
     loginBlockText: {
 
@@ -153,8 +162,6 @@ const useStyles = makeStyles({
       marginBottom: 13,
     },
     loginButton: {
-      marginLeft: 18,
-      marginBottom: 12,
       width: 96,
       height: 32,
     }
@@ -177,6 +184,7 @@ const mainSidebarItems = [
       </svg>
     ),
     href: '/',
+    pageName: 'overview',
   },
   {
     id: 2,
@@ -187,6 +195,7 @@ const mainSidebarItems = [
       </svg>
     ),
     href: '/favourites',
+    pageName: 'favourites'
   }
 ];
 
@@ -194,6 +203,7 @@ const Sidebar = (props) => {
   const classes = useStyles();
   let location = useLocation();
   const [categories, setCategories] = useState(null);
+  const [secondLevelShow, setSecondLevelShow] = useState(true);
 
   useEffect(() => {
     if (!categories)
@@ -204,6 +214,7 @@ const Sidebar = (props) => {
             return {
               subcategories: [{
                 id: 0,
+                categoryId: category.id,
                 icon: (
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
@@ -214,6 +225,7 @@ const Sidebar = (props) => {
               }, ...category.subcategory.map(subcategory => {
                 return {
                   id: subcategory.id,
+                  categoryId: category.id,
                   iconBase64: subcategory.icon_base_64,
                   icon: (
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -234,9 +246,60 @@ const Sidebar = (props) => {
         });
   });
 
-  const handleClickMainMenuBack = () => {
-    console.log(1)
+  const hideSidebarSecondLevel = () => {
+    setSecondLevelShow(false);
+  };
+
+  const showSidebarSecondLevel = () => {
+    setSecondLevelShow(true);
   }
+
+  return (
+    <React.Fragment>
+      <Route path={['/category/:categoryId/subcategory/:subcategoryId',
+        '/category/:categoryId',
+        '/:pageName',
+        '/'
+      ]}>
+        <SidebarFirstLevel
+          categories={categories}
+          showSidebarSecondLevel={showSidebarSecondLevel}
+        />
+      </Route>
+      <Route path={['/category/:categoryId/subcategory/:subcategoryId', '/category/:categoryId']}>
+        <SidebarSecondLevel
+          categories={categories}
+          hideSidebarSecondLevel={hideSidebarSecondLevel}
+          secondLevelShow={secondLevelShow}
+        />
+      </Route>
+
+
+      {/* <Switch>
+        <Route path={['/category/:categoryId/subcategory/:subcategoryId', '/category/:categoryId']}>
+          <SidebarFirstLevel
+            categories={categories}
+            showSidebarSecondLevel={showSidebarSecondLevel}
+          />
+          <SidebarSecondLevel
+            categories={categories}
+            hideSidebarSecondLevel={hideSidebarSecondLevel}
+            secondLevelShow={secondLevelShow}
+          />
+        </Route>
+        <Route path={['/:pageName', '/']}>
+          <SidebarFirstLevel
+            categories={categories}
+            showSidebarSecondLevel={showSidebarSecondLevel}
+          />
+        </Route>
+      </Switch> */}
+    </React.Fragment>
+  )
+};
+
+const SidebarFirstLevel = (props) => {
+  const classes = useStyles();
 
   return (
     <div className={classes.sidebar}>
@@ -251,81 +314,136 @@ const Sidebar = (props) => {
 
         <Divider />
 
-        <Switch>
-          <Route path='/category/:id'>
-            <Button
-              onClick={handleClickMainMenuBack}
-              disableRipple
-              startIcon={(
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 8.24951H5.8725L10.065 4.05701L9 2.99951L3 8.99951L9 14.9995L10.0575 13.942L5.8725 9.74951H15V8.24951Z" fill="#828588" />
-                </svg>
-              )}
-              classes={{
-                root: classes.buttonMainMenuBackRoot,
-                label: classes.buttonMainMenuBackLabel,
-                startIcon: classes.buttonMainMenuBackStartIcon,
-              }}
-              component='div'
-            >
-              Главное меню
-            </Button>
-            <Divider />
-          </Route>
-          <Route path='/'>
-            <ListLinks
-              items={mainSidebarItems}
-              divider
-            />
-          </Route>
-        </Switch>
+        <ListLinks
+          items={mainSidebarItems}
+          mainType
+          divider
+        />
 
         {/* Блок для входа */}
-        <div className={classes.loginBlock}>
-          <Typography
-            align='left'
-            display='block'
-            className={classes.loginBlockText}
-          >
-            Войдите,&nbsp;чтобы&nbsp;отслеживать
-            категории и добавлять
-            видео в избранное.
-          </Typography>
-          <RLink className={classes.link} to='/login'>
-            <RoundedButton
-              className={classes.loginButton}
-              endIcon={(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
-              </svg>
-              )}
-              component='div'
-            >
-              Вход
-            </RoundedButton>
-          </RLink>
-          <Divider />
-        </div>
+        <LoginBlock />
 
         {/* Отображаемый список */}
-        <Switch>
-          <Route path='/category/:categoryId'>
-            <ListSubcategories
-              categories={categories}
-              className={classes.titleText}
-            />
-          </Route>
-          <Route path='/'>
-            <ListCategories
-              categories={categories}
-              className={classes.titleText}
-            />
-          </Route>
-        </Switch>
+        {/* <ListCategories
+          categories={categories}
+          className={classes.titleText}
+        /> */}
+
+        <Typography
+          align='left'
+          display='block'
+          className={classes.titleText}
+        >
+          Поиск по категориям
+        </Typography>
+
+        <ListLinks
+          items={props.categories}
+          showSidebarSecondLevel={props.showSidebarSecondLevel}
+          categoryType
+          showMore
+        />
 
       </Scrollbars>
     </div>
   )
 };
+
+const SidebarSecondLevel = (props) => {
+  const classes = useStyles();
+  const { categoryId } = useParams();
+  const selectedCategory = props.categories
+    && props.categories.find(category => category.id.toString() === categoryId);
+
+  return (
+    <div className={classNames(classes.sidebar, !props.secondLevelShow && classes.sidebarHide)}>
+      <Scrollbars
+        autoHide
+        autoHideTimeout={1000}
+        autoHideDuration={400}
+      >
+        <RLink className={classes.logo} to='/'>
+          <img src={LogoSvg} alt="logo icon" />
+        </RLink>
+
+        <Divider />
+
+        <Button
+          onClick={props.hideSidebarSecondLevel}
+          disableRipple
+          startIcon={(
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 8.24951H5.8725L10.065 4.05701L9 2.99951L3 8.99951L9 14.9995L10.0575 13.942L5.8725 9.74951H15V8.24951Z" fill="#828588" />
+            </svg>
+          )}
+          classes={{
+            root: classes.buttonMainMenuBackRoot,
+            label: classes.buttonMainMenuBackLabel,
+            startIcon: classes.buttonMainMenuBackStartIcon,
+          }}
+          component='div'
+        >
+          Главное меню
+            </Button>
+        <Divider />
+
+        {/* Блок для входа */}
+        <LoginBlock />
+
+        {/* Отображаемый список */}
+        {/* <ListSubcategories
+          categories={categories}
+          className={classes.titleText}
+        /> */}
+        <Typography
+          align='left'
+          display='block'
+          className={classes.titleText}
+        >
+          {selectedCategory && selectedCategory.name}
+        </Typography>
+
+        <ListLinks
+          items={selectedCategory && selectedCategory.subcategories}
+          subcategoryType
+          showMore
+        />
+
+      </Scrollbars>
+    </div>
+  )
+};
+
+const LoginBlock = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.loginBlock}>
+      <Typography
+        align='left'
+        display='block'
+        className={classes.loginBlockText}
+      >
+        Войдите, чтобы отслеживать
+        категории и добавлять
+        видео в избранное.
+      </Typography>
+      <RLink className={classNames(classes.link, classes.linkLoginButton)} to='/login'>
+        <RoundedButton
+          className={classes.loginButton}
+          endIcon={(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
+          </svg>
+          )}
+          component='div'
+        >
+          Вход
+      </RoundedButton>
+      </RLink>
+      <Divider />
+    </div>
+  )
+}
 
 const ListCategories = (props) => {
 
