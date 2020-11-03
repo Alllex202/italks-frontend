@@ -7,4 +7,4 @@ export {default as RoundedButton} from './RoundedButton';
 export {default as ListLinks} from './ListLinks';
 export {default as Test} from './Test';
 export {default as RoundedInput} from './RoundedInput';
-export {default as RoundedButton_} from './RoundedButton_';
+export {default as RoundedInputWithErrors} from './RoundedInputWithErrors';

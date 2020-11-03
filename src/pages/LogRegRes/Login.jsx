@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core';
-import { RoundedButton, RoundedInput } from '../../components';
+import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../components';
 
 import { Link as RLink, useHistory } from 'react-router-dom';
 
@@ -86,21 +86,22 @@ const Login = (props) => {
         setEmail('');
         setPassword('');
         // Записать токен
-        localStorage.setItem('auth_token', response.data.auth_token);
+        // localStorage.setItem('auth_token', response.data.auth_token);
         // props.setAuth(true);
         history.push('/');
       })
       .catch((error) => {
         if (error.response.status === 400) {
           console.log(error.response.data)
-          // setEmailError(error.response.data.non_field_errors[0]);
+          error.response.data.username ? setEmailError(error.response.data.username[0]) : setEmailError('');
+          error.response.data.password ? setPasswordError(error.response.data.password[0]) : setPasswordError('');
         }
       });
   };
 
-  React.useEffect(() => {
-    // console.log(emailError)
-  }, [emailError, passwordError]);
+  // React.useEffect(() => {
+  //   // console.log(emailError)
+  // }, [emailError, passwordError]);
 
   return (
     <div className={classes.login}>
@@ -112,37 +113,25 @@ const Login = (props) => {
         или <RLink className={classes.link} to='/register'>Зарегистрируйтесь</RLink>
       </span>
 
-      <div className={classes.inputWrapper}>
-        {
-          emailError && (
-            <span className={classes.inputError}>{emailError}</span>
-          )
-        }
-        <RoundedInput
-          className={classes.input}
-          type='email'
-          placeholder='Почта'
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
-          autoComplete='true'
-        />
-      </div>
+      <RoundedInputWithErrors
+        className={classes.input}
+        type='email'
+        placeholder='Почта'
+        onChange={(event) => setEmail(event.target.value)}
+        value={email}
+        autoComplete='true'
+        error={emailError}
+      />
 
-      <div className={classes.inputWrapper}>
-        {
-          passwordError && (
-            <span className={classes.inputError}>{passwordError}</span>
-          )
-        }
-        <RoundedInput
-          className={classes.input}
-          type='password'
-          placeholder='Пароль'
-          onChange={(event) => setPassword(event.target.value)}
-          value={password}
-          autoComplete='true'
-        />
-      </div>
+      <RoundedInputWithErrors
+        className={classes.input}
+        type='password'
+        placeholder='Пароль'
+        onChange={(event) => setPassword(event.target.value)}
+        value={password}
+        autoComplete='true'
+        error={passwordError}
+      />
 
       <RoundedButton
         className={classes.submitButtom}
