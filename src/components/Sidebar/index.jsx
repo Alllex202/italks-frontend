@@ -15,7 +15,6 @@ import { Link, Divider, List, ListItem, ListItemIcon, ListItemText, Typography, 
 import { RoundedButton, ListLinks } from '../';
 
 import LogoSvg from '../../assets/img/Logo.svg';
-import CategorySvg from '../../assets/img/category-24px.svg';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -27,6 +26,9 @@ const useStyles = makeStyles({
     backgroundColor: '#fff',
     overflow: 'auto',
     borderRight: '1px solid #D2D3D4',
+    '& ::-webkit-scrollbar': {
+      width: '0px',
+    },
   },
   sidebarHide: {
     transition: 'left .4s',
