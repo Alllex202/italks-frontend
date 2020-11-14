@@ -11,8 +11,8 @@ const App = (props) => {
   let location = useLocation();
 
   React.useEffect(() => {
-    checkAuth();
-  })
+    checkAuth(setAuth);
+  }, [])
 
   return (
     <React.Fragment>
