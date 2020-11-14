@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Settings } from '../../settings/settings';
 
 const Test = () => {
   const [textHref, setTextHref] = React.useState('');
@@ -10,7 +11,7 @@ const Test = () => {
 
   const handleGET = () => {
     axios
-      .get(`http://127.0.0.1:8000${textHref}`)
+      .get(`${Settings.serverUrl}${textHref}`)
       .then((response) => {
         console.log(response);
       })
@@ -18,7 +19,7 @@ const Test = () => {
 
   const handlePOST = () => {
     axios
-      .post(`http://127.0.0.1:8000${textHref}`)
+      .post(`${Settings.serverUrl}${textHref}`)
       .then((response) => {
         console.log(response);
       })

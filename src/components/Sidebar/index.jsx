@@ -15,6 +15,7 @@ import { Link, Divider, List, ListItem, ListItemIcon, ListItemText, Typography, 
 import { RoundedButton, ListLinks } from '../';
 
 import LogoSvg from '../../assets/img/Logo.svg';
+import { Settings } from '../../settings/settings';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -210,7 +211,7 @@ const Sidebar = (props) => {
   useEffect(() => {
     if (!categories)
       axios
-        .get('http://127.0.0.1:8000/categories_and_subcategories/')
+        .get(`${Settings.serverUrl}/categories_and_subcategories/`)
         .then((response) => {
           setCategories(response.data.map(category => {
             return {

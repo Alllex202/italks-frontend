@@ -91,10 +91,10 @@ const Login = (props) => {
         setPasswordError('');
         setEmail('');
         setPassword('');
-        setAuth(true);
         // Записать токен
-        // localStorage.setItem('auth_token', response.data.auth_token);
-        // props.setAuth(true);
+        localStorage.setItem('auth_token', response.data.auth_token);
+        setAuth(true);
+        // Перенаправить на главную
         history.push('/');
       })
       .catch((error) => {

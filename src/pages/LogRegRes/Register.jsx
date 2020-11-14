@@ -7,6 +7,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../components';
 
 import { Link as RLink } from 'react-router-dom';
+import { Settings } from '../../settings/settings';
 
 const useStyle = makeStyles({
   register: {
@@ -76,7 +77,7 @@ const Register = () => {
 
   const handleClickButtonRegister = () => {
     axios
-      .post('http://127.0.0.1:8000/auth/users/', {
+      .post(`${Settings.serverUrl}/auth/users/`, {
         email: email,
         username: username,
         password: password,
