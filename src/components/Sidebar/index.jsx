@@ -16,6 +16,7 @@ import { RoundedButton, ListLinks } from '../';
 
 import LogoSvg from '../../assets/img/Logo.svg';
 import { Settings } from '../../settings/settings';
+import { Context } from '../Context';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -304,6 +305,7 @@ const Sidebar = (props) => {
 
 const SidebarFirstLevel = (props) => {
   const classes = useStyles();
+  const { auth } = React.useContext(Context);
 
   return (
     <div className={classes.sidebar}>
@@ -311,8 +313,8 @@ const SidebarFirstLevel = (props) => {
         autoHide
         autoHideTimeout={1000}
         autoHideDuration={400}
-        renderTrackHorizontal={props => <div {...props} style={{display:"none"}}/>}
-        renderThumbHorizontal={props => <div {...props} style={{display:"none"}}/>}
+        renderTrackHorizontal={props => <div {...props} style={{ display: "none" }} />}
+        renderThumbHorizontal={props => <div {...props} style={{ display: "none" }} />}
       >
         <RLink className={classes.logo} to='/'>
           <img src={LogoSvg} alt="logo icon" />
@@ -327,7 +329,7 @@ const SidebarFirstLevel = (props) => {
         />
 
         {/* Блок для входа */}
-        <LoginBlock />
+        {!auth && <LoginBlock />}
 
         {/* Отображаемый список */}
         {/* <ListCategories
@@ -357,6 +359,7 @@ const SidebarFirstLevel = (props) => {
 
 const SidebarSecondLevel = (props) => {
   const classes = useStyles();
+  const { auth } = React.useContext(Context);
   const { categoryId } = useParams();
   const selectedCategory = props.categories
     && props.categories.find(category => category.id.toString() === categoryId);
@@ -394,7 +397,7 @@ const SidebarSecondLevel = (props) => {
         <Divider />
 
         {/* Блок для входа */}
-        <LoginBlock />
+        {!auth && <LoginBlock />}
 
         {/* Отображаемый список */}
         {/* <ListSubcategories
