@@ -93,8 +93,6 @@ const LogRegRes = (props) => {
         <Switch>
           <Route exact path='/login'>
             <Login
-              auth={props.auth}
-              setAuth={props.setAuth}
             />
           </Route>
           <Route exact path='/register'>

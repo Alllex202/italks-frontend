@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import {Settings} from '../../settings/settings';
 
 import { makeStyles } from '@material-ui/core';
 import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../components';
@@ -6,6 +8,8 @@ import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../compo
 import { Link as RLink, useHistory } from 'react-router-dom';
 
 import axios from 'axios';
+
+import {Context} from '../../components/Context/index.jsx';
 
 const useStyle = makeStyles({
   login: {
@@ -71,13 +75,15 @@ const Login = (props) => {
   const [passwordError, setPasswordError] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const {auth, setAuth} = useContext(Context);
 
   let history = useHistory();
 
   const handleLoginButtonClick = () => {
+    console.log(auth);
     axios
-      .post(`http://127.0.0.1:8000/auth/token/login/`, {
-        username: email,
+      .post(`${Settings.serverUrl}/auth/token/login/`, {
+        email: email,
         password: password,
       })
       .then(response => {
@@ -85,6 +91,7 @@ const Login = (props) => {
         setPasswordError('');
         setEmail('');
         setPassword('');
+        setAuth(true);
         // Записать токен
         // localStorage.setItem('auth_token', response.data.auth_token);
         // props.setAuth(true);
