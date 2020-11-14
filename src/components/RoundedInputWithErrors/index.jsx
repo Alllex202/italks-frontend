@@ -10,7 +10,8 @@ const useStyle = makeStyles({
   },
   inputError: {
     position: 'absolute',
-    top: '-18px',
+    transform: 'translateY(calc(-100% - 4px))',
+    // top: '-18px',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '12px',

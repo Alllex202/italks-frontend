@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
-import {Settings} from '../../settings/settings';
+import { Settings } from '../../settings/settings';
 
 import { makeStyles } from '@material-ui/core';
 import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../components';
@@ -9,7 +9,7 @@ import { Link as RLink, useHistory } from 'react-router-dom';
 
 import axios from 'axios';
 
-import {Context} from '../../components/Context/index.jsx';
+import { Context } from '../../components/Context/index.jsx';
 
 const useStyle = makeStyles({
   login: {
@@ -75,12 +75,12 @@ const Login = (props) => {
   const [passwordError, setPasswordError] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const {auth, setAuth} = useContext(Context);
+  const { auth, setAuth } = useContext(Context);
 
   let history = useHistory();
 
   const handleLoginButtonClick = () => {
-    console.log(auth);
+    // console.log(auth);
     axios
       .post(`${Settings.serverUrl}/auth/token/login/`, {
         email: email,
@@ -98,10 +98,17 @@ const Login = (props) => {
         history.push('/');
       })
       .catch((error) => {
+        setPassword('');
         if (error.response.status === 400) {
-          console.log(error.response.data)
-          error.response.data.username ? setEmailError(error.response.data.username[0]) : setEmailError('');
-          error.response.data.password ? setPasswordError(error.response.data.password[0]) : setPasswordError('');
+          // console.log(error.response.data)
+          error.response.data.email
+            ? setEmailError(error.response.data.email[0])
+            : error.response.data.non_field_errors
+              ? setEmailError(error.response.data.non_field_errors[0])
+              : setEmailError('');;
+          error.response.data.password
+            ? setPasswordError(error.response.data.password[0])
+            : setPasswordError('');
         }
       });
   };
