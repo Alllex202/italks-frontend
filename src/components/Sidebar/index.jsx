@@ -203,11 +203,12 @@ const mainSidebarItems = [
 ];
 
 const Sidebar = (props) => {
-  const classes = useStyles();
-  let location = useLocation();
+  // const classes = useStyles();
+  // let location = useLocation();
   const [categories, setCategories] = useState(null);
   const [secondLevelShow, setSecondLevelShow] = useState(true);
 
+  // Подрузка категорий и подкатегорий
   useEffect(() => {
     if (!categories)
       axios
@@ -310,6 +311,8 @@ const SidebarFirstLevel = (props) => {
         autoHide
         autoHideTimeout={1000}
         autoHideDuration={400}
+        renderTrackHorizontal={props => <div {...props} style={{display:"none"}}/>}
+        renderThumbHorizontal={props => <div {...props} style={{display:"none"}}/>}
       >
         <RLink className={classes.logo} to='/'>
           <img src={LogoSvg} alt="logo icon" />
