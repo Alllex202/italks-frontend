@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     transition: 'all .2s',
     backgroundColor: '#EE6002',
     height: 65,
+    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25)',
   },
   toolbar: {
     paddingLeft: 18,
