@@ -92,6 +92,7 @@ const Register = () => {
         setStepRegistration(2);
       })
       .catch(error => {
+        setPassword('');
         if (error.response.status === 400) {
           console.log(error.response.data)
           error.response.data.username ? setUsernameError(error.response.data.username[0]) : setUsernameError('');
@@ -160,7 +161,6 @@ const Register = () => {
             </Typography>
           ))
       }
-
     </div>
   )
 };
