@@ -24,8 +24,14 @@ const useStyles = makeStyles({
       '& path': {
         fill: '#FFFFFF',
       }
-    }
+    },
   },
+  // disabledRoudedButton: {
+  //   cursor: 'not-allowed',
+  //   '&:disabled': {
+  //     cursor: 'not-allowed',
+  //   },
+  // },
   labelRoundedButton: {
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -78,9 +84,13 @@ const RoundedButton = (props) => {
         label: classNames(classes.labelRoundedButton, props.classes && props.classes.label),
         endIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.endIcon),
         startIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.startIcon),
+        // disabled: classNames(classes.disabledRoudedButton, props.classes && props.classes.disabled)
       }}
       children={props.children}
       onClick={props.onClick}
+      id={props.id}
+      name={props.name}
+      disabled={props.disabled}
     />
   )
 }

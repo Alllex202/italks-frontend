@@ -75,12 +75,14 @@ const Login = (props) => {
   const [passwordError, setPasswordError] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { auth, setAuth } = useContext(Context);
+  const [submitIsDisabled, setSubmitIsDisabled] = React.useState(false);
+  const { setAuth } = useContext(Context);
 
   let history = useHistory();
 
   const handleLoginButtonClick = () => {
     // console.log(auth);
+    setSubmitIsDisabled(true);
     axios
       .post(`${Settings.serverUrl}/auth/token/login/`, {
         email: email,
@@ -110,6 +112,9 @@ const Login = (props) => {
             ? setPasswordError(error.response.data.password[0])
             : setPasswordError('');
         }
+      })
+      .finally(() => {
+        setSubmitIsDisabled(false);
       });
   };
 
@@ -150,6 +155,7 @@ const Login = (props) => {
       <RoundedButton
         className={classes.submitButtom}
         onClick={handleLoginButtonClick}
+        disabled={submitIsDisabled}
       >
         Войти
       </RoundedButton>

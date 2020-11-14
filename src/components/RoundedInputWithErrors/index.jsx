@@ -43,6 +43,8 @@ const classes = useStyle();
         disabled={props.disabled}
         onChange={props.onChange}
         value={props.value}
+        id={props.id}
+        name={props.name}
       />
     </div>
   )

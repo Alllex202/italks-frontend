@@ -74,8 +74,11 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [submitIsDisabled, setSubmitIsDisabled] = useState(false);
 
   const handleClickButtonRegister = () => {
+    
+    setSubmitIsDisabled(true);
     axios
       .post(`${Settings.serverUrl}/auth/users/`, {
         email: email,
@@ -100,8 +103,11 @@ const Register = () => {
           error.response.data.password ? setPasswordError(error.response.data.password[0]) : setPasswordError('');
         }
       })
+      .finally(() => {
+        setSubmitIsDisabled(false);
+      });
     // setStepRegistration(2);
-  }
+  };
 
   return (
     <div className={classes.register}>
@@ -143,6 +149,7 @@ const Register = () => {
               <RoundedButton
                 className={classes.submitButtom}
                 onClick={handleClickButtonRegister}
+                disabled={submitIsDisabled}
               >
                 Зарегистрироваться
               </RoundedButton>

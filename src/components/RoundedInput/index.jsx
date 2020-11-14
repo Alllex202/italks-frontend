@@ -43,7 +43,9 @@ const RoundedInput = ({
   placeholder,
   disabled,
   onChange,
-  value
+  value,
+  id,
+  name
 }) => {
   const classes = useStyle();
 
@@ -58,6 +60,8 @@ const RoundedInput = ({
       disabled={disabled}
       onChange={onChange}
       value={value}
+      id={id}
+      name={name}
     />
   )
 };
