@@ -8,16 +8,19 @@ import { checkAuth } from './auth/checkAuth';
 
 const App = (props) => {
   const [auth, setAuth] = useState(false);
+  const [infoUser, setInfoUser] = useState({
+    notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
+  });
   let location = useLocation();
 
   React.useEffect(() => {
     checkAuth(setAuth);
-  }, [])
+  }, []);
 
   return (
     <React.Fragment>
       <Context.Provider value={{
-        auth, setAuth
+        auth, setAuth, infoUser, setInfoUser
       }}>
         <Switch>
           <Route exact path='/test'>

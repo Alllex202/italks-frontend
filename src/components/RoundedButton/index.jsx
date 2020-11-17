@@ -33,6 +33,7 @@ const useStyles = makeStyles({
   //   },
   // },
   labelRoundedButton: {
+    transition: '.2s all',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
@@ -41,6 +42,7 @@ const useStyles = makeStyles({
     color: '#6D1EFF',
   },
   iconRoudedButton: {
+    transition: '.2s all',
     '& path': {
       fill: '#6D1EFF',
     },
