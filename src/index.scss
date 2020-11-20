@@ -5,27 +5,31 @@
   font-family: "Roboto", sans-serif;
 }
 
+li {
+  list-style: none;
+}
+
 a {
   text-decoration: none;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 6px;
   background: transparent;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   width: 6px;
   background-color: #c4c4c4;
   border-radius: 10px;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   width: 6px;
   background: transparent;
 }
 
-body::-webkit-scrollbar-track-piece {
+*::-webkit-scrollbar-track-piece {
   width: 6px;
   background: transparent;
 }
