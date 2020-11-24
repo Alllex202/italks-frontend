@@ -76,7 +76,7 @@ const useStyles = makeStyles({
     transition: '.2s all',
     textTransform: 'none',
     cursor: 'pointer',
-    '&:hover, &:focus': {
+    '&:hover': {
       backgroundColor: 'rgba(109, 30, 255, 0.1)',
       color: '#6D1EFF',
       '& path': {

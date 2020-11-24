@@ -18,6 +18,7 @@ import RoundedButton from '../RoundedButton';
 import classNames from 'classnames';
 
 import continueWatchingImage from '../../assets/img/continueWatchingImage.png';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
   header: {
@@ -168,6 +169,7 @@ const useStyles = makeStyles({
     display: 'inline-block',
     position: 'relative',
     borderRadius: '32px',
+    zIndex: 100,
     '&:hover > div': {
       display: 'flex',
     },
@@ -464,7 +466,7 @@ const Header = (props) => {
   const [notificationsOpened, openNotifications] = React.useState(false);
   const [menuOpened, openMenu] = React.useState(false);
   const [inputSearch, setInputSearch] = React.useState('');
-  const [scroll, setScroll] = React.useState(0);
+  const [currentScroll, setScroll] = React.useState(0);
   const { auth, infoUser } = React.useContext(Context);
 
   const handleOpenSearch = () => {
@@ -478,20 +480,17 @@ const Header = (props) => {
     setInputSearch('');
   }
 
-  // const actionScroll = () => window.scrollTo(scroll);
-
-  // if (notificationsOpened || menuOpened) {
-  //   setScroll(window.pageYOffset);
-  //   document.addEventListener('scroll', actionScroll);
-  // } else {
-  //   document.removeEventListener('scroll', actionScroll);
-  // }
+  const actionScroll = () => window.scrollTo({ top: currentScroll });
 
   return (
     <React.Fragment>
       {
         !searchOpened
-          ? (<HideOnScroll {...props}>
+          ? (<HideOnScroll
+            {...props}
+            notificationsOpened={notificationsOpened}
+            menuOpened={menuOpened}
+          >
             <AppBar className={classes.header}>
               <Toolbar className={classes.toolbar}>
                 <RLink className={classes.logo} to='/'>
@@ -549,35 +548,14 @@ const Header = (props) => {
                             </svg>
                           </Link>
                           {
-                            notificationsOpened && (<div className={classNames(classes.smallContainerWrapper, classes.notificationsWrapper, notificationsOpened && classes.dFlex)}>
-                              <div
-                                className={classNames(classes.smallContainer, classes.notifications)}
-                              >
-                                {
-                                  infoUser && infoUser.notifications.length === 0
-                                    ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
-                                    : (
-                                      infoUser.notifications.map(notif => (
-                                        <a
-                                          href='#w'
-                                          className={classes.notification}
-                                          onClick={() => openNotifications(false)}
-                                        >
-                                          <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
-                                          <div className={classes.notificationText}>
-                                            <span href='#qwe' className={classes.notificatioTitle}>
-                                              <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
-                                        </span>
-                                            <span className={classes.notificatioDate}>
-                                              16 ноября в 11:42
-                                        </span>
-                                          </div>
-                                        </a>
-                                      ))
-                                    )
-                                }
-                              </div>
-                            </div>)
+                            notificationsOpened && (<Notifications
+                              infoUser={infoUser}
+                              openNotifications={openNotifications}
+                              notificationsOpened={notificationsOpened}
+                              actionScroll={actionScroll}
+                              setScroll={setScroll}
+                              currentScroll={currentScroll}
+                            />)
                           }
                         </div>
                       </ClickAwayListener>
@@ -593,50 +571,12 @@ const Header = (props) => {
                             </svg>
                           </Link>
                           {
-                            menuOpened && (<div className={classNames(classes.smallContainerWrapper, classes.menuWrapper, menuOpened && classes.dFlex)}>
-                              <ul
-                                className={classNames(classes.smallContainer, classes.menu)}
-                              >
-                                <span className={classes.menuUser}>Александр Петухов</span>
-                                <li className={classes.menuItem}>
-                                  <a
-                                    href="#qwe"
-                                    className={classes.itemLink}
-                                    onClick={() => openMenu(false)}
-                                  >
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M14.3548 9.70529C14.3848 9.48029 14.3998 9.24779 14.3998 9.00029C14.3998 8.76029 14.3848 8.52029 14.3473 8.29529L15.8698 7.11029C16.0048 7.00529 16.0423 6.80279 15.9598 6.65279L14.5198 4.16279C14.4298 3.99779 14.2423 3.94529 14.0773 3.99779L12.2848 4.71779C11.9098 4.43279 11.5123 4.19279 11.0698 4.01279L10.7998 2.10779C10.7698 1.92779 10.6198 1.80029 10.4398 1.80029H7.55984C7.37984 1.80029 7.23734 1.92779 7.20734 2.10779L6.93734 4.01279C6.49484 4.19279 6.08984 4.44029 5.72234 4.71779L3.92984 3.99779C3.76484 3.93779 3.57734 3.99779 3.48734 4.16279L2.05484 6.65279C1.96484 6.81029 1.99484 7.00529 2.14484 7.11029L3.66734 8.29529C3.62984 8.52029 3.59984 8.76779 3.59984 9.00029C3.59984 9.23279 3.61484 9.48029 3.65234 9.70529L2.12984 10.8903C1.99484 10.9953 1.95734 11.1978 2.03984 11.3478L3.47984 13.8378C3.56984 14.0028 3.75734 14.0553 3.92234 14.0028L5.71484 13.2828C6.08984 13.5678 6.48734 13.8078 6.92984 13.9878L7.19984 15.8928C7.23734 16.0728 7.37984 16.2003 7.55984 16.2003H10.4398C10.6198 16.2003 10.7698 16.0728 10.7923 15.8928L11.0623 13.9878C11.5048 13.8078 11.9098 13.5678 12.2773 13.2828L14.0698 14.0028C14.2348 14.0628 14.4223 14.0028 14.5123 13.8378L15.9523 11.3478C16.0423 11.1828 16.0048 10.9953 15.8623 10.8903L14.3548 9.70529ZM8.99984 11.7003C7.51484 11.7003 6.29984 10.4853 6.29984 9.00029C6.29984 7.51529 7.51484 6.30029 8.99984 6.30029C10.4848 6.30029 11.6998 7.51529 11.6998 9.00029C11.6998 10.4853 10.4848 11.7003 8.99984 11.7003Z" fill="black" />
-                                    </svg>
-                                    <span>Настройки</span>
-                                  </a>
-                                </li>
-                                <li className={classes.menuItem}>
-                                  <a
-                                    href="#qwe"
-                                    className={classes.itemLink}
-                                    onClick={() => openMenu(false)}
-                                  >
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M15 6H3V4.5H15V6ZM13.5 1.5H4.5V3H13.5V1.5ZM16.5 9V15C16.5 15.825 15.825 16.5 15 16.5H3C2.175 16.5 1.5 15.825 1.5 15V9C1.5 8.175 2.175 7.5 3 7.5H15C15.825 7.5 16.5 8.175 16.5 9ZM12 12L7.5 9.5475V14.445L12 12Z" fill="black" />
-                                    </svg>
-                                    <span>Подписка</span>
-                                  </a>
-                                </li>
-                                <Divider className={classes.menuDivider} />
-                                <li className={classes.menuItem}>
-                                  <a
-                                    href="#qwe"
-                                    className={classes.itemLink}
-                                    onClick={() => openMenu(false)}
-                                  >
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
-                                    </svg>
-                                    <span>Выйти</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>)
+                            menuOpened && (<HeaderMenu
+                              menuOpened={menuOpened}
+                              openMenu={menuOpened}
+                              actionScroll={actionScroll}
+                              setScroll={setScroll}
+                            />)
                           }
                         </div>
                       </ClickAwayListener>
@@ -662,3 +602,113 @@ const Header = (props) => {
 };
 
 export default Header;
+
+
+const Notifications = ({ infoUser, openNotifications, notificationsOpened,
+   actionScroll, setScroll }) => {
+  const classes = useStyles();
+
+  useEffect(() => {
+    const scroll = parseInt(window.pageYOffset);
+    setScroll(scroll);
+    document.addEventListener('scroll', actionScroll);
+
+    return () => {
+      document.removeEventListener('scroll', actionScroll);
+    }
+  });
+
+  return (
+    <div className={classNames(classes.smallContainerWrapper, classes.notificationsWrapper, notificationsOpened && classes.dFlex)}>
+      <div
+        className={classNames(classes.smallContainer, classes.notifications)}
+      >
+        {
+          infoUser && infoUser.notifications.length === 0
+            ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
+            : (
+              infoUser.notifications.map(notif => (
+                <a
+                  // key={ind}
+                  href='#w'
+                  className={classes.notification}
+                  onClick={() => openNotifications(false)}
+                >
+                  <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
+                  <div className={classes.notificationText}>
+                    <span href='#qwe' className={classes.notificatioTitle}>
+                      <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
+                                        </span>
+                    <span className={classes.notificatioDate}>
+                      16 ноября в 11:42
+                                        </span>
+                  </div>
+                </a>
+              ))
+            )
+        }
+      </div>
+    </div>
+  )
+};
+
+const HeaderMenu = ({ menuOpened, openMenu, actionScroll, setScroll }) => {
+  const classes = useStyles();
+
+  useEffect(() => {
+    const scroll = parseInt(window.pageYOffset);
+    setScroll(scroll);
+    document.addEventListener('scroll', actionScroll);
+
+    return () => {
+      document.removeEventListener('scroll', actionScroll);
+    }
+  });
+
+  return (
+    <div className={classNames(classes.smallContainerWrapper, classes.menuWrapper, menuOpened && classes.dFlex)}>
+      <ul
+        className={classNames(classes.smallContainer, classes.menu)}
+      >
+        <span className={classes.menuUser}>Александр Петухов</span>
+        <li className={classes.menuItem}>
+          <a
+            href="#qwe"
+            className={classes.itemLink}
+            onClick={() => openMenu(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.3548 9.70529C14.3848 9.48029 14.3998 9.24779 14.3998 9.00029C14.3998 8.76029 14.3848 8.52029 14.3473 8.29529L15.8698 7.11029C16.0048 7.00529 16.0423 6.80279 15.9598 6.65279L14.5198 4.16279C14.4298 3.99779 14.2423 3.94529 14.0773 3.99779L12.2848 4.71779C11.9098 4.43279 11.5123 4.19279 11.0698 4.01279L10.7998 2.10779C10.7698 1.92779 10.6198 1.80029 10.4398 1.80029H7.55984C7.37984 1.80029 7.23734 1.92779 7.20734 2.10779L6.93734 4.01279C6.49484 4.19279 6.08984 4.44029 5.72234 4.71779L3.92984 3.99779C3.76484 3.93779 3.57734 3.99779 3.48734 4.16279L2.05484 6.65279C1.96484 6.81029 1.99484 7.00529 2.14484 7.11029L3.66734 8.29529C3.62984 8.52029 3.59984 8.76779 3.59984 9.00029C3.59984 9.23279 3.61484 9.48029 3.65234 9.70529L2.12984 10.8903C1.99484 10.9953 1.95734 11.1978 2.03984 11.3478L3.47984 13.8378C3.56984 14.0028 3.75734 14.0553 3.92234 14.0028L5.71484 13.2828C6.08984 13.5678 6.48734 13.8078 6.92984 13.9878L7.19984 15.8928C7.23734 16.0728 7.37984 16.2003 7.55984 16.2003H10.4398C10.6198 16.2003 10.7698 16.0728 10.7923 15.8928L11.0623 13.9878C11.5048 13.8078 11.9098 13.5678 12.2773 13.2828L14.0698 14.0028C14.2348 14.0628 14.4223 14.0028 14.5123 13.8378L15.9523 11.3478C16.0423 11.1828 16.0048 10.9953 15.8623 10.8903L14.3548 9.70529ZM8.99984 11.7003C7.51484 11.7003 6.29984 10.4853 6.29984 9.00029C6.29984 7.51529 7.51484 6.30029 8.99984 6.30029C10.4848 6.30029 11.6998 7.51529 11.6998 9.00029C11.6998 10.4853 10.4848 11.7003 8.99984 11.7003Z" fill="black" />
+            </svg>
+            <span>Настройки</span>
+          </a>
+        </li>
+        <li className={classes.menuItem}>
+          <a
+            href="#qwe"
+            className={classes.itemLink}
+            onClick={() => openMenu(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 6H3V4.5H15V6ZM13.5 1.5H4.5V3H13.5V1.5ZM16.5 9V15C16.5 15.825 15.825 16.5 15 16.5H3C2.175 16.5 1.5 15.825 1.5 15V9C1.5 8.175 2.175 7.5 3 7.5H15C15.825 7.5 16.5 8.175 16.5 9ZM12 12L7.5 9.5475V14.445L12 12Z" fill="black" />
+            </svg>
+            <span>Подписка</span>
+          </a>
+        </li>
+        <Divider className={classes.menuDivider} />
+        <li className={classes.menuItem}>
+          <a
+            href="#qwe"
+            className={classes.itemLink}
+            onClick={() => openMenu(false)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
+            </svg>
+            <span>Выйти</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  )
+};
