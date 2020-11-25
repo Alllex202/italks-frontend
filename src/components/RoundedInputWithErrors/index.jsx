@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { makeStyles } from '@material-ui/core';
 import { RoundedInput } from '../../components';
 import classNames from 'classnames';
@@ -16,7 +18,7 @@ const useStyle = makeStyles({
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '14px',
-    color: '#FF0099',
+    color: SD.basic.colors.main.pink,
   },
   input: {
     height: 32,

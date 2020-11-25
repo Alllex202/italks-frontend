@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {stylesDictionary as SD, stylesDictionary} from '../../settings/styles'
+
 import {useHistory} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +12,7 @@ import { IconButton, Input, ClickAwayListener } from '@material-ui/core';
 const useStyles = makeStyles({
   searchPanel: {
     transition: 'all .2s',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: SD.basic.colors.main.whiteSmoke,
     height: 64,
   },
   searchToolbar: {
@@ -18,10 +20,11 @@ const useStyles = makeStyles({
     paddingRight: 18,   
     height: '100%',
     alignItems: 'center',
+    border: `solid 3px ${SD.basic.colors.main.blue}`,
   },
   searchInput: {
     width: '90%',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
     '& input': {
       padding: 0,
       margin: 0,
@@ -39,19 +42,19 @@ const useStyles = makeStyles({
       height: 18,
     },
     '& path': {
-      fill: '#000000',
+      fill: SD.basic.colors.main.black,
       transition: 'all .2s',
     },
     '&:hover, &:focus': {
-      backgroundColor: 'rgba(109, 30, 255, 0.15)',
+      backgroundColor: SD.basic.colors.translucent.violet,
       '& path': {
-        fill: '#6D1EFF'
+        fill: SD.basic.colors.main.violetDark,
       },
     },
     '&:active': {
-      backgroundColor: '#6D1EFF',
+      backgroundColor: SD.basic.colors.main.violetDark,
       '& svg path': {
-        fill: '#ede5fa'
+        fill: SD.basic.colors.main.white,
       },
     },
   },  

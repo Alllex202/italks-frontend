@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { Settings } from '../../settings/settings';
 
 import { makeStyles } from '@material-ui/core';
@@ -19,7 +21,7 @@ const useStyle = makeStyles({
     width: 264,
   },
   title: {
-    fontFamily: 'JetBrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: '24px',
@@ -31,11 +33,11 @@ const useStyle = makeStyles({
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     marginBottom: 48,
   },
   link: {
-    color: '#1E40FF',
+    color: SD.basic.colors.main.blue,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',

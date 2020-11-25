@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { makeStyles } from '@material-ui/core';
 
 import { Link as RLink, Switch, Route, useHistory } from 'react-router-dom';
@@ -22,7 +24,7 @@ const useStyles = makeStyles({
   bigTextBlock: {
     position: 'relative',
     width: 846,
-    backgroundColor: '#EE6002',
+    backgroundColor: SD.basic.colors.main.orange,
   },
   logo: {
     margin: '24px 0 0 18px',
@@ -42,15 +44,15 @@ const useStyles = makeStyles({
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontFamily: 'Jetbrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: '300',
     fontSize: '192px',
     lineHeight: '238px',
-    color: '#C6F68D',
+    // color: '#C6F68D',
   },
   bigTextImg: {
-    fontFamily: 'Jetbrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     margin: 'auto',
     marginLeft: 18,
   },
@@ -59,7 +61,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     width: 434,
-    backgroundColor: '#fff',
+    backgroundColor: SD.basic.colors.main.white,
   }
 })
 

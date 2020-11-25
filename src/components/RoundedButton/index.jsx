@@ -1,5 +1,7 @@
 import React from 'react'
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
@@ -14,15 +16,15 @@ const useStyles = makeStyles({
     // height: 48,
     transition: '.2s all',
     '&:hover, &:focus': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      backgroundColor: SD.basic.colors.translucent.violet,
     },
     '&:active': {
-      backgroundColor: '#6D1EFF',
+      backgroundColor: SD.basic.colors.main.violetDark,
       '& span': {
-        color: '#FFFFFF',
+        color: SD.basic.colors.main.white,
       },
       '& path': {
-        fill: '#FFFFFF',
+        fill: SD.basic.colors.main.white,
       }
     },
   },
@@ -39,12 +41,12 @@ const useStyles = makeStyles({
     fontSize: '14px',
     lineHeight: '16px',
     textTransform: 'none',
-    color: '#6D1EFF',
+    color: SD.basic.colors.main.violetDark,
   },
   iconRoudedButton: {
     transition: '.2s all',
     '& path': {
-      fill: '#6D1EFF',
+      fill: SD.basic.colors.main.violetDark,
     },
     '& svg': {
       width: 14,

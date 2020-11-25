@@ -1,4 +1,5 @@
 import React from 'react';
+import {stylesDictionary as SD, stylesDictionary} from '../../settings/styles'
 
 import { Link as RLink } from 'react-router-dom';
 
@@ -23,7 +24,7 @@ import { useEffect } from 'react';
 const useStyles = makeStyles({
   header: {
     transition: 'all .3s',
-    backgroundColor: '#EE6002',
+    backgroundColor: SD.basic.colors.main.orange,
     height: 65,
     boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.25)',
   },
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
     margin: 0,
     marginLeft: 'auto',
     fontSize: 14,
-    color: '#000000',
+    color: SD.basic.colors.main.black,
     height: 16,
     textDecoration: 'none',
     cursor: 'pointer',
@@ -58,10 +59,10 @@ const useStyles = makeStyles({
     transition: 'color .3s',
     '&:hover, &:focus': {
       textDecoration: 'none',
-      color: '#6D1EFF',
+      color: SD.basic.colors.main.violetDark,
       '& svg': {
         '& path': {
-          fill: '#6D1EFF',
+          fill: SD.basic.colors.main.violetDark,
         }
       }
     },
@@ -72,7 +73,7 @@ const useStyles = makeStyles({
       marginTop: 'auto',
       marginBottom: 'auto',
       '& path': {
-        fill: '#000000',
+        fill: SD.basic.colors.main.black,
         transition: 'fill .3s',
       }
     },
@@ -88,7 +89,7 @@ const useStyles = makeStyles({
       textDecoration: 'none',
       '& svg': {
         '& path': {
-          fill: '#6D1EFF',
+          fill: SD.basic.colors.main.violetDark,
         }
       }
     },
@@ -98,7 +99,7 @@ const useStyles = makeStyles({
       width: 18,
       height: 18,
       '& path': {
-        fill: '#000000',
+        fill: SD.basic.colors.main.black,
         transition: 'fill .3s',
       }
     },
@@ -106,7 +107,7 @@ const useStyles = makeStyles({
   imageButtonActive: {
     '& svg': {
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     }
   },
@@ -153,7 +154,7 @@ const useStyles = makeStyles({
     // position: 'absolute',
     position: 'relative',
     padding: '18px',
-    background: '#FFFFFF',
+    background: SD.basic.colors.main.white,
     // boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.12)',
     borderRadius: '4px',
   },
@@ -180,15 +181,15 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     border: '1px solid #000000',
     '&:hover, &:focus': {
-      backgroundColor: '#6D1EFF',
-      borderColor: '#6D1EFF',
+      backgroundColor: SD.basic.colors.main.violetDark,
+      borderColor: SD.basic.colors.main.violetDark,
       '& span': {
-        color: '#FFFFFF',
+        color: SD.basic.colors.main.white,
       },
     },
   },
   continueWatchingLabel: {
-    color: '#000000',
+    color: SD.basic.colors.main.black,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
@@ -224,7 +225,7 @@ const useStyles = makeStyles({
     fontWeight: '500',
     fontSize: '12px',
     lineHeight: '14px',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
   },
   continueWatchingTime: {
     display: 'inline-block',
@@ -232,7 +233,7 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '14px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
   },
 
 
@@ -266,7 +267,7 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '14px',
     textAlign: 'center',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     height: 48,
     lineHeight: '48px',
   },
@@ -284,7 +285,7 @@ const useStyles = makeStyles({
     padding: '6px 18px 4px 18px',
     backgroundColor: 'transparent',
     '&:hover': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      backgroundColor: SD.basic.colors.translucent.violet,
     },
     // '&:last-child': {
     //   marginBottom: 0,
@@ -307,14 +308,14 @@ const useStyles = makeStyles({
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '14px',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
   },
   notificatioDate: {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '12px',
     lineHeight: '14px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
   },
 
   menuWrapper: {
@@ -331,52 +332,52 @@ const useStyles = makeStyles({
   },
   menuItem: {
     display: 'flex',
-    backgroundColor: '#ffffff',
+    backgroundColor: SD.basic.colors.main.white,
     transition: 'background-color .3s',
     '& svg path, & span': {
       transition: 'fill .3s, color .3s',
     },
     '&:not(:last-of-type) svg path': {
-      fill: '#000000',
+      fill: SD.basic.colors.main.black,
     },
     '&:not(:last-of-type) span': {
-      color: '#000000',
+      color: SD.basic.colors.main.black,
     },
     '&:not(:last-of-type):hover, &:not(:last-of-type):focus': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      backgroundColor: SD.basic.colors.translucent.violet,
     },
     '&:not(:last-of-type):active': {
       '& svg path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       },
       '& span': {
-        color: '#6D1EFF',
+        color: SD.basic.colors.main.violetDark,
       },
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      backgroundColor: SD.basic.colors.translucent.violet,
     },
     '&:last-of-type': {
       '& svg': {
         transform: 'rotate(180deg)',
         '& path': {
-          fill: '#FF3ABA',
+          fill: SD.basic.colors.main.pink,
         },
       },
       '& span': {
-        color: '#FF3ABA',
+        color: SD.basic.colors.main.pink,
       },
       '&:hover, &:focus': {
-        backgroundColor: 'rgba(255, 58, 186, 0.1)',
+        backgroundColor: SD.basic.colors.translucent.pink,
       }
     }
   },
   menuItemActive: {
     '& svg path': {
-      fill: '#6D1EFF',
+      fill: SD.basic.colors.main.violetDark,
     },
     '& span': {
-      color: '#6D1EFF',
+      color: SD.basic.colors.main.violetDark,
     },
-    backgroundColor: 'rgba(109, 30, 255, 0.1)',
+    backgroundColor: SD.basic.colors.translucent.violet,
   },
   itemLink: {
     display: 'flex',
@@ -412,7 +413,7 @@ const useStyles = makeStyles({
     display: 'flex',
     height: 48,
     alignItems: 'center',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     marginLeft: 18,
   },
   menuDivider: {

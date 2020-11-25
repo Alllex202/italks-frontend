@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import axios from 'axios';
 
 import { makeStyles, Typography } from '@material-ui/core';
@@ -17,7 +19,7 @@ const useStyle = makeStyles({
     width: 264,
   },
   title: {
-    fontFamily: 'JetBrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: '24px',
@@ -29,11 +31,11 @@ const useStyle = makeStyles({
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     marginBottom: 48,
   },
   link: {
-    color: '#1E40FF',
+    color: SD.basic.colors.main.blue,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
@@ -56,12 +58,12 @@ const useStyle = makeStyles({
     marginBottom: 48,
   },
   message: {
-    fontFamily: 'Roboto',
+    fontFamily: SD.basic.fontsFamily.Roboto,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
   }
 });
 

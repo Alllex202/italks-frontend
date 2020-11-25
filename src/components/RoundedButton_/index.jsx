@@ -1,36 +1,38 @@
-import React from 'react';
+// import React from 'react';
 
-import classNames from 'classnames';
+// import {stylesDictionary as SD} from '../../styles';
 
-import { makeStyles } from '@material-ui/core';
+// import classNames from 'classnames';
 
-const useStyle = makeStyles({
-  roundedButton: {
-    border: '1px solid #6D1EFF',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '16px',
-    borderRadius: '32px',
-    outline: 'none',
-    width: '100%',
-    color: '#6D1EFF',
-    '&:focus, &:hover': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
-    },
-    '&:active': {
-      backgroundColor: '#6D1EFF',
-      color: '#FFFFFF',
-    },
-  },
-});
+// import { makeStyles } from '@material-ui/core';
 
-const RoundedButton = (props) => {
-  const classes = useStyle();
+// const useStyle = makeStyles({
+//   roundedButton: {
+//     border: `1px solid ${SD.basic.colors.main.violet}`,
+//     fontStyle: 'normal',
+//     fontWeight: 'normal',
+//     fontSize: '14px',
+//     lineHeight: '16px',
+//     borderRadius: '32px',
+//     outline: 'none',
+//     width: '100%',
+//     color: SD.basic.colors.main.violet,
+//     '&:focus, &:hover': {
+//       backgroundColor: SD.basic.colors.translucent.violet,
+//     },
+//     '&:active': {
+//       backgroundColor: SD.basic.colors.main.violet,
+//       color: SD.basic.colors.main.white,
+//     },
+//   },
+// });
 
-  return (
-    <button className={classNames(classes.roundedButton, props.className)} />
-  )
-};
+// const RoundedButton = (props) => {
+//   const classes = useStyle();
 
-export default RoundedButton;
+//   return (
+//     <button className={classNames(classes.roundedButton, props.className)} />
+//   )
+// };
+
+// export default RoundedButton;

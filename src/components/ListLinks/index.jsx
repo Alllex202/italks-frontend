@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import { List, ListItem, ListItemIcon, ListItemText, Button, Divider } from '@material-ui/core';
@@ -15,16 +17,16 @@ const useStyles = makeStyles({
     height: 42,
     paddingLeft: 18,
     backgroundColor: 'transparent',
-    color: '#333333',
+    color: SD.basic.colors.main.blackLight,
     transition: '.2s all',
     cursor: 'pointer',
     '&:hover, &:focus': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
+      backgroundColor: SD.basic.colors.translucent.violet,
     },
     '&:active': {
-      color: '#6D1EFF',
+      color: SD.basic.colors.main.violetDark,
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     },
   },
@@ -36,7 +38,7 @@ const useStyles = makeStyles({
     marginRight: 18,
     '& path': {
       transition: '.2s fill',
-      fill: '#333333',
+      fill: SD.basic.colors.main.blackLight,
     },
     '& svg': {
       width: 18,
@@ -44,7 +46,7 @@ const useStyles = makeStyles({
     },
   },
   listLinksText: {
-    fontFamily: 'Jetbrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 14,
@@ -53,9 +55,9 @@ const useStyles = makeStyles({
     },
   },
   listLinksSelected: {
-    color: '#6D1EFF',
+    color: SD.basic.colors.main.violetDark,
     '& path': {
-      fill: '#6D1EFF',
+      fill: SD.basic.colors.main.violetDark,
     },
   },
   listLinksLink: {
@@ -72,26 +74,26 @@ const useStyles = makeStyles({
     width: '100%',
     paddingLeft: 18,
     backgroundColor: 'transparent',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     transition: '.2s all',
     textTransform: 'none',
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
-      color: '#6D1EFF',
+      backgroundColor: SD.basic.colors.translucent.violet,
+      color: SD.basic.colors.main.violetDark,
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     },
     '&:active': {
-      color: '#6D1EFF',
+      color: SD.basic.colors.main.violetDark,
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     },
   },
   buttonShowMoreLabel: {
-    fontFamily: 'Roboto',
+    fontFamily: SD.basic.fontsFamily.Roboto,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
@@ -106,7 +108,7 @@ const useStyles = makeStyles({
     marginLeft: 0,
     '& path': {
       transition: '.2s fill',
-      fill: '#828588',
+      fill: SD.basic.colors.main.grey,
     },
     '& svg': {
       width: 18,
@@ -123,7 +125,7 @@ const useStyles = makeStyles({
     transform: 'rotate(180deg)',
     '& path': {
       transition: '.2s fill',
-      fill: '#828588',
+      fill: SD.basic.colors.main.grey,
     },
     '& svg': {
       width: 18,

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { makeStyles, Typography } from '@material-ui/core';
 
 import { RoundedButton, RoundedInputWithErrors } from '../../components';
@@ -16,7 +18,7 @@ const useStyle = makeStyles({
     width: 264,
   },
   title: {
-    fontFamily: 'JetBrains Mono',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: '24px',
@@ -30,13 +32,13 @@ const useStyle = makeStyles({
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     height: 18,
     '& svg': {
       height: 18,
       marginRight: 18,
       '& path': {
-        fill: '#828588',
+        fill: SD.basic.colors.main.grey,
       }
     },
     marginBottom: 12,
@@ -49,12 +51,12 @@ const useStyle = makeStyles({
     height: 42,
   },
   message: {
-    fontFamily: 'Roboto',
+    fontFamily: SD.basic.fontsFamily.Roboto,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
   }
 });
 

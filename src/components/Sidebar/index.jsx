@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import { Link as RLink, useLocation, useHistory, Switch, Route, useParams } from 'react-router-dom';
 
 import axios from 'axios';
@@ -25,9 +27,9 @@ const useStyles = makeStyles({
     left: 0,
     bottom: 0,
     width: 232,
-    backgroundColor: '#fff',
+    backgroundColor: SD.basic.colors.main.whiteSmoke,
     overflow: 'auto',
-    borderRight: '1px solid #D2D3D4',
+    // borderRight: '1px solid #D2D3D4',
     '& ::-webkit-scrollbar': {
       width: '0px',
     },
@@ -56,26 +58,26 @@ const useStyles = makeStyles({
     width: '100%',
     paddingLeft: 18,
     backgroundColor: 'transparent',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     transition: '.2s all',
     textTransform: 'none',
     cursor: 'pointer',
-    '&:hover, &:focus': {
-      backgroundColor: 'rgba(109, 30, 255, 0.1)',
-      color: '#6D1EFF',
+    '&:hover': {
+      backgroundColor: SD.basic.colors.translucent.violet,
+      color: SD.basic.colors.main.violetDark,
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     },
     '&:active': {
-      color: '#6D1EFF',
+      color: SD.basic.colors.main.violetDark,
       '& path': {
-        fill: '#6D1EFF',
+        fill: SD.basic.colors.main.violetDark,
       }
     },
   },
   buttonMainMenuBackLabel: {
-    fontFamily: 'Roboto',
+    fontFamily: SD.basic.fontsFamily.Roboto,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
@@ -90,7 +92,7 @@ const useStyles = makeStyles({
     marginLeft: 0,
     '& path': {
       transition: '.2s fill',
-      fill: '#828588',
+      fill: SD.basic.colors.main.grey,
     },
     '& svg': {
       width: 18,
@@ -106,7 +108,7 @@ const useStyles = makeStyles({
     fontWeight: '500',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     width: 195,
     marginLeft: 18,
     paddingTop: 12,
@@ -116,7 +118,7 @@ const useStyles = makeStyles({
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: 14,
-    color: '#828588',
+    color: SD.basic.colors.main.grey,
     width: 'auto',
     lineHeight: '16px',
     marginLeft: 18,

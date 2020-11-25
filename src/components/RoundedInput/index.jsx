@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {stylesDictionary as SD} from '../../settings/styles';
+
 import classNames from 'classnames';
 
 import { makeStyles } from '@material-ui/core';
@@ -7,28 +9,28 @@ import { makeStyles } from '@material-ui/core';
 const useStyle = makeStyles({
   roundedInput: {
     transition: '.1s all',
-    border: '1px solid #828588',
+    border: `1px solid ${SD.basic.colors.main.grey}`,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
-    color: '#000000',
+    color: SD.basic.colors.main.black,
     borderRadius: '32px',
     outline: 'none',
     padding: '8px 16px',
     width: '100%',
     '&::placeholder': {
-      color: '#828588',
+      color: SD.basic.colors.main.grey,
     },
     '&:focus': {
-      border: '3px solid #1E40FF',
+      border: `3px solid ${SD.basic.colors.main.blue}`,
       padding: '6px 14px',
     },
     '&:disabled': {
-      border: '1px solid #D2D3D4',
-      color: '#D2D3D4',
+      border: `1px solid ${SD.basic.colors.main.greyLight}`,
+      color: SD.basic.colors.main.greyLight,
       '&::placeholder': {
-        color: '#D2D3D4',
+        color: SD.basic.colors.main.greyLight,
       }
     }
   }
