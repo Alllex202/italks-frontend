@@ -1,5 +1,5 @@
 import React from 'react';
-import {stylesDictionary as SD, stylesDictionary} from '../../settings/styles'
+import { stylesDictionary as SD, stylesDictionary } from '../../settings/styles'
 
 import { Link as RLink } from 'react-router-dom';
 
@@ -248,6 +248,10 @@ const useStyles = makeStyles({
       left: 212,
     }
   },
+  notificationsBlock: {
+    // overflowX: 'hidden',
+    padding: '18px 0',
+  },
   notifications: {
     flexDirection: 'column',
     maxHeight: 340,
@@ -255,8 +259,7 @@ const useStyles = makeStyles({
     width: 267,
     overflow: 'auto',
     overflowX: 'hidden',
-    paddingLeft: 0,
-    paddingRight: 0,
+    padding: 0,
     '& ::-webkit-scrollbar': {
       width: '0px',
     }
@@ -607,7 +610,7 @@ export default Header;
 
 
 const Notifications = ({ infoUser, openNotifications, notificationsOpened,
-   actionScroll, setScroll }) => {
+  actionScroll, setScroll }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -623,32 +626,36 @@ const Notifications = ({ infoUser, openNotifications, notificationsOpened,
   return (
     <div className={classNames(classes.smallContainerWrapper, classes.notificationsWrapper, notificationsOpened && classes.dFlex)}>
       <div
-        className={classNames(classes.smallContainer, classes.notifications)}
+        className={classNames(classes.notificationsBlock)}
       >
-        {
-          infoUser && infoUser.notifications.length === 0
-            ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
-            : (
-              infoUser.notifications.map(notif => (
-                <a
-                  // key={ind}
-                  href='#w'
-                  className={classes.notification}
-                  onClick={() => openNotifications(false)}
-                >
-                  <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
-                  <div className={classes.notificationText}>
-                    <span href='#qwe' className={classes.notificatioTitle}>
-                      <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
+        <div
+          className={classNames(classes.smallContainer, classes.notifications)}
+        >
+          {
+            infoUser && infoUser.notifications.length === 0
+              ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
+              : (
+                infoUser.notifications.map(notif => (
+                  <a
+                    // key={ind}
+                    href='#w'
+                    className={classes.notification}
+                    onClick={() => openNotifications(false)}
+                  >
+                    <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
+                    <div className={classes.notificationText}>
+                      <span href='#qwe' className={classes.notificatioTitle}>
+                        <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
                                         </span>
-                    <span className={classes.notificatioDate}>
-                      16 ноября в 11:42
+                      <span className={classes.notificatioDate}>
+                        16 ноября в 11:42
                                         </span>
-                  </div>
-                </a>
-              ))
-            )
-        }
+                    </div>
+                  </a>
+                ))
+              )
+          }
+        </div>
       </div>
     </div>
   )
