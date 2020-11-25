@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { stylesDictionary as SD, stylesDictionary } from '../../settings/styles'
 
 import { Link as RLink } from 'react-router-dom';
@@ -17,6 +17,8 @@ import { Context } from '../Context';
 import RoundedButton from '../RoundedButton';
 
 import classNames from 'classnames';
+import axios from 'axios';
+import { Settings } from '../../settings/settings';
 
 import continueWatchingImage from '../../assets/img/continueWatchingImage.png';
 import { useEffect } from 'react';
@@ -388,6 +390,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     width: 226,
     height: 48,
+    cursor: 'pointer',
     // backgroundColor: '#ffffff',
     '& > svg': {
       marginLeft: 18,
@@ -578,7 +581,7 @@ const Header = (props) => {
                           {
                             menuOpened && (<HeaderMenu
                               menuOpened={menuOpened}
-                              openMenu={menuOpened}
+                              openMenu={openMenu}
                               actionScroll={actionScroll}
                               setScroll={setScroll}
                             />)
@@ -663,6 +666,27 @@ const Notifications = ({ infoUser, openNotifications, notificationsOpened,
 
 const HeaderMenu = ({ menuOpened, openMenu, actionScroll, setScroll }) => {
   const classes = useStyles();
+  const { setAuth } = useContext(Context);
+  const [logoutClicked, clickLogout] = React.useState(false);
+
+  const handlerLogoutButtonClick = () => {
+    // openMenu(false);
+    if (!logoutClicked) {
+      clickLogout(true);
+      const token = localStorage.getItem('auth_token');
+      axios
+        .post(`${Settings.serverUrl}/auth/token/logout/`, null, {
+          headers: {
+            'Authorization': `Token ${token}`,
+          }
+        })
+        .then((response) => {
+          clickLogout(false);
+          setAuth(false);
+          localStorage.removeItem('auth_token');
+        })
+    }
+  };
 
   useEffect(() => {
     const scroll = parseInt(window.pageYOffset);
@@ -706,16 +730,17 @@ const HeaderMenu = ({ menuOpened, openMenu, actionScroll, setScroll }) => {
         </li>
         <Divider className={classes.menuDivider} />
         <li className={classes.menuItem}>
-          <a
-            href="#qwe"
+          <span
             className={classes.itemLink}
-            onClick={() => openMenu(false)}
+            onClick={() => {
+              handlerLogoutButtonClick();
+            }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
             </svg>
             <span>Выйти</span>
-          </a>
+          </span>
         </li>
       </ul>
     </div>

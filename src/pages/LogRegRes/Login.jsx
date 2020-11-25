@@ -114,8 +114,6 @@ const Login = (props) => {
             ? setPasswordError(error.response.data.password[0])
             : setPasswordError('');
         }
-      })
-      .finally(() => {
         setSubmitIsDisabled(false);
       });
   };
