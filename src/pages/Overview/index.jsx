@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core';
+import { PreviewsBlock, TagsBlock } from '../../components';
 
 const useStyles = makeStyles({
   pageTitle: {
@@ -28,116 +29,60 @@ const useStyles = makeStyles({
     marginBottom: 24,
   },
   tags: {
-    display: 'flex',
-    padding: '18px 0',
-    border: `solid 1px ${SD.basic.colors.main.greyLight}`,
-    borderLeft: 'none',
-    borderRight: 'none',
-    overflow: 'hidden',
+    // display: 'flex',
+    // padding: '18px 0',
+    marginBottom: 24,
+    // border: `solid 1px ${SD.basic.colors.main.greyLight}`,
+    // borderLeft: 'none',
+    // borderRight: 'none',
+    // overflow: 'hidden',
   },
-  tag: {
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: '0 8px',
-    height: 32,
-    width: 'auto',
-    border: `1px solid ${SD.basic.colors.main.grey}`,
-    borderRadius: '12px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '12px',
-    lineHeight: '14px',
-    color: SD.basic.colors.main.black,
-    backgroundColor: SD.basic.colors.main.white,
-    marginRight: 8,
-    cursor: 'pointer',
-    transition: 'background-color .3s, color .3s',
-    '&:hover': {
-      backgroundColor: SD.basic.colors.main.black,
-      color: SD.basic.colors.main.white,
-    },
+  // tag: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   textAlign: 'center',
+  //   padding: '0 8px',
+  //   height: 32,
+  //   width: 'auto',
+  //   border: `1px solid ${SD.basic.colors.main.grey}`,
+  //   borderRadius: '12px',
+  //   fontStyle: 'normal',
+  //   fontWeight: 'normal',
+  //   fontSize: '12px',
+  //   lineHeight: '14px',
+  //   color: SD.basic.colors.main.black,
+  //   backgroundColor: SD.basic.colors.main.white,
+  //   marginRight: 8,
+  //   cursor: 'pointer',
+  //   transition: 'background-color .3s, color .3s',
+  //   '&:hover': {
+  //     backgroundColor: SD.basic.colors.main.black,
+  //     color: SD.basic.colors.main.white,
+  //   },
+  // },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
   },
+  '@media (min-width: 1920px)': {
+
+  }
 });
+
 const Overview = () => {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
     <div>
-      <h1 className={styles.pageTitle}>
+      <h1 className={classes.pageTitle}>
         Обзор
       </h1>
-      <span className={styles.pageSubtitle}>
+      <span className={classes.pageSubtitle}>
         Здесь мы собрали категории, события и видео, которые могут быть Вам интересны
       </span>
-      <div className={styles.tags}>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScriptфыв
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-        <div className={styles.tag}>
-          JavaScript
-        </div>
-      </div>
-      <div>А тут должны быть видосики :)</div>
+      <TagsBlock
+        className={classes.tags}
+        tags={''}
+      />
+      <PreviewsBlock />
     </div>
   )
 }

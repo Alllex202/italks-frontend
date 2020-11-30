@@ -21,6 +21,7 @@ const stylesDictionary = {
       translucent: {
         violet: 'rgba(109, 30, 255, 0.1)',
         pink: 'rgba(255, 58, 186, 0.1)',
+        black: 'rgba(0, 0, 0, 0.7)',
       },
     },
     fontsFamily: {

@@ -8,4 +8,7 @@ export {default as ListLinks} from './ListLinks';
 export {default as Test} from './Test';
 export {default as RoundedInput} from './RoundedInput';
 export {default as RoundedInputWithErrors} from './RoundedInputWithErrors';
+export {default as PreviewsBlock} from './PreviewsBlock';
+export {default as VideoItem} from './VideoItem';
+export {default as TagsBlock} from './TagsBlock';
 // export {default as Context} from './Context';
