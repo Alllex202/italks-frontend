@@ -9,8 +9,21 @@ const useStyles = makeStyles({
     height: 'auto',
     width: '100%',
     padding: '90px 36px 100px 268px',
-    // paddingLeft: 268,
-    // paddingTop: 90,
+  },
+  mainContainer: {
+    height: 'auto',
+    width: '976px',
+    margin: '0 auto',
+  },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+    mainContainer: {
+      width: 1226,
+    },
+  },
+  '@media (min-width: 1920px)': {
+    mainContainer: {
+      width: 1476,
+    },
   }
 });
 
@@ -19,11 +32,13 @@ const Main = (props) => {
 
   return (
     <div className={classes.main}>
-      <Switch>
-        <Route exact path="/">
-          <Overview />
-        </Route>
-      </Switch>
+      <div className={classes.mainContainer}>
+        <Switch>
+          <Route exact path="/">
+            <Overview />
+          </Route>
+        </Switch>
+      </div>
     </div>
   )
 };
