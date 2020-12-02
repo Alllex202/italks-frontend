@@ -1,11 +1,12 @@
 import React from 'react';
-import { axios } from 'axios';
+import axios from 'axios';
 import classNames from 'classnames';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core';
 import { PreviewsBlock, TagsBlock } from '../../components';
+import { Settings } from '../../settings/settings';
 
 const useStyles = makeStyles({
   pageTitle: {
@@ -70,6 +71,54 @@ const useStyles = makeStyles({
 
 const Overview = () => {
   const classes = useStyles();
+  const [lastWeekVideo, setLastWeekVideo] = React.useState([]);
+  const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
+  const [lastYearVideo, setLastYearVideo] = React.useState([]);
+
+  React.useEffect(() => {
+    console.log('Страница ОБЗОР');
+
+    axios
+      .get(`${Settings.serverUrl}/video/`, {
+        params: {
+          period: 'week',
+          page: 1,
+        }
+      })
+      .then(response => {
+        console.log(response.data)
+        setLastWeekVideo(response.data.videos_page)
+      })
+
+    axios
+      .get(`${Settings.serverUrl}/video/`, {
+        params: {
+          period: 'month',
+          page: 1,
+        }
+      })
+      .then(response => {
+        console.log(response.data)
+        setLastMonthVideo(response.data.videos_page)
+      })
+
+    axios
+      .get(`${Settings.serverUrl}/video/`, {
+        params: {
+          period: 'year',
+          page: 1,
+        }
+      })
+      .then(response => {
+        console.log(response.data)
+        setLastYearVideo(response.data.videos_page)
+      })
+
+  }, []);
+
+  
+  console.log([lastWeekVideo, lastMonthVideo, lastYearVideo])
+
   return (
     <div>
       <h1 className={classes.pageTitle}>
@@ -82,7 +131,36 @@ const Overview = () => {
         className={classes.tags}
         tags={[]}
       />
-      <PreviewsBlock />
+
+      {
+        lastWeekVideo && lastWeekVideo.length > 0 && (
+          <PreviewsBlock
+            titleName='На этой неделе'
+            url=''
+            videos={lastWeekVideo}
+          />
+        )
+      }
+
+      {
+        lastMonthVideo && lastMonthVideo.length > 0 && (
+          <PreviewsBlock
+            titleName='В этом месяце'
+            url=''
+            videos={lastMonthVideo}
+          />
+        )
+      }
+
+      {
+        lastYearVideo && lastYearVideo.length > 0 && (
+          <PreviewsBlock
+            titleName='В этом году'
+            url=''
+            videos={lastYearVideo}
+          />
+        )
+      }
     </div>
   )
 }

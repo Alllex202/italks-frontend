@@ -91,55 +91,35 @@ const useStyles = makeStyles({
   },
 });
 
-const PreviewsBlock = () => {
+const PreviewsBlock = ({ titleName, url, videos }) => {
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <div className={classes.previewsBlock}>
-        <div className={classes.previewsHead}>
-          <span className={classes.previewsTitle}>На этой неделе</span>
-          <a className={classes.previewsMore} href="#click">См. все</a>
-        </div>
-        <div className={classes.previewsBody}>
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-        </div>
+    <div className={classes.previewsBlock}>
+      <div className={classes.previewsHead}>
+        <span className={classes.previewsTitle}>{titleName}</span>
+        <a className={classes.previewsMore} href={url}>См. все</a>
       </div>
-
-      <div className={classes.previewsBlock}>
-        <div className={classes.previewsHead}>
-          <span className={classes.previewsTitle}>В этом месяце</span>
-          <a className={classes.previewsMore} href="#click">См. все</a>
-        </div>
-        <div className={classes.previewsBody}>
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-        </div>
+      <div className={classes.previewsBody}>
+        {
+          videos.map(videoData => (
+            <VideoItem
+              key={videoData.id}
+              className={classes.videoItem}
+              videoData={videoData}
+            />
+          ))
+        }
+        {/* <VideoItem
+          className={classes.videoItem}
+          videoData={videoData}
+        /> */}
+        {/* <VideoItem className={classes.videoItem} />
+        <VideoItem className={classes.videoItem} />
+        <VideoItem className={classes.videoItem} />
+        <VideoItem className={classes.videoItem} />
+        <VideoItem className={classes.videoItem} /> */}
       </div>
-
-      <div className={classes.previewsBlock}>
-        <div className={classes.previewsHead}>
-          <span className={classes.previewsTitle}>В этом году</span>
-          <a className={classes.previewsMore} href="#click">См. все</a>
-        </div>
-        <div className={classes.previewsBody}>
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-          <VideoItem className={classes.videoItem} />
-        </div>
-      </div>
-    </React.Fragment>
+    </div>
   )
 };
 
