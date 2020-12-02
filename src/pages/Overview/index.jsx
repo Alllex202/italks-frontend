@@ -80,7 +80,7 @@ const Overview = () => {
       </span>
       <TagsBlock
         className={classes.tags}
-        tags={''}
+        tags={[]}
       />
       <PreviewsBlock />
     </div>

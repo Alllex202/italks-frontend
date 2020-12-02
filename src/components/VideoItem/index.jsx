@@ -9,10 +9,28 @@ import TagsBlock from '../TagsBlock';
 
 const useStyles = makeStyles({
   videoItem: {
+    position: 'relative',
     width: 226,
+    padding: 0,
     display: 'flex',
+    backgroundColor: SD.basic.colors.main.white,
+    borderColor: 'transparent',
+    transition: 'border-color .3s',
     flexDirection: 'column',
     cursor: 'pointer',
+    '&:hover': {
+      width: 262,
+      top: -18,
+      left: -18,
+      padding: 15,
+      border: '3px solid #1E40FF',
+      boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
+      borderRadius: '4px',
+      '& $videoTags': {
+        height: 32,
+        marginTop: 26,
+      }
+    }
   },
   videoPreview: {
     width: '100%',
@@ -59,7 +77,6 @@ const useStyles = makeStyles({
     color: SD.basic.colors.main.white,
   },
   videoInfo: {
-    marginBottom: 26,
   },
   videoName: {
     display: 'inline-block',
@@ -78,7 +95,10 @@ const useStyles = makeStyles({
     color: SD.basic.colors.main.grey,
   },
   videoTags: {
-
+    overflow: 'hidden',
+    height: 0,
+    marginTop: 0,
+    transition: 'height .3s, margin-top .3s',
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
@@ -88,13 +108,13 @@ const useStyles = makeStyles({
   }
 });
 
-const VideoItem = () => {
+const VideoItem = ({className}) => {
   const classes = useStyles();
 
   // const { isFav, fav } = React.useState(false);
 
   return (
-    <div className={classes.videoItem}>
+    <a href='#qwe' className={classNames(classes.videoItem, className)}>
       <div className={classes.videoPreview}>
         <img
           className={classes.previewImg}
@@ -118,9 +138,12 @@ const VideoItem = () => {
         </span>
       </div>
       <div className={classes.videoTags}>
-        <TagsBlock videoItem />
+        <TagsBlock
+          videoItem
+          tags={[]}
+        />
       </div>
-    </div>
+    </a>
   )
 };
 
