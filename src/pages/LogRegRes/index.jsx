@@ -18,7 +18,7 @@ import Restore from './Restore';
 const useStyles = makeStyles({
   content: {
     display: 'flex',
-    width: '100vw',
+    width: '100%',
     height: '100vh',
   },
   bigTextBlock: {
@@ -60,8 +60,9 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 434,
+    // width: 434,
     backgroundColor: SD.basic.colors.main.white,
+    margin: 'auto',
   }
 })
 
