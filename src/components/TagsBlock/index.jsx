@@ -4,22 +4,38 @@ import classNames from 'classnames';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
-import { makeStyles } from '@material-ui/core';
+import { Hidden, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   tags: {
-    display: 'flex',
+    // display: 'flex',
     width: '100%',
     padding: '18px 0',
-    // marginBottom: 24,
     border: `solid 1px ${SD.basic.colors.main.greyLight}`,
     borderLeft: 'none',
     borderRight: 'none',
-    overflow: 'hidden',
+    // overflow: 'hidden',
+
+    // display: 'grid',
+    // gridTemplateColumns: 'auto-fit, minmax(40px, auto)',
+    // gridTemplateRows: '1fr 1fr 1fr',
+    // // gridAutoColumns: 'min-content',
+    // gridAutoFlow: 'column',
+    // // gridTemplateRows: '1',
+    // columnGap: '8px',
+    // // gridAutoFlow: 'column',
   },
   tagsWithoutBorder: {
     padding: '0',
     border: `none`,
+  },
+  tagsWrapper: {
+    width: '100%',
+    height: 32,
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
   },
   tag: {
     display: 'flex',
@@ -27,7 +43,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     padding: '0 8px',
     height: 32,
-    width: 'auto',
+    width: 'fit-content',
     border: `1px solid ${SD.basic.colors.main.grey}`,
     borderRadius: '12px',
     fontStyle: 'normal',
@@ -52,76 +68,19 @@ const useStyles = makeStyles({
   }
 });
 
-const TagsBlock = ({className, tags, videoItem}) => {
+const TagsBlock = ({ className, tags, videoItem }) => {
   const classes = useStyles();
 
   return (
     <div className={classNames(classes.tags, className, videoItem && classes.tagsWithoutBorder)}>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScriptфыв
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
-      </div>
-      <div className={classes.tag}>
-        JavaScript
+      <div className={classes.tagsWrapper}>
+        {
+          tags && tags.length > 0 && tags.map(tag => (
+            <a key={tag.id} href='#zxc' className={classes.tag}>
+              {tag.name}
+            </a>
+          ))
+        }
       </div>
     </div>
   )

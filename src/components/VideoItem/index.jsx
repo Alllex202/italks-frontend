@@ -29,8 +29,20 @@ const useStyles = makeStyles({
       '& $videoTags': {
         height: 32,
         marginTop: 26,
-      }
-    }
+        opacity: '1',
+      },
+      '& > $videoPreview > $favouriteButton': {
+        '&$favouriteActive': {
+          opacity: 1,
+        },
+        '&:not($favouriteActive)': {
+          opacity: '.7',
+          '&:hover': {
+            opacity: 1,
+          }
+        },
+      },
+    },
   },
   videoPreview: {
     width: '100%',
@@ -51,31 +63,19 @@ const useStyles = makeStyles({
     borderRadius: '4px',
     padding: '1px 2px',
   },
-  // favouriteIcon: {
-  //   position: 'absolute',
-  //   top: 4,
-  //   right: 4,
-  //   width: 24,
-  //   height: 24,
-  //   '& > rect': {
-  //     fill: SD.basic.colors.translucent.black,
-  //   },
-  //   '&:hover': {
-  //     '& > rect': {
-  //       fill: SD.basic.colors.main.black,
-  //     }
-  //   }
-  // },
   favouriteButton: {
     position: 'absolute',
     top: 4,
     right: 4,
     width: 24,
     height: 24,
+    opacity: 0,
+    transition: 'opacity .3s',
   },
   favouriteActive: {
-    '& > $favouriteIcon': {
-      opacity: '1',
+    opacity: '.7',
+    '& > $unfavouriteIcon': {
+      opacity: 0,
     }
   },
   videoFavouriteIcon: {
@@ -84,15 +84,11 @@ const useStyles = makeStyles({
     right: 0,
     width: 24,
     height: 24,
+    transition: 'opacity .3s',
   },
   unfavouriteIcon: {
-    opacity: '.7',
-    '&:hover': {
-      opacity: '1',
-    }
   },
   favouriteIcon: {
-    opacity: 0,
   },
   videoTime: {
     position: 'absolute',
@@ -160,7 +156,8 @@ const useStyles = makeStyles({
     overflow: 'hidden',
     height: 0,
     marginTop: 0,
-    transition: 'height .3s, margin-top .3s',
+    opacity: 0,
+    transition: 'height .3s, margin-top .3s, opacity .3s',
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
@@ -173,7 +170,67 @@ const useStyles = makeStyles({
 const VideoItem = ({ className, videoData }) => {
   const classes = useStyles();
 
-  const { isFav, fav } = React.useState(false);
+  const [isFav, fav] = React.useState(videoData.is_favourite);
+
+  const getFullTime = (seconds) => {
+    const _hours = Math.floor(seconds / (60 * 60));
+    const _minutes = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(Math.floor(videoData.duration % (60 * 60) / 60));
+    const _seconds = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(videoData.duration % 60);
+    return `${_hours > 0 ? `${_hours}:` : ''}${_minutes}:${_seconds}`;
+  };
+
+  const getPeriodAgo = (date) => {
+    const now = new Date();
+    const create = new Date(date);
+    const difference = (now - create) / 1000 / 60 / 60 / 24;
+    if (difference < 7) {
+      if (difference < 1) {
+        return 'Сегодня';
+      } else {
+        const _d = Math.floor(difference);
+        if (_d === 1) {
+          return 'Вчера';
+        } else if (_d >= 2 && _d <= 4) {
+          return `${_d} дня назад`;
+        } else {
+          return `${_d} дней назад`;
+        }
+      }
+    } else if (difference >= 7 && difference < 31) {
+      const _w = Math.floor(difference / 7);
+      if (_w === 1) {
+        return 'Неделю назад';
+      } else {
+        return `${_w} недели назад`;
+      }
+    } else if (difference >= 31 && difference < 365) {
+      const _m = Math.floor(difference / 30);
+      if (_m === 1) {
+        return 'Месяц назад';
+      } else if (_m >= 2 && _m <= 4) {
+        return `${_m} месяца назад`;
+      } else {
+        return `${_m} месяцев назад`;
+      }
+    } else if (difference >= 365) {
+      const _y = Math.floor(difference / 365);
+      if (_y < 10 && _y > 20 && _y % 10 === 1) {
+        return 'Год назад';
+      } else if (_y < 10 && _y > 20 && _y % 10 >= 2 && _y % 10 <= 4) {
+        return `${_y} года назад`;
+      } else {
+        return `${_y} лет назад`;
+      }
+    }
+  };
+
+  const handlerClickFavourite = (e) => {
+    e.preventDefault();
+    fav(!isFav);
+    // TODO connect to server
+  };
 
   return (
     <a
@@ -186,26 +243,25 @@ const VideoItem = ({ className, videoData }) => {
           src={`https://img.youtube.com/vi/${videoData.src}/default.jpg`}
           alt="preview"
         />
-        {/* <svg className={classNames(classes.favouriteIcon, isFav && classes.videoFavourite)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="24" height="24" rx="4" fill="black" />
-          <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="white" />
-        </svg> */}
-        <div className={classNames(classes.favouriteButton, isFav && classes.favouriteActive)}>
-          <div className={classNames(classes.videoFavouriteIcon, classes.unfavouriteIcon)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="24" height="24" rx="4" fill="black" />
-              <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="white" />
-            </svg>
-          </div>
+        <div
+          className={classNames(classes.favouriteButton, isFav && classes.favouriteActive)}
+          onClick={(e) => handlerClickFavourite(e)}
+        >
           <div className={classNames(classes.videoFavouriteIcon, classes.favouriteIcon)}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="24" height="24" rx="4" fill="black" />
               <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="white" />
             </svg>
           </div>
+          <div className={classNames(classes.videoFavouriteIcon, classes.unfavouriteIcon)}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="4" fill="black" />
+              <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="white" />
+            </svg>
+          </div>
         </div>
         <div className={classNames(classes.iconWrapper, classes.videoTime)}>
-          <div className={''}>{`${Math.floor(videoData.duration / (60 * 60))}:${Math.floor(videoData.duration % (60 * 60) / 60)}:${videoData.duration % 60}`}</div>
+          <div className={''}>{getFullTime(videoData.duration)}</div>
         </div>
       </div>
       <div className={classes.videoInfo}>
@@ -216,60 +272,35 @@ const VideoItem = ({ className, videoData }) => {
           <div className={classes.videoBlockDetails}>
             <span className={classes.videoDetails}>
               <span className={classes.videoDetail}>
-                <a href='#qwe'>
-                  {`italks.com`}
+                <a href={videoData.resource.src}>
+                  {videoData.resource.name}
                 </a>
               </span>
               <span className={classes.videoDetail}>
-                <a href='#asd'>
-                  {`Django Girls`}
+                <a href={videoData.author.src}>
+                  {videoData.author.name}
                 </a>
               </span>
             </span>
             <span className={classes.videoDate}>
-              {`неделю назад`}
+              {getPeriodAgo(videoData.date)}
             </span>
           </div>
         </object>
       </div>
-      <div className={classes.videoTags}>
-        <TagsBlock
-          videoItem
-          tags={[]}
-        />
-      </div>
+      {
+        videoData && videoData.subcategory && videoData.subcategory.length > 0 && (
+          <div className={classes.videoTags}>
+            <object data="" type="">
+              <TagsBlock
+                videoItem
+                tags={videoData.subcategory.slice(0, 5)}
+              />
+            </object>
+          </div>
+        )
+      }
     </a>
-
-    // <a href='#qwe' className={classNames(classes.videoItem, className)}>
-    //   <div className={classes.videoPreview}>
-    //     <img
-    //       className={classes.previewImg}
-    //       src="https://i.ytimg.com/vi/dyM-1OXdStA/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDhjzAkVr22LyrPUW_JPUJccUo1sw"
-    //       alt="preview"
-    //     />
-    //     <svg className={classes.favouriteIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    //       <rect width="24" height="24" rx="4" fill="black" />
-    //       <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="white" />
-    //     </svg>
-    //     <div className={classNames(classes.iconWrapper, classes.videoTime)}>
-    //       <div className={''}>46:13</div>
-    //     </div>
-    //   </div>
-    //   <div className={classes.videoInfo}>
-    //     <span className={classes.videoName}>
-    //       Трое суток без сна / Про безопасность в Тайланде / Приехали на юг к тайскому другу
-    //     </span>
-    //     <span className={classes.videoDetails}>
-    //       {`italks.com • Django Girls • неделю назад`}
-    //     </span>
-    //   </div>
-    //   <div className={classes.videoTags}>
-    //     <TagsBlock
-    //       videoItem
-    //       tags={[]}
-    //     />
-    //   </div>
-    // </a>
   )
 };
 

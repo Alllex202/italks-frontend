@@ -74,6 +74,7 @@ const Overview = () => {
   const [lastWeekVideo, setLastWeekVideo] = React.useState([]);
   const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
   const [lastYearVideo, setLastYearVideo] = React.useState([]);
+  const [listSubcategories, setListSubcategories] = React.useState([]);
 
   React.useEffect(() => {
     console.log('Страница ОБЗОР');
@@ -86,7 +87,7 @@ const Overview = () => {
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastWeekVideo(response.data.videos_page)
       })
 
@@ -98,7 +99,7 @@ const Overview = () => {
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastMonthVideo(response.data.videos_page)
       })
 
@@ -110,14 +111,27 @@ const Overview = () => {
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastYearVideo(response.data.videos_page)
+      })
+      .catch(error => {
+        // console.log('ERROR:' + error);
+      });
+
+    axios
+      .get(`${Settings.serverUrl}/subcategory/user/`)
+      .then(response => {
+        console.log(response.data)
+        setListSubcategories(response.data);
+      })
+      .catch(error => {
+
       })
 
   }, []);
 
-  
-  console.log([lastWeekVideo, lastMonthVideo, lastYearVideo])
+
+  // console.log([lastWeekVideo, lastMonthVideo, lastYearVideo])
 
   return (
     <div>
@@ -127,10 +141,14 @@ const Overview = () => {
       <span className={classes.pageSubtitle}>
         Здесь мы собрали категории, события и видео, которые могут быть Вам интересны
       </span>
-      <TagsBlock
-        className={classes.tags}
-        tags={[]}
-      />
+      {
+        listSubcategories && listSubcategories.length > 0 && (
+          <TagsBlock
+            className={classes.tags}
+            tags={listSubcategories}
+          />
+        )
+      }
 
       {
         lastWeekVideo && lastWeekVideo.length > 0 && (
