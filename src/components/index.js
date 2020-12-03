@@ -11,4 +11,5 @@ export {default as RoundedInputWithErrors} from './RoundedInputWithErrors';
 export {default as PreviewsBlock} from './PreviewsBlock';
 export {default as VideoItem} from './VideoItem';
 export {default as TagsBlock} from './TagsBlock';
+export {default as Tag} from './Tag';
 // export {default as Context} from './Context';

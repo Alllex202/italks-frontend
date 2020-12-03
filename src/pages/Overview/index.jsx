@@ -121,7 +121,7 @@ const Overview = () => {
     axios
       .get(`${Settings.serverUrl}/subcategory/user/`)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setListSubcategories(response.data);
       })
       .catch(error => {

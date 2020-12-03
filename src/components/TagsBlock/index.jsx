@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { stylesDictionary as SD } from '../../settings/styles';
 
 import { Hidden, makeStyles } from '@material-ui/core';
+import Tag from '../Tag';
 
 const useStyles = makeStyles({
   tags: {
@@ -71,14 +72,18 @@ const useStyles = makeStyles({
 const TagsBlock = ({ className, tags, videoItem }) => {
   const classes = useStyles();
 
+
+  // console.log(tags)
   return (
     <div className={classNames(classes.tags, className, videoItem && classes.tagsWithoutBorder)}>
       <div className={classes.tagsWrapper}>
         {
           tags && tags.length > 0 && tags.map(tag => (
-            <a key={tag.id} href='#zxc' className={classes.tag}>
-              {tag.name}
-            </a>
+            <Tag
+              key={tag.id}
+              classes={classes}
+              tagData={tag}
+            />
           ))
         }
       </div>
