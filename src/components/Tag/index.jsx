@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RLink, useLocation, useHistory, Switch, Route, useParams } from 'react-router-dom';
+import { Link as RLink } from 'react-router-dom';
 
 const Tag = ({ classes, tagData }) => {
   return (

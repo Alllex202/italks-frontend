@@ -61,6 +61,9 @@ const Overview = () => {
         // console.log(response.data)
         setLastWeekVideo(response.data.videos_page)
       })
+      .catch(error => {
+        // console.log('ERROR:' + error);
+      });
 
     axios
       .get(`${Settings.serverUrl}/video/`, {
@@ -73,6 +76,9 @@ const Overview = () => {
         // console.log(response.data)
         setLastMonthVideo(response.data.videos_page)
       })
+      .catch(error => {
+        // console.log('ERROR:' + error);
+      });
 
     axios
       .get(`${Settings.serverUrl}/video/`, {

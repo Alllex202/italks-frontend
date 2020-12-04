@@ -245,7 +245,7 @@ const VideoItem = ({ className, videoData }) => {
         />
         <div
           className={classNames(classes.favouriteButton, isFav && classes.favouriteActive)}
-          onClick={(e) => handlerClickFavourite(e)}
+          onClick={handlerClickFavourite}
         >
           <div className={classNames(classes.videoFavouriteIcon, classes.favouriteIcon)}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

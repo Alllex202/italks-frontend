@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
-import { Hidden, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Tag from '../Tag';
 
 const useStyles = makeStyles({

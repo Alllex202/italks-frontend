@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Overview } from '../../pages';
+import { Category, Overview } from '../../pages';
 
 const useStyles = makeStyles({
   main: {
@@ -36,6 +36,12 @@ const Main = (props) => {
         <Switch>
           <Route exact path="/">
             <Overview />
+          </Route>
+          <Route exact path="/category/:categoryId">
+            <Category />
+          </Route>
+          <Route exact path="/category/:categoryId/subcategory/:subcategoryId">
+            <Category />
           </Route>
         </Switch>
       </div>
