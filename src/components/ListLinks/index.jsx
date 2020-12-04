@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -192,7 +192,11 @@ const ListLinks = ({
                             || (!subcategoryId && el.id === 0)))
                         || (!categoryId && !subcategoryId
                           && ((mainType && el.pageName === pageName)
-                            || (!pageName && el.pageName === 'overview')))
+                            || ((!pageName
+                              || pageName === 'week'
+                              || pageName === 'month'
+                              || pageName === 'year')
+                              && el.pageName === 'overview')))
                         ? classes.listLinksSelected
                         : ''
                     }

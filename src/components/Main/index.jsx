@@ -37,12 +37,13 @@ const Main = (props) => {
           <Route exact path="/">
             <Overview />
           </Route>
-          <Route exact path="/category/:categoryId">
+          <Route exact path={["/category/:categoryId/subcategory/:subcategoryId",
+            "/category/:categoryId"]}>
             <Category />
           </Route>
-          <Route exact path="/category/:categoryId/subcategory/:subcategoryId">
+          {/* <Route exact path="/category/:categoryId/subcategory/:subcategoryId">
             <Category />
-          </Route>
+          </Route> */}
         </Switch>
       </div>
     </div>

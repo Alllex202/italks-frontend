@@ -83,24 +83,25 @@ const useStyles = makeStyles({
 
 const Category = () => {
   const classes = useStyles();
-  const { categoryId } = useParams();
+  const { categoryId, subcategoryId } = useParams();
   const [liked, setLike] = React.useState(false);
   const [lastWeekVideo, setLastWeekVideo] = React.useState([]);
   const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
   const [lastYearVideo, setLastYearVideo] = React.useState([]);
 
   React.useEffect(() => {
-    console.log('Страница ОБЗОР');
+    console.log('Страница КАТЕГОРИЯ или ПОДКАТЕГОРИЯ');
 
     axios
       .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
         params: {
           period: 'week',
           page: 1,
+          subcategory: subcategoryId,
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastWeekVideo(response.data.videos_page)
       })
       .catch(error => {
@@ -108,14 +109,15 @@ const Category = () => {
       });
 
     axios
-      .get(`${Settings.serverUrl}/video/sorted/${categoryId}`, {
+      .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
         params: {
           period: 'month',
           page: 1,
+          subcategory: subcategoryId,
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastMonthVideo(response.data.videos_page)
       })
       .catch(error => {
@@ -123,21 +125,22 @@ const Category = () => {
       });
 
     axios
-      .get(`${Settings.serverUrl}/video/sorted/${categoryId}`, {
+      .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
         params: {
           period: 'year',
           page: 1,
+          subcategory: subcategoryId,
         }
       })
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         setLastYearVideo(response.data.videos_page)
       })
       .catch(error => {
         // console.log('ERROR:' + error);
       });
 
-  }, []);
+  }, [categoryId, subcategoryId]);
 
   const handlerOnClickLike = () => {
     setLike(!liked);
@@ -167,7 +170,7 @@ const Category = () => {
         lastWeekVideo && lastWeekVideo.length > 0 && (
           <PreviewsBlock
             titleName='На этой неделе'
-            url=''
+            url={`/week/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
             videos={lastWeekVideo}
           />
         )
@@ -176,16 +179,16 @@ const Category = () => {
         lastMonthVideo && lastMonthVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом месяце'
-            url=''
+            url={`/month/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
             videos={lastMonthVideo}
           />
         )
       }
       {
-       lastYearVideo &&lastYearVideo.length > 0 && (
+        lastYearVideo && lastYearVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом году'
-            url=''
+            url={`/year/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
             videos={lastYearVideo}
           />
         )

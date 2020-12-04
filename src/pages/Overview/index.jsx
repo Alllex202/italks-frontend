@@ -131,7 +131,7 @@ const Overview = () => {
         lastWeekVideo && lastWeekVideo.length > 0 && (
           <PreviewsBlock
             titleName='На этой неделе'
-            url=''
+            url='/week'
             videos={lastWeekVideo}
           />
         )
@@ -141,7 +141,7 @@ const Overview = () => {
         lastMonthVideo && lastMonthVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом месяце'
-            url=''
+            url='/month'
             videos={lastMonthVideo}
           />
         )
@@ -151,7 +151,7 @@ const Overview = () => {
         lastYearVideo && lastYearVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом году'
-            url=''
+            url='/year'
             videos={lastYearVideo}
           />
         )

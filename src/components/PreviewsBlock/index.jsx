@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
+import { Link as RLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core';
 import VideoItem from '../VideoItem';
 
@@ -97,7 +99,7 @@ const PreviewsBlock = ({ titleName, url, videos }) => {
     <div className={classes.previewsBlock}>
       <div className={classes.previewsHead}>
         <span className={classes.previewsTitle}>{titleName}</span>
-        <a className={classes.previewsMore} href={url}>См. все</a>
+        <RLink className={classes.previewsMore} to={url}>См. все</RLink>
       </div>
       <div className={classes.previewsBody}>
         {
@@ -109,15 +111,6 @@ const PreviewsBlock = ({ titleName, url, videos }) => {
             />
           ))
         }
-        {/* <VideoItem
-          className={classes.videoItem}
-          videoData={videoData}
-        /> */}
-        {/* <VideoItem className={classes.videoItem} />
-        <VideoItem className={classes.videoItem} />
-        <VideoItem className={classes.videoItem} />
-        <VideoItem className={classes.videoItem} />
-        <VideoItem className={classes.videoItem} /> */}
       </div>
     </div>
   )

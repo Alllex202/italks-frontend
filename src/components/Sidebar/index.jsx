@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { Link as RLink, useLocation, useHistory, Switch, Route, useParams } from 'react-router-dom';
 
@@ -206,52 +206,53 @@ const mainSidebarItems = [
 ];
 
 const Sidebar = (props) => {
-  // const classes = useStyles();
+  const classes = useStyles();
   // let location = useLocation();
-  const [categories, setCategories] = useState(null);
+  const { categories } = React.useContext(Context);
+  // const [categories, setCategories] = useState(null);
   const [secondLevelShow, setSecondLevelShow] = useState(true);
 
-  // Подрузка категорий и подкатегорий
-  useEffect(() => {
-    if (!categories)
-      axios
-        .get(`${Settings.serverUrl}/categories_and_subcategories/`)
-        .then((response) => {
-          setCategories(response.data.map(category => {
-            return {
-              subcategories: [{
-                id: 0,
-                categoryId: category.id,
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
-                  </svg>
-                ),
-                name: 'Все',
-                href: `/category/${category.id}`,
-              }, ...category.subcategory.map(subcategory => {
-                return {
-                  id: subcategory.id,
-                  categoryId: category.id,
-                  iconBase64: subcategory.icon_base_64,
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
-                    </svg>
-                  ),
-                  name: subcategory.name,
-                  href: `/category/${category.id}/subcategory/${subcategory.id}`,
-                }
-              })],
-              id: category.id,
-              iconBase64: category.icon_base_64,
-              name: category.name,
-              href: `/category/${category.id}`,
-            }
-          }));
-          // console.log(response.data)
-        });
-  });
+  // // Подрузка категорий и подкатегорий
+  // useEffect(() => {
+  //   if (!categories)
+  //     axios
+  //       .get(`${Settings.serverUrl}/categories_and_subcategories/`)
+  //       .then((response) => {
+  //         setCategories(response.data.map(category => {
+  //           return {
+  //             subcategories: [{
+  //               id: 0,
+  //               categoryId: category.id,
+  //               icon: (
+  //                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //                   <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
+  //                 </svg>
+  //               ),
+  //               name: 'Все',
+  //               href: `/category/${category.id}`,
+  //             }, ...category.subcategory.map(subcategory => {
+  //               return {
+  //                 id: subcategory.id,
+  //                 categoryId: category.id,
+  //                 iconBase64: subcategory.icon_base_64,
+  //                 icon: (
+  //                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //                     <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
+  //                   </svg>
+  //                 ),
+  //                 name: subcategory.name,
+  //                 href: `/category/${category.id}/subcategory/${subcategory.id}`,
+  //               }
+  //             })],
+  //             id: category.id,
+  //             iconBase64: category.icon_base_64,
+  //             name: category.name,
+  //             href: `/category/${category.id}`,
+  //           }
+  //         }));
+  //         // console.log(response.data)
+  //       });
+  // });
 
   const hideSidebarSecondLevel = () => {
     setSecondLevelShow(false);
@@ -263,18 +264,39 @@ const Sidebar = (props) => {
 
   return (
     <React.Fragment>
-      <Route path={['/category/:categoryId/subcategory/:subcategoryId',
+      <Route exact path={[
+        '/week/category/:categoryId/subcategory/:subcategoryId',
+        '/week/category/:categoryId',
+        '/week',
+        '/month/category/:categoryId/subcategory/:subcategoryId',
+        '/month/category/:categoryId',
+        '/month',
+        '/year/category/:categoryId/subcategory/:subcategoryId',
+        '/year/category/:categoryId',
+        '/year',
+        '/category/:categoryId/subcategory/:subcategoryId',
         '/category/:categoryId',
         '/:pageName',
-        '/'
+        '/',
       ]}>
         <SidebarFirstLevel
+          classes={classes}
           categories={categories}
           showSidebarSecondLevel={showSidebarSecondLevel}
         />
       </Route>
-      <Route path={['/category/:categoryId/subcategory/:subcategoryId', '/category/:categoryId']}>
+      <Route exact path={[
+        '/week/category/:categoryId/subcategory/:subcategoryId',
+        '/week/category/:categoryId',
+        '/month/category/:categoryId/subcategory/:subcategoryId',
+        '/month/category/:categoryId',
+        '/year/category/:categoryId/subcategory/:subcategoryId',
+        '/year/category/:categoryId',
+        '/category/:categoryId/subcategory/:subcategoryId',
+        '/category/:categoryId',
+      ]}>
         <SidebarSecondLevel
+          classes={classes}
           categories={categories}
           hideSidebarSecondLevel={hideSidebarSecondLevel}
           secondLevelShow={secondLevelShow}
@@ -306,7 +328,7 @@ const Sidebar = (props) => {
 };
 
 const SidebarFirstLevel = (props) => {
-  const classes = useStyles();
+  const classes = props.classes;
   const { auth } = React.useContext(Context);
 
   return (
@@ -331,7 +353,7 @@ const SidebarFirstLevel = (props) => {
         />
 
         {/* Блок для входа */}
-        {!auth && <LoginBlock />}
+        {!auth && <LoginBlock classes={classes} />}
 
         {/* Отображаемый список */}
         {/* <ListCategories
@@ -360,7 +382,7 @@ const SidebarFirstLevel = (props) => {
 };
 
 const SidebarSecondLevel = (props) => {
-  const classes = useStyles();
+  const classes = props.classes;
   const { auth } = React.useContext(Context);
   const { categoryId } = useParams();
   const selectedCategory = props.categories
@@ -401,7 +423,7 @@ const SidebarSecondLevel = (props) => {
         <Divider />
 
         {/* Блок для входа */}
-        {!auth && <LoginBlock />}
+        {!auth && <LoginBlock classes={classes} />}
 
         {/* Отображаемый список */}
         {/* <ListSubcategories
@@ -427,8 +449,8 @@ const SidebarSecondLevel = (props) => {
   )
 };
 
-const LoginBlock = () => {
-  const classes = useStyles();
+const LoginBlock = (props) => {
+  const classes = props.classes;
 
   return (
     <div className={classes.loginBlock}>
@@ -458,47 +480,47 @@ const LoginBlock = () => {
   )
 }
 
-const ListCategories = (props) => {
+// const ListCategories = (props) => {
 
-  return (
-    <React.Fragment>
-      <Typography
-        align='left'
-        display='block'
-        className={props.className}
-      >
-        Поиск по категориям
-      </Typography>
+//   return (
+//     <React.Fragment>
+//       <Typography
+//         align='left'
+//         display='block'
+//         className={props.className}
+//       >
+//         Поиск по категориям
+//       </Typography>
 
-      <ListLinks
-        items={props.categories}
-        showMore
-      />
-    </React.Fragment>
-  )
-};
+//       <ListLinks
+//         items={props.categories}
+//         showMore
+//       />
+//     </React.Fragment>
+//   )
+// };
 
-const ListSubcategories = (props) => {
-  const { categoryId } = useParams();
-  const selectedCategory = props.categories
-    && props.categories.find(category => category.id.toString() === categoryId);
+// const ListSubcategories = (props) => {
+//   const { categoryId } = useParams();
+//   const selectedCategory = props.categories
+//     && props.categories.find(category => category.id.toString() === categoryId);
 
-  return (
-    <React.Fragment>
-      <Typography
-        align='left'
-        display='block'
-        className={props.className}
-      >
-        {selectedCategory && selectedCategory.name}
-      </Typography>
+//   return (
+//     <React.Fragment>
+//       <Typography
+//         align='left'
+//         display='block'
+//         className={props.className}
+//       >
+//         {selectedCategory && selectedCategory.name}
+//       </Typography>
 
-      <ListLinks
-        items={selectedCategory && selectedCategory.subcategories}
-        showMore
-      />
-    </React.Fragment>
-  )
-};
+//       <ListLinks
+//         items={selectedCategory && selectedCategory.subcategories}
+//         showMore
+//       />
+//     </React.Fragment>
+//   )
+// };
 
 export default Sidebar;
