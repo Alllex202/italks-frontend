@@ -26,6 +26,7 @@ const useStyles = makeStyles({
       border: '3px solid #1E40FF',
       boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
       borderRadius: '4px',
+      zIndex: 1,
       '& $videoTags': {
         height: 32,
         marginTop: 26,

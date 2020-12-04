@@ -193,9 +193,7 @@ const ListLinks = ({
                         || (!categoryId && !subcategoryId
                           && ((mainType && el.pageName === pageName)
                             || ((!pageName
-                              || pageName === 'week'
-                              || pageName === 'month'
-                              || pageName === 'year')
+                              || pageName === 'overview')
                               && el.pageName === 'overview')))
                         ? classes.listLinksSelected
                         : ''

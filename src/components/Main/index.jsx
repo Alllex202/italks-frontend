@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useParams } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Category, Overview } from '../../pages';
+import { Category, Overview, Videos } from '../../pages';
 
 const useStyles = makeStyles({
   main: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
 const Main = (props) => {
   const classes = useStyles();
+  // const 
 
   return (
     <div className={classes.main}>
@@ -37,16 +38,32 @@ const Main = (props) => {
           <Route exact path="/">
             <Overview />
           </Route>
-          <Route exact path={["/category/:categoryId/subcategory/:subcategoryId",
-            "/category/:categoryId"]}>
+
+          <Route exact path={[
+            "/category/:categoryId/subcategory/:subcategoryId",
+            "/category/:categoryId",
+          ]}>
             <Category />
           </Route>
-          {/* <Route exact path="/category/:categoryId/subcategory/:subcategoryId">
-            <Category />
-          </Route> */}
+
+          <Route exact path={[
+            "/overview/:period",
+            "/:period/category/:categoryId/subcategory/:subcategoryId",
+            "/:period/category/:categoryId",
+          ]}>
+            <PageVideos />
+          </Route>
+
         </Switch>
       </div>
     </div>
+  )
+};
+
+const PageVideos = (props) => {
+  const { period } = useParams();
+  return (period === 'week' || period === 'month' || period === 'year') && (
+    <Videos />
   )
 };
 

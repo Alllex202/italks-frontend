@@ -86,6 +86,9 @@ const App = (props) => {
                 : <Redirect to='/' />
             }
           </Route>
+          <Route exact path={'/overview'}>
+            <Redirect to='/' />
+          </Route>
           <Route>
             <Header
             />
