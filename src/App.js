@@ -16,6 +16,7 @@ const App = (props) => {
     notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
   });
   let location = useLocation();
+  const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
 
   React.useEffect(() => {
     checkAuth(setAuth);
@@ -70,7 +71,13 @@ const App = (props) => {
   return (
     <React.Fragment>
       <Context.Provider value={{
-        auth, setAuth, infoUser, setInfoUser, categories
+        auth, 
+        setAuth, 
+        infoUser, 
+        setInfoUser, 
+        categories, 
+        secondLevelMenuShow, 
+        setSecondLevelMenuShow
       }}>
         <Switch>
           <Route exact path='/test'>

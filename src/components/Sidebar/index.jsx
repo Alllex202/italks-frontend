@@ -207,10 +207,17 @@ const mainSidebarItems = [
 
 const Sidebar = (props) => {
   const classes = useStyles();
+  const { categoryId, subcategoryId } = useParams();
   // let location = useLocation();
-  const { categories } = React.useContext(Context);
+  const { categories,
+    secondLevelMenuShow: secondLevelShow,
+    setSecondLevelMenuShow: setSecondLevelShow } = React.useContext(Context);
   // const [categories, setCategories] = useState(null);
-  const [secondLevelShow, setSecondLevelShow] = useState(true);
+  // const [secondLevelShow, setSecondLevelShow] = useState(true);
+
+  // React.useEffect(() => {
+  //   setSecondLevelShow(true);
+  // }, [categoryId, subcategoryId]);
 
   // // Подрузка категорий и подкатегорий
   // useEffect(() => {
