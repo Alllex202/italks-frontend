@@ -1,3 +1,5 @@
+@import '../node_modules/spinthatshit/src/loaders.scss';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -174,20 +176,43 @@ body {
 
 
 
-.menu-enter {
+.animation-enter {
   opacity: 0;
-  transform: scale(0.9);
+  // transform: scale(0.9);
 }
-.menu-enter-active {
+.animation-enter-active {
   opacity: 1;
-  transform: translateX(0);
-  transition: opacity 300ms, transform 300ms;
+  // transform: translateX(0);
+  transition: opacity .5s, transform .5s;
 }
-.menu-exit {
+.animation-exit {
   opacity: 1;
 }
-.menu-exit-active {
+.animation-exit-active {
   opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 300ms, transform 300ms;
+  // transform: scale(0.9);
+  transition: opacity .5s, transform .5s;
+}
+
+.animation-fast-enter {
+  opacity: 0;
+  // transform: scale(0.9);
+}
+.animation-fast-enter-active {
+  opacity: 1;
+  // transform: translateX(0);
+  transition: opacity .3s, transform .3s;
+}
+.animation-fast-exit {
+  opacity: 1;
+}
+.animation-fast-exit-active {
+  opacity: 0;
+  // transform: scale(0.9);
+  transition: opacity .3s, transform .3s;
+}
+
+.loader {
+  @include loader07($color: #828588, $size: 10px);
+  margin: 24px auto 0,
 }
