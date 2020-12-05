@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import axios from 'axios';
 
-import ReactCSSTransitionGroup from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 import { Settings } from '../../settings/settings';
@@ -196,7 +196,7 @@ const Videos = (props) => {
       <div className={classes.title}>
         <h3 className={classes.titleName}>На этой неделе</h3>
         <ClickAwayListener onClickAway={closeSortMenu}>
-          <ReactCSSTransitionGroup></ReactCSSTransitionGroup>
+
           <div className={classNames('unselected', classes.sort)}>
             <div
               className={classNames(classes.sortTitle)}
@@ -208,7 +208,13 @@ const Videos = (props) => {
               <span>Упорядочить</span>
             </div>
             {
-              isOpenedSortMenu && (
+              // isOpenedSortMenu && (
+              <CSSTransition
+                in={isOpenedSortMenu}
+                timeout={300}
+                classNames="menu"
+                unmountOnExit
+              >
                 <ul className={classes.sortMenu}>
                   {
                     [
@@ -223,7 +229,8 @@ const Videos = (props) => {
                     ))
                   }
                 </ul>
-              )
+              </CSSTransition>
+              // )
             }
 
           </div>
