@@ -126,44 +126,54 @@ const Videos = (props) => {
   const { period, categoryId, subcategoryId } = useParams();
   const [isOpenedSortMenu, openSortMenu] = React.useState(false);
   const [videos, setVideos] = React.useState([]);
-  const [visibleVideos, setVisibleVideos] = React.useState([]);
   const [numberPage, setNumberPage] = React.useState(1);
+  const [isLastPageServer, setLastPageServer] = React.useState(false);
 
   React.useEffect(() => {
+    getNewVideos()
+  }, [period, categoryId, subcategoryId]);
+
+  const getNewVideos = () => {
     if (categoryId || (categoryId && subcategoryId)) {
       axios
         .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
           params: {
             period: period,
-            page: 1,
+            page: numberPage,
             subcategory: subcategoryId,
           }
         })
         .then(response => {
-          // console.log(response.data)
-          setVideos(response.data.videos_page);
+          // result = response.data;
+          setLastPageServer(response.data.is_last_page);
+          setVideos([...videos, ...response.data.videos_page]);
+          console.log(videos)
+          if (!response.data.is_last_page) {
+            setNumberPage(numberPage + 1);
+          }
         })
         .catch(error => {
-          // console.log('ERROR:' + error);
         });
     } else {
       axios
         .get(`${Settings.serverUrl}/video/`, {
           params: {
             period: period,
-            page: 1,
+            page: numberPage,
           }
         })
         .then(response => {
-          // console.log(response.data)
-          setVideos(response.data.videos_page);
+          console.log(response.data)
+          setLastPageServer(response.data.is_last_page);
+          setVideos([...videos, ...response.data.videos_page]);
+          if (!response.data.is_last_page) {
+            setNumberPage(numberPage + 1);
+          }
         })
         .catch(error => {
-          // console.log('ERROR:' + error);
         });
     }
-
-  }, [period, categoryId, subcategoryId]);
+  }
 
   const closeSortMenu = () => {
     openSortMenu(false);
@@ -174,7 +184,9 @@ const Videos = (props) => {
   };
 
   const handlerOnClickBtnMore = () => {
-    console.log(1)
+    if (!isLastPageServer) {
+      getNewVideos();
+    }
   };
 
   return (
