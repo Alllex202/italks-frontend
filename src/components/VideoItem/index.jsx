@@ -243,6 +243,7 @@ const VideoItem = ({ className, videoData }) => {
           className={classes.previewImg}
           src={`https://img.youtube.com/vi/${videoData.src}/default.jpg`}
           alt="preview"
+          loading="lazy"
         />
         <div
           className={classNames(classes.favouriteButton, isFav && classes.favouriteActive)}

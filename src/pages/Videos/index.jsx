@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import axios from 'axios';
 
+import ReactCSSTransitionGroup from 'react-transition-group';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 import { Settings } from '../../settings/settings';
@@ -72,6 +73,7 @@ const useStyles = makeStyles({
     background: SD.basic.colors.main.white,
     boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
     borderRadius: '4px',
+    zIndex: 10,
   },
   sortMenuItem: {
     padding: '16px 0 16px 18px',
@@ -194,6 +196,7 @@ const Videos = (props) => {
       <div className={classes.title}>
         <h3 className={classes.titleName}>На этой неделе</h3>
         <ClickAwayListener onClickAway={closeSortMenu}>
+          <ReactCSSTransitionGroup></ReactCSSTransitionGroup>
           <div className={classNames('unselected', classes.sort)}>
             <div
               className={classNames(classes.sortTitle)}
@@ -229,7 +232,7 @@ const Videos = (props) => {
       </div>
       <div className={classes.videoGrid}>
         {
-          videos.map(video => (
+          videos && videos.length > 0 && videos.map(video => (
             <div
               key={video.id}
               className={classes.videoItemWrapper}
@@ -243,12 +246,16 @@ const Videos = (props) => {
         }
       </div>
       <div>
-        <RoundedButton
-          className={classes.btnMore}
-          onClick={handlerOnClickBtnMore}
-        >
-          Показать ещё
-        </RoundedButton>
+        {
+          videos && videos.length > 0 && (
+            <RoundedButton
+              className={classes.btnMore}
+              onClick={handlerOnClickBtnMore}
+            >
+              Показать ещё
+            </RoundedButton>
+          )
+        }
       </div>
     </div>
   )
