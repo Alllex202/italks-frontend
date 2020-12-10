@@ -292,6 +292,15 @@ const Sidebar = (props) => {
           showSidebarSecondLevel={showSidebarSecondLevel}
         />
       </Route>
+
+      {/* <Route>
+        <SidebarFirstLevel
+          classes={classes}
+          categories={categories}
+          showSidebarSecondLevel={showSidebarSecondLevel}
+        />
+      </Route> */}
+
       <Route exact path={[
         '/week/category/:categoryId/subcategory/:subcategoryId',
         '/week/category/:categoryId',
@@ -339,7 +348,8 @@ const SidebarFirstLevel = (props) => {
   const { auth } = React.useContext(Context);
   const { pageName } = useParams();
 
-  return (pageName === 'favourites' || pageName === undefined) && (
+  // return (pageName === 'favourites' || pageName === undefined) && (
+  return (
     <div className={classes.sidebar}>
       <Scrollbars
         autoHide

@@ -3,7 +3,6 @@ import { Settings } from '../settings/settings';
 
 export const checkAuth = (setAuth) => {
   const token = localStorage.getItem('auth_token');
-  // console.log(token)
   if (token) {
     axios
       .get(`${Settings.serverUrl}/auth/check_token/`, {
@@ -17,5 +16,7 @@ export const checkAuth = (setAuth) => {
       .catch(error => {
 
       });
+  } else {
+    setAuth(false)
   }
 }

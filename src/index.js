@@ -7,6 +7,8 @@ import './index.scss';
 
 import App from './App';
 
+console.log('app')
+
 ReactDOM.render(
   (<Router>
     <App />

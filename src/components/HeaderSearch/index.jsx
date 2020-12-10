@@ -93,10 +93,8 @@ const HeaderSearch = ({inputSearch, handleCloseSearch, setInputSearch}) => {
 
   const submitSearch = (value) => {
     if (value) {
-      console.log(value);
-      history.push('/search');
+      history.push(`/results?search_query=${encodeURI(value)}`);
     }
-    // TODO
   }
 
   const onPressKeyHandler = (event) => {

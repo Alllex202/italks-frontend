@@ -134,10 +134,10 @@ const Overview = () => {
       <div>
         <h1 className={classes.pageTitle}>
           Обзор
-      </h1>
+        </h1>
         <span className={classes.pageSubtitle}>
           Здесь мы собрали категории, события и видео, которые могут быть Вам интересны
-      </span>
+        </span>
         {
           listSubcategories && listSubcategories.length > 0 && (
             <TagsBlock

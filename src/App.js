@@ -10,7 +10,7 @@ import { Context } from './components/Context/index';
 import { checkAuth } from './auth/checkAuth';
 
 const App = (props) => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(null);
   const [categories, setCategories] = useState(null);
   const [infoUser, setInfoUser] = useState({
     notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
@@ -19,14 +19,15 @@ const App = (props) => {
   const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
 
   React.useEffect(() => {
-    checkAuth(setAuth);
-  }, []);
 
-  React.useEffect(() => {
+    // Из-за этого происходит ререндер всего приложения
+    checkAuth(setAuth);
     if (!categories) {
       getCategories();
     }
-  });
+  }, [categories]);
+
+  console.log(333)
 
   const getCategories = () => {
     axios
@@ -69,50 +70,52 @@ const App = (props) => {
   };
 
   return (
-    <React.Fragment>
-      <Context.Provider value={{
-        auth, 
-        setAuth, 
-        infoUser, 
-        setInfoUser, 
-        categories, 
-        secondLevelMenuShow, 
-        setSecondLevelMenuShow
-      }}>
-        <Switch>
-          <Route exact path='/test'>
-            <Test />
-          </Route>
-          <Route exact path={['/login', '/register', '/restore']}>
-            {
-              !auth
-                ? (
-                  <LogRegRes
-                  />
-                )
-                : <Redirect to='/' />
-            }
-          </Route>
-          <Route exact path={'/overview'}>
-            <Redirect to='/' />
-          </Route>
-          <Route>
-            <Header
-            />
-            <Sidebar
-            />
-            <Main
-              text={location.pathname}
-            />
-          </Route>
-        </Switch>
-        {/* <Header />
+    (auth !== null && categories !== null) ?
+      <React.Fragment>
+        <Context.Provider value={{
+          auth,
+          setAuth,
+          infoUser,
+          setInfoUser,
+          categories,
+          secondLevelMenuShow,
+          setSecondLevelMenuShow
+        }}>
+          <Switch>
+            <Route exact path='/test'>
+              <Test />
+            </Route>
+            <Route exact path={['/login', '/register', '/restore']}>
+              {
+                !auth
+                  ? (
+                    <LogRegRes
+                    />
+                  )
+                  : <Redirect to='/' />
+              }
+            </Route>
+            <Route exact path={'/overview'}>
+              <Redirect to='/' />
+            </Route>
+            <Route>
+              <Header
+              />
+              <Sidebar
+              />
+              <Main
+                text={location.pathname}
+              />
+            </Route>
+          </Switch>
+          {/* <Header />
       <Sidebar />
       <Main
         text={location.pathname}
       /> */}
-      </Context.Provider>
-    </React.Fragment>
+        </Context.Provider>
+      </React.Fragment>
+      : <>Лоадинг</>
   );
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch, Route, useParams } from 'react-router-dom';
+import { Switch, Route, useParams, useLocation, Redirect } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Category, Overview, Videos } from '../../pages';
+import { Category, Overview, Search, Videos } from '../../pages';
 
 const useStyles = makeStyles({
   main: {
@@ -54,6 +54,10 @@ const Main = (props) => {
             <PageVideos />
           </Route>
 
+          <Route exact path={'/results'}>
+            <PageSearch />
+          </Route>
+
         </Switch>
       </div>
     </div>
@@ -64,6 +68,22 @@ const PageVideos = (props) => {
   const { period } = useParams();
   return (period === 'week' || period === 'month' || period === 'year') && (
     <Videos />
+  )
+};
+
+const PageSearch = (props) => {
+  const location = useLocation();
+  const searchQuery = location.search.split('?search_query=');
+  const key = Math.floor(Math.random() * Math.floor(9999999));
+  console.log(11)
+  // console.log(searchQuery)
+  return (
+    !(searchQuery.length === 2 && searchQuery[1] !== '')
+      ? <Redirect to='/' />
+      : <Search
+        key={key}
+        searchQuery={searchQuery[1]}
+      />
   )
 };
 
