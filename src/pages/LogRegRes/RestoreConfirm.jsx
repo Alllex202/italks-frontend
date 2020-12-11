@@ -3,7 +3,7 @@ import { RoundedButton, RoundedInputWithErrors } from '../../components';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
