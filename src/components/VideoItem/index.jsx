@@ -27,8 +27,7 @@ const useStyles = makeStyles({
       boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
       borderRadius: '4px',
       zIndex: 1,
-      '& $videoTags': {
-        height: 32,
+      '& $videoTags': {        
         marginTop: 26,
         opacity: '1',
       },
@@ -155,10 +154,10 @@ const useStyles = makeStyles({
   },
   videoTags: {
     overflow: 'hidden',
-    height: 0,
+    height: 32,
     marginTop: 0,
     opacity: 0,
-    transition: 'height .3s, margin-top .3s, opacity .3s',
+    transition: 'margin-top .3s, opacity .3s',
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
