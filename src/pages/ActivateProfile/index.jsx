@@ -48,7 +48,7 @@ const ActivateProfile = () => {
               <div>Аккаунт активирован, если не произошло автоматическое перенаправление можете <Link to={'/'}>перейти на сайт по ссылке</Link>.</div>
               <Redirect to={'/'} />
             </React.Fragment>
-            : <div>{result}</div>
+            : <div>Что-то пошло не так :-( {result}</div>
         }
       </div>
   )
