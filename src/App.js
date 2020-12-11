@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Route, Redirect, useLocation, Switch, useHistory } from 'react-router-dom';
-import { Header, Main, Sidebar, Test } from './components';
-import { ActivateProfile, LogRegRes } from './pages';
+// import { Route, Redirect, useLocation, Switch, useHistory } from 'react-router-dom';
+// import { Header, Main, Sidebar, Test } from './components';
+// import { ActivateProfile, LogRegRes } from './pages';
 import axios from 'axios';
 
 import { Settings } from './settings/settings';
 
 import { Context } from './components/Context/index';
 import { checkAuth } from './auth/checkAuth';
+import { SiteRouting } from './routing';
 
 const App = (props) => {
   const [auth, setAuth] = useState(null);
@@ -15,7 +16,7 @@ const App = (props) => {
   const [infoUser, setInfoUser] = useState({
     notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
   });
-  let location = useLocation();
+  // let location = useLocation();
   const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
 
   React.useEffect(() => {
@@ -81,36 +82,7 @@ const App = (props) => {
           secondLevelMenuShow,
           setSecondLevelMenuShow
         }}>
-          <Switch>
-            <Route exact path='/activate/:uid/:token'>
-              <ActivateProfile />
-            </Route>
-            <Route exact path='/test'>
-              <Test />
-            </Route>
-            <Route exact path={['/login', '/register', '/restore']}>
-              {
-                !auth
-                  ? (
-                    <LogRegRes
-                    />
-                  )
-                  : <Redirect to='/' />
-              }
-            </Route>
-            <Route exact path={'/overview'}>
-              <Redirect to='/' />
-            </Route>
-            <Route>
-              <Header
-              />
-              <Sidebar
-              />
-              <Main
-                text={location.pathname}
-              />
-            </Route>
-          </Switch>
+          <SiteRouting />
         </Context.Provider>
       </React.Fragment>
       : <>Лоадинг</>
