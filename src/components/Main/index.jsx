@@ -58,6 +58,10 @@ const Main = (props) => {
             <PageSearch />
           </Route>
 
+          <Route>
+            <>Страница не найдена</>
+          </Route>
+
         </Switch>
       </div>
     </div>
