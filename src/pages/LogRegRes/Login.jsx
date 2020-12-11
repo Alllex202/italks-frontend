@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { Settings } from '../../settings/settings';
 
@@ -70,7 +70,7 @@ const useStyle = makeStyles({
   }
 });
 
-const Login = (props) => {
+const Login = ({ loginFor }) => {
   const classes = useStyle();
 
   const [emailError, setEmailError] = React.useState('');
@@ -125,7 +125,11 @@ const Login = (props) => {
   return (
     <div className={classes.login}>
       <h1 className={classes.title}>
-        Войдите
+        {`Войдите${loginFor === 'star'
+          ? ', чтобы добавлять видео в избранное'
+          : loginFor === 'like'
+            ? ', чтобы отслеживать категории'
+            : ''}`}
       </h1>
 
       <span className={classes.label}>

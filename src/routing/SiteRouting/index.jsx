@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Route, Redirect, useLocation, Switch, useHistory } from 'react-router-dom';
+import { Route, Redirect, useLocation, Switch, useHistory, useParams } from 'react-router-dom';
 import { Header, Main, Sidebar, Test } from '../../components';
 import { Context } from '../../components/Context';
 import { ActivateProfile, LogRegRes } from '../../pages';
@@ -16,20 +16,23 @@ const SiteRouting = () => {
         <Test />
       </Route>
       <Route exact path={[
+        '/login/for/:loginFor',
         '/login',
-        '/login/from/star',
-        '/login/from/like',
         '/register',
         '/restore'
       ]}>
-        {
-          !auth
-            ? (
-              <LogRegRes
-              />
-            )
-            : <Redirect to='/' />
-        }
+        <PagesLogRegRes
+          auth={auth}
+        />
+      </Route>
+      <Route path={['/login']}>
+        <Redirect to={'/login'} />
+      </Route>
+      <Route path={['/register']}>
+        <Redirect to={'/register'} />
+      </Route>
+      <Route path={['/restore']}>
+        <Redirect to={'/restore'} />
       </Route>
       <Route exact path={'/overview'}>
         <Redirect to='/' />
@@ -44,3 +47,17 @@ const SiteRouting = () => {
 };
 
 export default SiteRouting;
+
+const PagesLogRegRes = ({ auth }) => {
+  const { loginFor } = useParams();
+  return (
+    !auth
+      ? loginFor === undefined
+        ? <LogRegRes />
+        : loginFor === 'like'
+          || loginFor === 'star'
+          ? <LogRegRes loginFor={loginFor} />
+          : <Redirect to='/login' />
+      : <Redirect to='/' />
+  )
+};

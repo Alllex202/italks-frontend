@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -66,7 +66,7 @@ const useStyles = makeStyles({
   }
 })
 
-const LogRegRes = (props) => {
+const LogRegRes = ({ loginFor }) => {
   const classes = useStyles();
 
   return (
@@ -77,7 +77,10 @@ const LogRegRes = (props) => {
         </RLink>
         <div className={classes.bigText}>
           <Switch>
-            <Route exact path='/login'>
+            <Route exact path={[
+              '/login/for/:loginFor',
+              '/login'
+            ]}>
               <img className={classes.bigTextImg} src={HelloSvg} alt={'Hello!'} />
               {/* {'Hello! (^０^)ノ'} */}
             </Route>
@@ -94,8 +97,12 @@ const LogRegRes = (props) => {
       </div>
       <div className={classes.actionBlock}>
         <Switch>
-          <Route exact path='/login'>
+          <Route exact path={[
+            '/login/for/:loginFor',
+            '/login'
+          ]}>
             <Login
+              loginFor={loginFor}
             />
           </Route>
           <Route exact path='/register'>

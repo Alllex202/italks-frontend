@@ -6,6 +6,8 @@ import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core';
 import TagsBlock from '../TagsBlock';
+import { Context } from '../Context';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   videoItem: {
@@ -27,7 +29,7 @@ const useStyles = makeStyles({
       boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
       borderRadius: '4px',
       zIndex: 1,
-      '& $videoTags': {        
+      '& $videoTags': {
         marginTop: 26,
         opacity: '1',
       },
@@ -169,7 +171,8 @@ const useStyles = makeStyles({
 
 const VideoItem = ({ className, videoData }) => {
   const classes = useStyles();
-
+  let history = useHistory();
+  const { auth } = React.useContext(Context);
   const [isFav, fav] = React.useState(videoData.is_favourite);
 
   const getFullTime = (seconds) => {
@@ -228,8 +231,12 @@ const VideoItem = ({ className, videoData }) => {
 
   const handlerClickFavourite = (e) => {
     e.preventDefault();
-    fav(!isFav);
-    // TODO connect to server
+    if (!auth) {
+      history.push('/login/for/star');
+    } else {
+      fav(!isFav);
+      // TODO connect to server
+    }
   };
 
   return (
