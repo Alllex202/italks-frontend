@@ -140,7 +140,7 @@ const VideoList = ({
   const [videos, setVideos] = React.useState([]);
   const [numberPage, setNumberPage] = React.useState(1);
   const [isLastPageServer, setLastPageServer] = React.useState(false);
-  const [isLoading, setLoading] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
 
   const getNewVideos = () => {
     setLoading(true);
@@ -152,10 +152,15 @@ const VideoList = ({
             page: numberPage,
           },
         })
-        .then(res => {
-          setNumberSearchResults(res.data.length)
-          console.log(res)
-          setVideos(res.data)
+        .then(response => {
+          console.log(response)
+          setNumberSearchResults(response.data.videos_page.length)
+          setLastPageServer(response.data.is_last_page);
+          setVideos([...videos, ...response.data.videos_page])
+          if (!response.data.is_last_page) {
+            setNumberPage(numberPage + 1);
+          }
+          setLoading(false);
         })
         .catch(e => {
           setLoading(false);
@@ -225,9 +230,8 @@ const VideoList = ({
     console.log(videos)
   }, []);
 
-
   return (
-    // videos && videos.length > 0 ? 
+    !isLoading &&
     <div className={classes.viedoList}>
       <div className={classes.title}>
         <h3 className={classes.titleName}>{title}</h3>
@@ -284,15 +288,17 @@ const VideoList = ({
         }
       </div>
       <div>
-        <RoundedButton
-          className={classes.btnMore}
-          onClick={handlerOnClickBtnMore}
-        >
-          {'Показать ещё'}
-        </RoundedButton>
+        {
+          !isLastPageServer &&
+          <RoundedButton
+            className={classes.btnMore}
+            onClick={handlerOnClickBtnMore}
+          >
+            {'Показать ещё'}
+          </RoundedButton>
+        }
       </div>
     </div>
-    // : <>123</>
   )
 };
 

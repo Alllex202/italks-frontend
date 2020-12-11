@@ -9,36 +9,39 @@ import { PreviewsBlock, RoundedButton, TagsBlock, VideoItem, VideoList } from '.
 import { Settings } from '../../settings/settings';
 import { CSSTransition } from 'react-transition-group';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  pageTitle: {
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '36px',
+    lineHeight: '45px',
+    color: SD.basic.colors.main.black,
+    marginBottom: 12,
+  },
+  pageSubtitle: {
+    display: 'inline-block',
+    fontFamily: SD.basic.fontsFamily.JetBrainsMono,
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: '24px',
+    lineHeight: '30px',
+    color: SD.basic.colors.main.pink,
+    marginBottom: 24,
+  },
+  '@media (min-width: 1600px) and (max-width: 1919px)': {
+
+  },
+  '@media (min-width: 1920px)': {
+
+  }
+});
 
 const Search = ({ searchQuery: _searchQuery }) => {
   const classes = useStyles();
-  const [numberSearchResults, setNumberSearchResults] = React.useState(0);
+  const [numberSearchResults, setNumberSearchResults] = React.useState(null);
   const [searchQuery, setSearchQuery] = React.useState(decodeURI(_searchQuery));
   const [results, setResults] = React.useState([]);
-
-  // React.useEffect(() => {
-  //   console.log(0)
-
-  //   axios
-  //     .get(`${Settings.serverUrl}/search/`, {
-  //       params: {
-  //         query: searchQuery
-  //       },
-  //     })
-  //     .then(res => {
-  //       setNumberSearchResults(res.data.length)
-  //       console.log(res)
-  //       setResults(res.data)
-  //     })
-  //     .catch(e => {
-
-  //     });
-
-  //   return () => {
-  //     // console.log(1)
-  //   }
-  // }, [searchQuery]);
 
   return (
     _searchQuery &&
