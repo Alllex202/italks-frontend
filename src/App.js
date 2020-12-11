@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Redirect, useLocation, Switch, useHistory } from 'react-router-dom';
 import { Header, Main, Sidebar, Test } from './components';
-import { LogRegRes } from './pages';
+import { ActivateProfile, LogRegRes } from './pages';
 import axios from 'axios';
 
 import { Settings } from './settings/settings';
@@ -27,7 +27,7 @@ const App = (props) => {
     }
   }, [categories]);
 
-  console.log(333)
+  // console.log(333)
 
   const getCategories = () => {
     axios
@@ -82,6 +82,9 @@ const App = (props) => {
           setSecondLevelMenuShow
         }}>
           <Switch>
+            <Route exact path='/activate/:uid/:token'>
+              <ActivateProfile />
+            </Route>
             <Route exact path='/test'>
               <Test />
             </Route>
@@ -108,11 +111,6 @@ const App = (props) => {
               />
             </Route>
           </Switch>
-          {/* <Header />
-      <Sidebar />
-      <Main
-        text={location.pathname}
-      /> */}
         </Context.Provider>
       </React.Fragment>
       : <>Лоадинг</>

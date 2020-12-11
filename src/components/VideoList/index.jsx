@@ -153,7 +153,7 @@ const VideoList = ({
           },
         })
         .then(response => {
-          console.log(response)
+          // console.log(response)
           setNumberSearchResults(response.data.videos_page.length)
           setLastPageServer(response.data.is_last_page);
           setVideos([...videos, ...response.data.videos_page])
@@ -227,7 +227,7 @@ const VideoList = ({
 
   React.useEffect(() => {
     getNewVideos()
-    console.log(videos)
+    // console.log(videos)
   }, []);
 
   return (
