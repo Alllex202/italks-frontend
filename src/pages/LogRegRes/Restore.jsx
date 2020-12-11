@@ -40,11 +40,29 @@ const useStyle = makeStyles({
       marginRight: 18,
       '& path': {
         fill: SD.basic.colors.main.grey,
-      }
+      },
+    },
+    '& > span': {
+      display: 'inline-block',
+      position: 'relative',
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        bottom: -3,
+        display: 'block',
+        height: 1,
+        width: '0',
+        backgroundColor: SD.basic.colors.main.grey,
+        transition: 'width .3s'
+      },
     },
     '&:hover': {
-      // TODO
-    }
+      '& > span': {
+        '&::after': {
+          width: '100%',
+        },
+      },
+    },
   },
   input: {
     height: 32,
