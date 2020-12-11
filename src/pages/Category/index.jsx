@@ -95,6 +95,7 @@ const Category = () => {
   const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
   const [lastYearVideo, setLastYearVideo] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
+  const [pageTItle, setPageTitle] = React.useState('');
 
   // const reset = () => {
   //   setLastWeekVideo([])
@@ -115,71 +116,16 @@ const Category = () => {
         }
       })
       .then(response => {
-        console.log(response.data)
-        // setLastWeekVideo(response.data.videos_page)
+        // console.log(response.data)
+        setLastWeekVideo(response.data.week)
+        setLastMonthVideo(response.data.month)
+        setLastYearVideo(response.data.year)
+        setPageTitle(response.data.subcategory_name || response.data.category_name)
         setLoading(false);
       })
       .catch(error => {
-        // console.log('ERROR:' + error);
         setLoading(false);
       });
-
-    // setTimeout(() => {
-    //   axios
-    //     .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
-    //       params: {
-    //         period: 'week',
-    //         page: 1,
-    //         subcategory: subcategoryId,
-    //       }
-    //     })
-    //     .then(response => {
-    //       // console.log(response.data)
-    //       setLastWeekVideo(response.data.videos_page)
-    //       setLoadingWeek(true);
-    //     })
-    //     .catch(error => {
-    //       // console.log('ERROR:' + error);
-    //       setLoadingWeek(true);
-    //     });
-
-    //   axios
-    //     .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
-    //       params: {
-    //         period: 'month',
-    //         page: 1,
-    //         subcategory: subcategoryId,
-    //       }
-    //     })
-    //     .then(response => {
-    //       // console.log(response.data)
-    //       setLastMonthVideo(response.data.videos_page)
-    //       setLoadingMonth(true);
-    //     })
-    //     .catch(error => {
-    //       // console.log('ERROR:' + error);
-    //       setLoadingMonth(true);
-    //     });
-
-    //   axios
-    //     .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
-    //       params: {
-    //         period: 'year',
-    //         page: 1,
-    //         subcategory: subcategoryId,
-    //       }
-    //     })
-    //     .then(response => {
-    //       // console.log(response.data)
-    //       setLastYearVideo(response.data.videos_page)
-    //       setLoadingYear(true);
-    //     })
-    //     .catch(error => {
-    //       // console.log('ERROR:' + error);
-    //       setLoadingYear(true);
-    //     });
-    // }, 500)
-
 
     // return () => {
     //   reset()
@@ -215,7 +161,7 @@ const Category = () => {
       || lastYearVideo.length > 0) &&
     <div>
       <div className={classes.title}>
-        <h1 className={classes.titleName}>Категория</h1>
+        <h1 className={classes.titleName}>{pageTItle}</h1>
         <div
           className={classNames('unselected', classes.like, liked && classes.likeActive)}
           onClick={handlerOnClickLike}

@@ -47,12 +47,16 @@ const Search = ({ searchQuery: _searchQuery }) => {
     _searchQuery &&
     (
       <div>
-        <h1 className={classes.pageTitle}>
-          {`Поиск по запросу “${searchQuery}”`}
-        </h1>
-        <span className={classes.pageSubtitle}>
-          {`Найдено ${numberSearchResults} результатов`}
-        </span>
+        {numberSearchResults !== null &&
+          <React.Fragment>
+            <h1 className={classes.pageTitle}>
+              {`Поиск по запросу “${searchQuery}”`}
+            </h1>
+            <span className={classes.pageSubtitle}>
+              {`Найдено ${numberSearchResults} результатов`}
+            </span>
+          </React.Fragment>
+        }
 
         {/* {
           listSubcategories && listSubcategories.length > 0 && (

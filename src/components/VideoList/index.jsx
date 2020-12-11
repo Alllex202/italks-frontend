@@ -154,7 +154,7 @@ const VideoList = ({
         })
         .then(response => {
           // console.log(response)
-          setNumberSearchResults(response.data.videos_page.length)
+          setNumberSearchResults(response.data.count)
           setLastPageServer(response.data.is_last_page);
           setVideos([...videos, ...response.data.videos_page])
           if (!response.data.is_last_page) {
