@@ -14,6 +14,7 @@ import DoitSvg from '../../assets/img/Doit.svg';
 import Login from './Login';
 import Register from './Register';
 import Restore from './Restore';
+import RestoreConfirm from './RestoreConfirm';
 
 const useStyles = makeStyles({
   content: {
@@ -88,7 +89,10 @@ const LogRegRes = ({ loginFor }) => {
               <img className={classes.bigTextImg} src={DoitSvg} alt={'Do it!'} />
               {/* {'Do it! (^_−)☆'} */}
             </Route>
-            <Route exact path='/restore'>
+            <Route exact path={[
+              '/password/reset/confirm/:uid/:token',
+              '/restore'
+            ]}>
               <img className={classes.bigTextImg} src={ItsOKSvg} alt={'It’s OK'} />
               {/* {'It’s OK (ノ_<、)'} */}
             </Route>
@@ -110,6 +114,9 @@ const LogRegRes = ({ loginFor }) => {
           </Route>
           <Route exact path='/restore'>
             <Restore />
+          </Route>
+          <Route exact path='/password/reset/confirm/:uid/:token'>
+            <RestoreConfirm />
           </Route>
         </Switch>
       </div>

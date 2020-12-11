@@ -16,6 +16,8 @@ const SiteRouting = () => {
         <Test />
       </Route>
       <Route exact path={[
+        '/password/reset/confirm/:uid/:token',
+        '/#/password/reset/confirm/:uid/:token',
         '/login/for/:loginFor',
         '/login',
         '/register',

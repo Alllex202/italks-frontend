@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles, Typography } from '@material-ui/core';
 
@@ -34,6 +34,7 @@ const useStyle = makeStyles({
     lineHeight: '16px',
     color: SD.basic.colors.main.grey,
     height: 18,
+    marginBottom: 12,
     '& svg': {
       height: 18,
       marginRight: 18,
@@ -41,7 +42,9 @@ const useStyle = makeStyles({
         fill: SD.basic.colors.main.grey,
       }
     },
-    marginBottom: 12,
+    '&:hover': {
+      // TODO
+    }
   },
   input: {
     height: 32,
@@ -73,10 +76,6 @@ const Restore = () => {
       axios
         .post(`${Settings.serverUrl}/auth/users/reset_password/`, {
           email: email,
-        }, {
-          before: () => {
-            console.log('start');
-          }
         })
         .then(response => {
           setStepRestore(2);
@@ -101,7 +100,7 @@ const Restore = () => {
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8.7525 2.9027L7.425 1.5752L0 9.00019L7.425 16.4252L8.7525 15.0977L2.655 9.00019L8.7525 2.9027Z" fill="#828588" />
         </svg>
-        К авторизации
+        <span>К авторизации</span>
       </RLink>
       <h1 className={classes.title}>
         Восстановление пароля
@@ -135,7 +134,7 @@ const Restore = () => {
               display='block'
               className={classes.message}
             >
-              Мы отправили Вам email со ссылкой для подтверждения.
+              Мы отправили Вам email с инструкциями для восстановления пароля.
               Вы можете закрыть эту вкладку и проверить почту.
             </Typography>
           ))
