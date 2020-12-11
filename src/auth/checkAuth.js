@@ -14,9 +14,9 @@ export const checkAuth = (setAuth) => {
         response.status === 201 ? setAuth(true) : setAuth(false);
       })
       .catch(error => {
-
+        setAuth(false);
       });
   } else {
-    setAuth(false)
+    setAuth(false);
   }
 }
