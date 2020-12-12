@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Settings } from '../settings/settings';
 
-export const checkAuth = (setAuth) => {
-  const token = localStorage.getItem('auth_token');
+const checkAuth = (setAuth) => {
+  const token = getAuthToken();
   if (token) {
     axios
       .get(`${Settings.serverUrl}/auth/check_token/`, {
@@ -19,4 +19,12 @@ export const checkAuth = (setAuth) => {
   } else {
     setAuth(false);
   }
-}
+};
+
+const getAuthToken = () => localStorage.getItem('auth_token');
+
+const setAuthToken = (token) => localStorage.setItem('auth_token', token);
+
+const removeAuthToken = () => localStorage.removeItem('auth_token');
+
+export { checkAuth, getAuthToken, setAuthToken, removeAuthToken };

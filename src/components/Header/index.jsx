@@ -23,6 +23,7 @@ import { Settings } from '../../settings/settings';
 import continueWatchingImage from '../../assets/img/continueWatchingImage.png';
 import { useEffect } from 'react';
 import { lockScroll as _ls } from '../../constF/lockScroll';
+import { getAuthToken, removeAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   header: {
@@ -429,37 +430,7 @@ const useStyles = makeStyles({
     margin: 'auto',
   },
   '@media (max-width: 1599px)': {
-    // header: {
-    //   height: 65,
-    // },
-    // toolbar: {
-    //   paddingLeft: 18,
-    //   paddingRight: 18,
-    // },
-    // logo: {
-    //   width: 59,
-    //   height: 17,
-    //   '& img': {
-    //     width: 59,
-    //     height: 17,
-    //   },
-    // },
-    // login: {
-    //   fontSize: 14,
-    //   height: 16,
-    //   '& svg': {
-    //     marginLeft: 4,
-    //     width: 14,
-    //     height: 14,
-    //   },
-    // },
-    // imageButton: {
-    //   marginLeft: 18,
-    //   '& svg': {
-    //     width: 18,
-    //     height: 18,
-    //   }
-    // }
+    
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
@@ -676,7 +647,7 @@ const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
     // openMenu(false);
     if (!logoutClicked) {
       clickLogout(true);
-      const token = localStorage.getItem('auth_token');
+      const token = getAuthToken();
       axios
         .post(`${Settings.serverUrl}/auth/token/logout/`, null, {
           headers: {
@@ -686,7 +657,7 @@ const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
         .then((response) => {
           clickLogout(false);
           setAuth(false);
-          localStorage.removeItem('auth_token');
+          removeAuthToken();
         })
     }
   };

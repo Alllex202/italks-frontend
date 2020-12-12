@@ -41,6 +41,11 @@ const Main = (props) => {
             <Overview />
           </Route>
 
+          
+          <Route exact path="/favourites">
+            <PageFavourite />
+          </Route>
+
           <Route exact path={[
             "/category/:categoryId/subcategory/:subcategoryId",
             "/category/:categoryId",
@@ -114,6 +119,15 @@ const PageSearch = (props) => {
         key={key}
         searchQuery={searchQuery[1]}
       />
+  )
+};
+
+const PageFavourite = () => {
+  return (
+    <VideoList
+      url={`${Settings.serverUrl}/favorites/video/`}
+      title={'Избранное'}
+    />
   )
 };
 

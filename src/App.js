@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Settings } from './settings/settings';
 
 import { Context } from './components/Context/index';
-import { checkAuth } from './auth/checkAuth';
+import { checkAuth } from './auth/Auth';
 import { SiteRouting } from './routing';
 
 const App = (props) => {

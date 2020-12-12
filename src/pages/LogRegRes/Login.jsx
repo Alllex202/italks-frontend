@@ -12,6 +12,7 @@ import { Link as RLink, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { Context } from '../../components/Context/index.jsx';
+import { setAuthToken } from '../../auth/Auth';
 
 const useStyle = makeStyles({
   login: {
@@ -96,7 +97,7 @@ const Login = ({ loginFor }) => {
         setEmail('');
         setPassword('');
         // Записать токен
-        localStorage.setItem('auth_token', response.data.auth_token);
+        setAuthToken(response.data.auth_token);
         setAuth(true);
         // Перенаправить на главную
         history.push('/');
