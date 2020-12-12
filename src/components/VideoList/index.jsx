@@ -156,7 +156,8 @@ const VideoList = ({
   period,
   searchQuery,
   setNumberSearchResults,
-  title
+  title,
+  url
 }) => {
   const classes = useStyles();
   // const [isFirstLoading, setFirstLoading] = React.useState(true);
@@ -170,66 +171,21 @@ const VideoList = ({
 
   const getNewVideos = () => {
     setLoading(true);
-    if (searchQuery) {
-      axios
-        .get(`${Settings.serverUrl}/search/`, {
-          params: {
-            query: searchQuery,
-            page: numberPage,
-            order_by: sortName,
-          },
-        })
-        .then(response => {
-          // console.log(response)
-          setNumberSearchResults(response.data.count)
-          setLastPageServer(response.data.is_last_page);
-          setVideos([...videos, ...response.data.videos_page])
-          setLoading(false);
-        })
-        .catch(e => {
-          setLoading(false);
-        });
-    } else {
-      if (categoryId || (categoryId && subcategoryId)) {
-        axios
-          .get(`${Settings.serverUrl}/video/sorted/${categoryId}/`, {
-            params: {
-              period: period,
-              page: numberPage,
-              subcategory: subcategoryId,
-              order_by: sortName,
-            }
-          })
-          .then(response => {
-            // console.log(response.data)
-            setLastPageServer(response.data.is_last_page);
-            setVideos([...videos, ...response.data.videos_page]);
-            setLoading(false);
-          })
-          .catch(error => {
-            setLoading(false);
-          });
-      } else {
-        axios
-          .get(`${Settings.serverUrl}/video/`, {
-            params: {
-              period: period,
-              page: numberPage,
-              order_by: sortName,
-            }
-          })
-          .then(response => {
-            // console.log(response.data)
-            setLastPageServer(response.data.is_last_page);
-            setVideos([...videos, ...response.data.videos_page]);
-            setLoading(false);
-          })
-          .catch(error => {
-            setLoading(false);
-          });
-      }
-    }
-  }
+    axios.get(url, {
+      params: {
+        query: searchQuery,
+        page: numberPage,
+        order_by: sortName,
+        period: period,
+        subcategory: subcategoryId,
+      },
+    }).then(response => {
+      setNumberSearchResults && setNumberSearchResults(response.data.count)
+      setLastPageServer(response.data.is_last_page);
+      setVideos([...videos, ...response.data.videos_page])
+      setLoading(false);
+    })
+  };
 
   const lockScroll = () => _ls(currentScroll);
 

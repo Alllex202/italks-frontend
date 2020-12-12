@@ -2,7 +2,9 @@ import React from 'react';
 import { Switch, Route, useParams, useLocation, Redirect } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Category, Overview, Search, Videos } from '../../pages';
+import { Category, Overview, Search } from '../../pages';
+import { VideoList } from '..';
+import { Settings } from '../../settings/settings';
 
 const useStyles = makeStyles({
   main: {
@@ -48,10 +50,15 @@ const Main = (props) => {
 
           <Route exact path={[
             "/overview/:period",
+          ]}>
+            <PageOverviewPeriod />
+          </Route>
+
+          <Route exact path={[
             "/:period/category/:categoryId/subcategory/:subcategoryId",
             "/:period/category/:categoryId",
           ]}>
-            <PageVideos />
+            <PageCategoryPeriod />
           </Route>
 
           <Route exact path={'/results'}>
@@ -59,7 +66,7 @@ const Main = (props) => {
           </Route>
 
           <Route>
-            <>Страница не найдена</>
+            <PageNotFind />
           </Route>
 
         </Switch>
@@ -68,10 +75,31 @@ const Main = (props) => {
   )
 };
 
-const PageVideos = (props) => {
+const PageOverviewPeriod = (props) => {
   const { period } = useParams();
   return (period === 'week' || period === 'month' || period === 'year') && (
-    <Videos />
+    <VideoList
+      url={`${Settings.serverUrl}/video/`}
+      title={(period === 'week' && 'На этой неделе')
+        || (period === 'month' && 'В этом месяце')
+        || (period === 'year' && 'В этом году')}
+      period={period}
+    />
+  )
+};
+
+const PageCategoryPeriod = (props) => {
+  const { period, categoryId, subcategoryId } = useParams();
+  return (period === 'week' || period === 'month' || period === 'year') && (
+    <VideoList
+      url={`${Settings.serverUrl}/video/sorted/${categoryId}/`}
+      title={(period === 'week' && 'На этой неделе')
+        || (period === 'month' && 'В этом месяце')
+        || (period === 'year' && 'В этом году')}
+      categoryId={categoryId}
+      subcategoryId={subcategoryId}
+      period={period}
+    />
   )
 };
 
@@ -79,7 +107,7 @@ const PageSearch = (props) => {
   const location = useLocation();
   const searchQuery = location.search.split('?search_query=');
   const key = Math.floor(Math.random() * Math.floor(9999999));
-  console.log(11)
+  // console.log(11)
   // console.log(searchQuery)
   return (
     !(searchQuery.length === 2 && searchQuery[1] !== '')
@@ -88,6 +116,12 @@ const PageSearch = (props) => {
         key={key}
         searchQuery={searchQuery[1]}
       />
+  )
+};
+
+const PageNotFind = () => {
+  return (
+    <>Страница не найдена</>
   )
 };
 

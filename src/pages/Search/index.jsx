@@ -67,6 +67,7 @@ const Search = ({ searchQuery: _searchQuery }) => {
           )
         } */}
         <VideoList
+          url={`${Settings.serverUrl}/search/`}
           title={'Видео'}
           searchQuery={searchQuery}
           setNumberSearchResults={setNumberSearchResults}
