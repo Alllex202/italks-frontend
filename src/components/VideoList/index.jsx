@@ -12,6 +12,7 @@ import { Settings } from '../../settings/settings';
 import { ClickAwayListener, makeStyles } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { RoundedButton, VideoItem } from '../../components';
+import { lockScroll as _ls } from '../../constF/lockScroll';
 
 const useStyles = makeStyles({
   viedoList: {
@@ -80,15 +81,30 @@ const useStyles = makeStyles({
     zIndex: 10,
   },
   sortMenuItem: {
-    padding: '16px 0 16px 18px',
+    // padding: '16px 0 16px 18px',
+    // height: '100%',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: '14px',
     lineHeight: '16px',
     backgroundColor: 'transparent',
     color: SD.basic.colors.main.black,
-    cursor: 'pointer',
+    // cursor: 'pointer',
     transition: 'color .3s, background-color .3s',
+    '& > label': {
+      display: 'inline-block',
+      padding: '16px 0 16px 18px',
+      width: '100%',
+      cursor: 'pointer',
+      '& > input': {
+        display: 'none',
+        '&:checked': {
+          '& ~ span': {
+            color: SD.basic.colors.main.violetDark,
+          }
+        },
+      },
+    },
     '&:hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
     },
@@ -136,11 +152,14 @@ const VideoList = ({
   title
 }) => {
   const classes = useStyles();
-  const [isOpenedSortMenu, openSortMenu] = React.useState(false);
+  const [isFirstLoading, setFirstLoading] = React.useState(true);
+  const [isOpenedSortMenu, setOpenSortMenu] = React.useState(false);
   const [videos, setVideos] = React.useState([]);
   const [numberPage, setNumberPage] = React.useState(1);
   const [isLastPageServer, setLastPageServer] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
+  const [currentScroll, setScroll] = React.useState(0);
+  const [sortName, setSortName] = React.useState('new_date');
 
   const getNewVideos = () => {
     setLoading(true);
@@ -150,6 +169,7 @@ const VideoList = ({
           params: {
             query: searchQuery,
             page: numberPage,
+            order_by: sortName,
           },
         })
         .then(response => {
@@ -173,6 +193,7 @@ const VideoList = ({
               period: period,
               page: numberPage,
               subcategory: subcategoryId,
+              order_by: sortName,
             }
           })
           .then(response => {
@@ -193,6 +214,7 @@ const VideoList = ({
             params: {
               period: period,
               page: numberPage,
+              order_by: sortName,
             }
           })
           .then(response => {
@@ -211,12 +233,22 @@ const VideoList = ({
     }
   }
 
+  const lockScroll = () => _ls(currentScroll);
+
   const closeSortMenu = () => {
-    openSortMenu(false);
+    setOpenSortMenu(false);
+  };
+
+  const openSortMenu = () => {
+    setOpenSortMenu(true);
   };
 
   const handlerOnClickSortTitle = () => {
-    openSortMenu(!isOpenedSortMenu);
+    if (isOpenedSortMenu) {
+      closeSortMenu();
+    } else {
+      openSortMenu();
+    }
   };
 
   const handlerOnClickBtnMore = () => {
@@ -225,53 +257,60 @@ const VideoList = ({
     }
   };
 
+  const onClickSortItem = (sortName) => {
+    setSortName(sortName);
+    setVideos([]);
+    setNumberPage(1);
+    setLastPageServer(false);
+    setLoading(true);
+    setScroll(0);
+    closeSortMenu();
+    setFirstLoading(true);
+    // getNewVideos()
+  };
+
   React.useEffect(() => {
-    getNewVideos()
+    if (isFirstLoading) {
+      getNewVideos();
+      setFirstLoading(false);
+    }
     // console.log(videos)
-  }, []);
+  }, [isFirstLoading]);
 
   return (
-    !isLoading &&
+    // !isLoading &&
     <div className={classes.viedoList}>
-      <div className={classes.title}>
-        <h3 className={classes.titleName}>{title}</h3>
-        <ClickAwayListener onClickAway={closeSortMenu}>
-
-          <div className={classNames('unselected', classes.sort)}>
-            <div
-              className={classNames(classes.sortTitle)}
-              onClick={handlerOnClickSortTitle}
-            >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.75 10.5H5.25V9.33333H1.75V10.5ZM1.75 3.5V4.66667H12.25V3.5H1.75ZM1.75 7.58333H8.75V6.41667H1.75V7.58333Z" fill="#828588" />
-              </svg>
-              <span>Упорядочить</span>
+      {
+        videos && videos.length > 0 &&
+        <div className={classes.title}>
+          <h3 className={classes.titleName}>{title}</h3>
+          <ClickAwayListener onClickAway={closeSortMenu}>
+            <div className={classNames('unselected', classes.sort)}>
+              <div
+                className={classNames(classes.sortTitle)}
+                onClick={handlerOnClickSortTitle}
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.75 10.5H5.25V9.33333H1.75V10.5ZM1.75 3.5V4.66667H12.25V3.5H1.75ZM1.75 7.58333H8.75V6.41667H1.75V7.58333Z" fill="#828588" />
+                </svg>
+                <span>Упорядочить</span>
+              </div>
+              {
+                isOpenedSortMenu && <SortMenu
+                  classes={classes}
+                  setScroll={setScroll}
+                  lockScroll={lockScroll}
+                  currentScroll={currentScroll}
+                  setOpenSortMenu={setOpenSortMenu}
+                  onClickSortItem={onClickSortItem}
+                  sortName={sortName}
+                />
+              }
             </div>
-            <CSSTransition
-              in={isOpenedSortMenu}
-              timeout={300}
-              classNames="animation-fast"
-              unmountOnExit
-            >
-              <ul className={classes.sortMenu}>
-                {
-                  [
-                    'По длительности',
-                    'По названию',
-                    'Сначала старые',
-                    'Сначала новые'
-                  ].map((el, ind) => (
-                    <li key={ind} className={classNames(classes.sortMenuItem, ind === 1 && classes.sortMenuItemSelect)}>
-                      {el}
-                    </li>
-                  ))
-                }
-              </ul>
-            </CSSTransition>
-          </div>
-        </ClickAwayListener>
+          </ClickAwayListener>
 
-      </div>
+        </div>
+      }
       <div className={classes.videoGrid}>
         {
           videos && videos.length > 0 && videos.map(video => (
@@ -289,10 +328,11 @@ const VideoList = ({
       </div>
       <div>
         {
-          !isLastPageServer &&
+          videos && videos.length > 0 && !isLastPageServer &&
           <RoundedButton
             className={classes.btnMore}
             onClick={handlerOnClickBtnMore}
+            disabled={isLoading}
           >
             {'Показать ещё'}
           </RoundedButton>
@@ -303,3 +343,74 @@ const VideoList = ({
 };
 
 export default VideoList;
+
+const SortMenu = ({
+  classes,
+  setScroll,
+  lockScroll,
+  setOpenSortMenu,
+  onClickSortItem,
+  sortName,
+}) => {
+  React.useEffect(() => {
+    const scroll = parseInt(window.pageYOffset);
+    setScroll(scroll);
+    document.addEventListener('scroll', lockScroll);
+
+    return () => {
+      document.removeEventListener('scroll', lockScroll);
+    }
+  });
+
+  return (
+
+    // <CSSTransition
+    //   in={isOpenedSortMenu}
+    //   timeout={300}
+    //   classNames="animation-fast"
+    //   unmountOnExit
+    // >
+    <ul className={classes.sortMenu}>
+      {
+        [
+          {
+            id: 1,
+            text: 'По длительности',
+            sortName: 'duration'
+          },
+          {
+            id: 2,
+            text: 'По названию',
+            sortName: 'name'
+          },
+          {
+            id: 3,
+            text: 'Сначала старые',
+            sortName: 'old_date'
+          },
+          {
+            id: 4,
+            text: 'Сначала новые',
+            sortName: 'new_date'
+          }
+        ].map((el) => (
+          <li
+            key={el.id}
+            className={classNames(classes.sortMenuItem)}
+            onClick={() => onClickSortItem(el.sortName)}
+          >
+            <label>
+              {
+                el.sortName === sortName
+                  ? <input type='radio' name='sort' defaultChecked />
+                  : <input type='radio' name='sort' />
+              }
+              <span>{el.text}</span>
+            </label>
+          </li>
+        ))
+      }
+    </ul>
+    // </CSSTransition>
+  )
+}

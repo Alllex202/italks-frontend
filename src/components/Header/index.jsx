@@ -22,6 +22,7 @@ import { Settings } from '../../settings/settings';
 
 import continueWatchingImage from '../../assets/img/continueWatchingImage.png';
 import { useEffect } from 'react';
+import { lockScroll as _ls } from '../../constF/lockScroll';
 
 const useStyles = makeStyles({
   header: {
@@ -488,7 +489,8 @@ const Header = (props) => {
     setInputSearch('');
   }
 
-  const actionScroll = () => window.scrollTo({ top: currentScroll });
+  // const actionScroll = () => window.scrollTo({ top: currentScroll });
+  const lockScroll = () => _ls(currentScroll);
 
   return (
     <React.Fragment>
@@ -560,7 +562,7 @@ const Header = (props) => {
                               infoUser={infoUser}
                               openNotifications={openNotifications}
                               notificationsOpened={notificationsOpened}
-                              actionScroll={actionScroll}
+                              lockScroll={lockScroll}
                               setScroll={setScroll}
                               currentScroll={currentScroll}
                             />)
@@ -582,8 +584,9 @@ const Header = (props) => {
                             menuOpened && (<HeaderMenu
                               menuOpened={menuOpened}
                               openMenu={openMenu}
-                              actionScroll={actionScroll}
+                              lockScroll={lockScroll}
                               setScroll={setScroll}
+                              currentScroll={currentScroll}
                             />)
                           }
                         </div>
@@ -613,16 +616,16 @@ export default Header;
 
 
 const Notifications = ({ infoUser, openNotifications, notificationsOpened,
-  actionScroll, setScroll }) => {
+  lockScroll, setScroll }) => {
   const classes = useStyles();
 
   useEffect(() => {
     const scroll = parseInt(window.pageYOffset);
     setScroll(scroll);
-    document.addEventListener('scroll', actionScroll);
+    document.addEventListener('scroll', lockScroll);
 
     return () => {
-      document.removeEventListener('scroll', actionScroll);
+      document.removeEventListener('scroll', lockScroll);
     }
   });
 
@@ -664,7 +667,7 @@ const Notifications = ({ infoUser, openNotifications, notificationsOpened,
   )
 };
 
-const HeaderMenu = ({ menuOpened, openMenu, actionScroll, setScroll }) => {
+const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
   const classes = useStyles();
   const { setAuth } = useContext(Context);
   const [logoutClicked, clickLogout] = React.useState(false);
@@ -691,10 +694,10 @@ const HeaderMenu = ({ menuOpened, openMenu, actionScroll, setScroll }) => {
   useEffect(() => {
     const scroll = parseInt(window.pageYOffset);
     setScroll(scroll);
-    document.addEventListener('scroll', actionScroll);
+    document.addEventListener('scroll', lockScroll);
 
     return () => {
-      document.removeEventListener('scroll', actionScroll);
+      document.removeEventListener('scroll', lockScroll);
     }
   });
 
