@@ -36,8 +36,8 @@ const SiteRouting = () => {
       <Route path={['/restore']}>
         <Redirect to={'/restore'} />
       </Route>
-      <Route exact path={'/overview'}>
-        <Redirect to='/' />
+      <Route exact path={'/'}>
+        <Redirect to='/overview' />
       </Route>
       <Route>
         <Header />

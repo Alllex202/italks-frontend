@@ -37,7 +37,7 @@ const Main = (props) => {
     <div className={classes.main}>
       <div className={classes.mainContainer}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/overview">
             <Overview />
           </Route>
 
@@ -107,8 +107,6 @@ const PageSearch = (props) => {
   const location = useLocation();
   const searchQuery = location.search.split('?search_query=');
   const key = Math.floor(Math.random() * Math.floor(9999999));
-  // console.log(11)
-  // console.log(searchQuery)
   return (
     !(searchQuery.length === 2 && searchQuery[1] !== '')
       ? <Redirect to='/' />
