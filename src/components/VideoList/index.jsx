@@ -35,6 +35,13 @@ const useStyles = makeStyles({
   sort: {
     position: 'relative',
   },
+  sortOpened: {
+    '& > $sortTitle': {
+      '$ > span': {
+        color: SD.basic.colors.main.violetDark,
+      },
+    },
+  },
   sortTitle: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -285,7 +292,7 @@ const VideoList = ({
         <div className={classes.title}>
           <h3 className={classes.titleName}>{title}</h3>
           <ClickAwayListener onClickAway={closeSortMenu}>
-            <div className={classNames('unselected', classes.sort)}>
+            <div className={classNames('unselected', classes.sort, isOpenedSortMenu ? classes.sortOpened : '')}>
               <div
                 className={classNames(classes.sortTitle)}
                 onClick={handlerOnClickSortTitle}
