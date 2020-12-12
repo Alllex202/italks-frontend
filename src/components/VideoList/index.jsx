@@ -159,7 +159,7 @@ const VideoList = ({
   title
 }) => {
   const classes = useStyles();
-  const [isFirstLoading, setFirstLoading] = React.useState(true);
+  // const [isFirstLoading, setFirstLoading] = React.useState(true);
   const [isOpenedSortMenu, setOpenSortMenu] = React.useState(false);
   const [videos, setVideos] = React.useState([]);
   const [numberPage, setNumberPage] = React.useState(1);
@@ -184,9 +184,6 @@ const VideoList = ({
           setNumberSearchResults(response.data.count)
           setLastPageServer(response.data.is_last_page);
           setVideos([...videos, ...response.data.videos_page])
-          if (!response.data.is_last_page) {
-            setNumberPage(numberPage + 1);
-          }
           setLoading(false);
         })
         .catch(e => {
@@ -207,9 +204,6 @@ const VideoList = ({
             // console.log(response.data)
             setLastPageServer(response.data.is_last_page);
             setVideos([...videos, ...response.data.videos_page]);
-            if (!response.data.is_last_page) {
-              setNumberPage(numberPage + 1);
-            }
             setLoading(false);
           })
           .catch(error => {
@@ -228,9 +222,6 @@ const VideoList = ({
             // console.log(response.data)
             setLastPageServer(response.data.is_last_page);
             setVideos([...videos, ...response.data.videos_page]);
-            if (!response.data.is_last_page) {
-              setNumberPage(numberPage + 1);
-            }
             setLoading(false);
           })
           .catch(error => {
@@ -260,7 +251,8 @@ const VideoList = ({
 
   const handlerOnClickBtnMore = () => {
     if (!isLastPageServer && !isLoading) {
-      getNewVideos();
+      setNumberPage(numberPage + 1);
+      // getNewVideos();
     }
   };
 
@@ -272,17 +264,11 @@ const VideoList = ({
     setLoading(true);
     setScroll(0);
     closeSortMenu();
-    setFirstLoading(true);
-    // getNewVideos()
   };
 
   React.useEffect(() => {
-    if (isFirstLoading) {
-      getNewVideos();
-      setFirstLoading(false);
-    }
-    // console.log(videos)
-  }, [isFirstLoading]);
+    getNewVideos();
+  }, [sortName, numberPage]);
 
   return (
     // !isLoading &&
