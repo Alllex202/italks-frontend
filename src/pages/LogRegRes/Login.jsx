@@ -92,10 +92,10 @@ const Login = ({ loginFor }) => {
         password: password,
       })
       .then(response => {
-        setEmailError('');
-        setPasswordError('');
-        setEmail('');
-        setPassword('');
+        // setEmailError('');
+        // setPasswordError('');
+        // setEmail('');
+        // setPassword('');
         // Записать токен
         setAuthToken(response.data.auth_token);
         setAuth(true);

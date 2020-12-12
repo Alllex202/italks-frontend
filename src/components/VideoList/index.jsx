@@ -15,7 +15,7 @@ import { RoundedButton, VideoItem } from '../../components';
 import { lockScroll as _ls } from '../../constF/lockScroll';
 
 const useStyles = makeStyles({
-  viedoList: {
+  videoList: {
     display: 'flex',
     flexDirection: 'column',
   },
@@ -157,7 +157,9 @@ const VideoList = ({
   searchQuery,
   setNumberSearchResults,
   title,
-  url
+  url,
+  setAuthenticated,
+  headers
 }) => {
   const classes = useStyles();
   // const [isFirstLoading, setFirstLoading] = React.useState(true);
@@ -179,12 +181,23 @@ const VideoList = ({
         period: period,
         subcategory: subcategoryId,
       },
-    }).then(response => {
-      setNumberSearchResults && setNumberSearchResults(response.data.count)
-      setLastPageServer(response.data.is_last_page);
-      setVideos([...videos, ...response.data.videos_page])
-      setLoading(false);
+      headers: headers,
     })
+      .then(response => {
+        setAuthenticated && setAuthenticated(true);
+        setNumberSearchResults && setNumberSearchResults(response.data.count)
+        setLastPageServer(response.data.is_last_page);
+        setVideos([...videos, ...response.data.videos_page])
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error)
+        setAuthenticated
+          && error
+          && error.response
+          && error.response.status === 401
+          && setAuthenticated(false)
+      })
   };
 
   const lockScroll = () => _ls(currentScroll);
@@ -228,7 +241,7 @@ const VideoList = ({
 
   return (
     // !isLoading &&
-    <div className={classes.viedoList}>
+    <div className={classes.videoList}>
       {
         videos && videos.length > 0 &&
         <div className={classes.title}>

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Switch, Route, useParams, useLocation, Redirect } from 'react-router-dom';
+import { Switch, Route, useParams, useLocation, Redirect, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Category, Overview, Search } from '../../pages';
 import { VideoList } from '..';
 import { Settings } from '../../settings/settings';
+import { getAuthToken } from '../../auth/Auth';
+import { Context } from '../Context';
 
 const useStyles = makeStyles({
   main: {
@@ -41,7 +43,7 @@ const Main = (props) => {
             <Overview />
           </Route>
 
-          
+
           <Route exact path="/favourites">
             <PageFavourite />
           </Route>
@@ -123,17 +125,36 @@ const PageSearch = (props) => {
 };
 
 const PageFavourite = () => {
+  const token = getAuthToken();
+  const { auth } = React.useContext(Context);
+  const [isAuthenticated, setAuthenticated] = React.useState(true);
   return (
-    <VideoList
-      url={`${Settings.serverUrl}/favorites/video/`}
-      title={'Избранное'}
-    />
+    auth && isAuthenticated
+      ? <VideoList
+        url={`${Settings.serverUrl}/favorites/video/`}
+        headers={{
+          'Authorization': `Token ${token}`,
+        }}
+        title={'Избранное'}
+        setAuthenticated={setAuthenticated}
+      />
+      : <PagePromo />
   )
 };
 
 const PageNotFind = () => {
   return (
     <>Страница не найдена</>
+  )
+};
+
+const PagePromo = () => {
+  return (
+    <div>
+      <p>Все конференции из мира IT в одном месте</p>
+      <p>Войдите, чтобы отслеживать категории и добавлять видео в избранное</p>
+      <Link to='/login'>Войти</Link>
+    </div>
   )
 };
 
