@@ -4,7 +4,7 @@ import {stylesDictionary as SD} from '../../settings/styles';
 
 import axios from 'axios';
 
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { RoundedButton, RoundedInput, RoundedInputWithErrors } from '../../components';
 
@@ -160,14 +160,10 @@ const Register = () => {
           ))
         || (stepRegistration === 2
           && (
-            <Typography
-              align='left'
-              display='block'
-              className={classes.message}
-            >
+            <span className={classes.message}>
               {username}, мы отправили Вам email со ссылкой для подтверждения.
               Вы можете закрыть эту вкладку и проверить почту.
-            </Typography>
+            </span>
           ))
       }
     </div>

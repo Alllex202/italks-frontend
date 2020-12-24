@@ -8,7 +8,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Link, Typography, ClickAwayListener, Divider } from '@material-ui/core';
+import { ClickAwayListener, Divider } from '@material-ui/core';
 import { HideOnScroll } from '..';
 import HeaderSearch from '../HeaderSearch';
 
@@ -164,7 +164,7 @@ const useStyles = makeStyles({
   },
   imageButtonBlock: {
     margin: 0,
-    marginLeft: 18,
+    // marginLeft: 18,
     '& > a': {
       margin: 0,
     },
@@ -253,6 +253,7 @@ const useStyles = makeStyles({
     }
   },
   notificationsBlock: {
+    backgroundColor: SD.basic.colors.main.white,
     // overflowX: 'hidden',
     padding: '18px 0',
   },
@@ -486,11 +487,11 @@ const Header = (props) => {
                           <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
                         </svg>
                       </RLink>
-                      <Link className={classes.imageButton} onClick={handleOpenSearch}>
+                      <span className={classes.imageButton} onClick={handleOpenSearch}>
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M20.6667 18.6667H19.6133L19.24 18.3067C20.5467 16.7867 21.3333 14.8133 21.3333 12.6667C21.3333 7.88 17.4533 4 12.6667 4C7.88 4 4 7.88 4 12.6667C4 17.4533 7.88 21.3333 12.6667 21.3333C14.8133 21.3333 16.7867 20.5467 18.3067 19.24L18.6667 19.6133V20.6667L25.3333 27.32L27.32 25.3333L20.6667 18.6667ZM12.6667 18.6667C9.34667 18.6667 6.66667 15.9867 6.66667 12.6667C6.66667 9.34667 9.34667 6.66667 12.6667 6.66667C15.9867 6.66667 18.6667 9.34667 18.6667 12.6667C18.6667 15.9867 15.9867 18.6667 12.6667 18.6667Z" fill="#828588" />
                         </svg>
-                      </Link>
+                      </span>
                     </React.Fragment>)
                     : (<React.Fragment>
                       <div className={classNames(classes.containerBlock, classes.continueWatchingBlock)}>
@@ -520,14 +521,14 @@ const Header = (props) => {
                       </div>
                       <ClickAwayListener onClickAway={() => openNotifications(false)}>
                         <div className={classNames(classes.containerBlock, classes.imageButtonBlock)}>
-                          <Link
+                          <span
                             className={classNames(classes.imageButton, notificationsOpened && classes.imageButtonActive, notificationsOpened && classes.imageButtonActiveNotifications)}
                             onClick={() => openNotifications(!notificationsOpened)}
                           >
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M9 16.5C9.825 16.5 10.5 15.825 10.5 15H7.5C7.5 15.825 8.1675 16.5 9 16.5ZM13.5 12V8.25C13.5 5.9475 12.27 4.02 10.125 3.51V3C10.125 2.3775 9.6225 1.875 9 1.875C8.3775 1.875 7.875 2.3775 7.875 3V3.51C5.7225 4.02 4.5 5.94 4.5 8.25V12L3 13.5V14.25H15V13.5L13.5 12Z" fill="black" />
                             </svg>
-                          </Link>
+                          </span>
                           {
                             notificationsOpened && (<Notifications
                               infoUser={infoUser}
@@ -543,14 +544,14 @@ const Header = (props) => {
 
                       <ClickAwayListener onClickAway={() => openMenu(false)}>
                         <div className={classNames(classes.containerBlock, classes.imageButtonBlock)}>
-                          <Link
+                          <span
                             className={classNames(classes.imageButton, menuOpened && classes.imageButtonActive, menuOpened && classes.imageButtonActiveMenu)}
                             onClick={() => openMenu(!menuOpened)}
                           >
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M6.75 8.8125C6.2325 8.8125 5.8125 9.2325 5.8125 9.75C5.8125 10.2675 6.2325 10.6875 6.75 10.6875C7.2675 10.6875 7.6875 10.2675 7.6875 9.75C7.6875 9.2325 7.2675 8.8125 6.75 8.8125ZM11.25 8.8125C10.7325 8.8125 10.3125 9.2325 10.3125 9.75C10.3125 10.2675 10.7325 10.6875 11.25 10.6875C11.7675 10.6875 12.1875 10.2675 12.1875 9.75C12.1875 9.2325 11.7675 8.8125 11.25 8.8125ZM9 1.5C4.86 1.5 1.5 4.86 1.5 9C1.5 13.14 4.86 16.5 9 16.5C13.14 16.5 16.5 13.14 16.5 9C16.5 4.86 13.14 1.5 9 1.5ZM9 15C5.6925 15 3 12.3075 3 9C3 8.7825 3.015 8.565 3.0375 8.355C4.8075 7.5675 6.21 6.12 6.945 4.3275C8.3025 6.2475 10.5375 7.5 13.065 7.5C13.65 7.5 14.2125 7.4325 14.7525 7.305C14.91 7.8375 15 8.4075 15 9C15 12.3075 12.3075 15 9 15Z" fill="black" />
                             </svg>
-                          </Link>
+                          </span>
                           {
                             menuOpened && (<HeaderMenu
                               menuOpened={menuOpened}
@@ -563,11 +564,11 @@ const Header = (props) => {
                         </div>
                       </ClickAwayListener>
 
-                      <Link className={classes.imageButton} onClick={handleOpenSearch}>
+                      <span className={classes.imageButton} onClick={handleOpenSearch}>
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M20.6667 18.6667H19.6133L19.24 18.3067C20.5467 16.7867 21.3333 14.8133 21.3333 12.6667C21.3333 7.88 17.4533 4 12.6667 4C7.88 4 4 7.88 4 12.6667C4 17.4533 7.88 21.3333 12.6667 21.3333C14.8133 21.3333 16.7867 20.5467 18.3067 19.24L18.6667 19.6133V20.6667L25.3333 27.32L27.32 25.3333L20.6667 18.6667ZM12.6667 18.6667C9.34667 18.6667 6.66667 15.9867 6.66667 12.6667C6.66667 9.34667 9.34667 6.66667 12.6667 6.66667C15.9867 6.66667 18.6667 9.34667 18.6667 12.6667C18.6667 15.9867 15.9867 18.6667 12.6667 18.6667Z" fill="#828588" />
                         </svg>
-                      </Link>
+                      </span>
                     </React.Fragment>)
                 }
               </Toolbar>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { stylesDictionary as SD } from '../../settings/styles';
 
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import { RoundedButton, RoundedInputWithErrors } from '../../components';
 
@@ -147,14 +147,10 @@ const Restore = () => {
           ))
         || (stepRestore === 2
           && (
-            <Typography
-              align='left'
-              display='block'
-              className={classes.message}
-            >
+            <span className={classes.message}>
               Мы отправили Вам email с инструкциями для восстановления пароля.
               Вы можете закрыть эту вкладку и проверить почту.
-            </Typography>
+            </span>
           ))
       }
     </div>
