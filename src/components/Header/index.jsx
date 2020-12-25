@@ -180,11 +180,11 @@ const useStyles = makeStyles({
     },
   },
   continueWatchingButton: {
-  },
-  continueWatchingRoot: {
+    height: 32,
+    width: 180,
     backgroundColor: 'transparent',
     border: '1px solid #000000',
-    '&:hover, &:focus': {
+    '&:hover': {
       backgroundColor: SD.basic.colors.main.violetDark,
       borderColor: SD.basic.colors.main.violetDark,
       '& span': {
@@ -243,7 +243,7 @@ const useStyles = makeStyles({
 
   notificationsWrapper: {
     top: 42,
-    left: '-213px',
+    left: '-197px',
     '&::before': {
 
     },
@@ -329,7 +329,7 @@ const useStyles = makeStyles({
 
   menuWrapper: {
     top: 42,
-    left: -173,
+    left: -155,
     '&::after': {
       top: -20,
       left: 172,
@@ -499,7 +499,6 @@ const Header = (props) => {
                           onClick={() => console.log('Продолжить просмотр')}
                           className={classes.continueWatchingButton}
                           classes={{
-                            root: classes.continueWatchingRoot,
                             label: classes.continueWatchingLabel,
                           }}
                         >

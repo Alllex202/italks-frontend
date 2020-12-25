@@ -5,7 +5,7 @@ import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { List, ListItem, ListItemIcon, ListItemText, Button, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 
 import { Link as RLink, useLocation, useParams } from 'react-router-dom';
 
@@ -14,12 +14,16 @@ const useStyles = makeStyles({
     padding: 0,
   },
   listLinksItem: {
+    display: 'flex',
+    alignItems: 'center',
     height: 42,
     paddingLeft: 18,
+    paddingRight: 18,
     backgroundColor: 'transparent',
     color: SD.basic.colors.main.blackLight,
-    transition: '.2s all',
+    transition: '.2s background-color, .2s color, .3s height, .3s opacity',
     cursor: 'pointer',
+    overflow: 'hidden',
     '&:hover, &:focus': {
       backgroundColor: SD.basic.colors.translucent.violet,
     },
@@ -29,6 +33,9 @@ const useStyles = makeStyles({
         fill: SD.basic.colors.main.violetDark,
       }
     },
+  },
+  listLinksItemHidden: {
+    height: 0,
   },
   listLinksIcon: {
     width: 18,
@@ -46,6 +53,11 @@ const useStyles = makeStyles({
     },
   },
   listLinksText: {
+    display: '-webkit-box',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: '1',
     fontFamily: SD.basic.fontsFamily.JetBrainsMono,
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -64,93 +76,54 @@ const useStyles = makeStyles({
     textDecoration: 'none',
   },
   listLinksClose: {
-    '& > a:nth-child(n+5)': {
-      display: 'none',
+    '& > ul:nth-child(n+5)': {
+      '& > a > span': {
+        height: 0,
+        opacity: 0,
+      },
     },
   },
-  buttonShowMoreRoot: {
-    justifyContent: 'start',
+  buttonShowMore: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     height: 42,
     width: '100%',
     paddingLeft: 18,
+    paddingRight: 18,
     backgroundColor: 'transparent',
-    color: SD.basic.colors.main.grey,
     transition: '.2s all',
     textTransform: 'none',
+    border: 'none',
+    outline: 'none',
     cursor: 'pointer',
+    '& > svg': {
+      width: 18,
+      height: 18,
+      marginRight: 18,
+      transition: '.2s transform',
+      transitionDelay: '.3s',
+      '& path': {
+        transition: '.2s all',
+      },
+    },
     '&:hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
       color: SD.basic.colors.main.violetDark,
-      '& path': {
+      '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
-      }
+      },
     },
     '&:active': {
       color: SD.basic.colors.main.violetDark,
-      '& path': {
+      '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
-      }
-    },
-  },
-  buttonShowMoreLabel: {
-    fontFamily: SD.basic.fontsFamily.Roboto,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '16px',
-  },
-  buttonShowMoreStartIconUp: {
-    width: 18,
-    height: 18,
-    minWidth: 18,
-    minHeight: 18,
-    marginRight: 18,
-    marginLeft: 0,
-    '& path': {
-      transition: '.2s fill',
-      fill: SD.basic.colors.main.grey,
-    },
-    '& svg': {
-      width: 18,
-      height: 18,
-    },
-  },
-  buttonShowMoreStartIconDown: {
-    width: 18,
-    height: 18,
-    minWidth: 18,
-    minHeight: 18,
-    marginRight: 18,
-    marginLeft: 0,
-    transform: 'rotate(180deg)',
-    '& path': {
-      transition: '.2s fill',
-      fill: SD.basic.colors.main.grey,
-    },
-    '& svg': {
-      width: 18,
-      height: 18,
-    },
-  },
-  '@media (max-width: 1599px)': {
-    listLinksItem: {
-      height: 42,
-      paddingLeft: 18,
-    },
-    listLinksIcon: {
-      width: 18,
-      height: 18,
-      minWidth: 18,
-      minHeight: 18,
-      marginRight: 18,
-      '& svg': {
-        width: 18,
-        height: 18,
       },
     },
-    listLinksText: {
-      fontSize: '14px',
-      lineHeight: '17px',
+  },
+  buttonShowMoreClose: {
+    '& > svg': {
+      transform: 'rotate(180deg)',
     },
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
@@ -175,17 +148,16 @@ const ListLinks = ({
   };
 
   return (
-    <List className={classNames(classes.listLinks, showMore && !listOpened && classes.listLinksClose)}>
+    <li className={classNames(classes.listLinks, showMore && !listOpened && classes.listLinksClose)}>
       {
         items
           ? items.map((el, ind) => {
             return (
-              <React.Fragment key={el.id}>
+              <ul key={el.id}>
                 <RLink to={el.href} className={classes.listLinksLink}>
-                  <ListItem
-                    component='span'
-                    classes={{ root: classes.listLinksItem }}
-                    className={
+                  <span
+                    className={classNames(
+                      classes.listLinksItem,
                       (categoryType && categoryId === el.id.toString())
                         || (subcategoryType
                           && ((subcategoryId === el.id.toString() && categoryId === el.categoryId.toString())
@@ -197,27 +169,24 @@ const ListLinks = ({
                               && el.pageName === 'overview')))
                         ? classes.listLinksSelected
                         : ''
-                    }
+                    )}
                     onClick={showSidebarSecondLevel}
                   >
-                    <ListItemIcon
+                    <div
                       className={classes.listLinksIcon}
                       dangerouslySetInnerHTML={el.iconBase64 && { __html: atob(el.iconBase64) }}
                     >
                       {el.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={el.name}
-                      classes={{
-                        primary: classes.listLinksText,
-                      }}
-                    />
-                  </ListItem>
+                    </div>
+                    <span className={classes.listLinksText}>
+                      {el.name}
+                    </span>
+                  </span>
                 </RLink>
                 {
                   divider && <Divider />
                 }
-              </React.Fragment>
+              </ul>
             )
           })
           : 'Загрузка...'
@@ -225,27 +194,25 @@ const ListLinks = ({
       {
         items && showMore && items.length > 4
           ? (
-            <Button
+            <button
+              type='button'
               onClick={handleClickShowMore}
-              disableRipple
-              startIcon={(
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 6L4.5 10.5L5.5575 11.5575L9 8.1225L12.4425 11.5575L13.5 10.5L9 6Z" fill="#828588" />
-                </svg>
+              className={classNames(
+                classes.buttonShowMore,
+                !listOpened ? classes.buttonShowMoreClose : '',
               )}
-              classes={{
-                root: classes.buttonShowMoreRoot,
-                label: classes.buttonShowMoreLabel,
-                startIcon: !listOpened ? classes.buttonShowMoreStartIconDown : classes.buttonShowMoreStartIconUp,
-              }}
-              component='div'
             >
-              {listOpened ? 'Свернуть' : 'Развернуть'}
-            </Button>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6L4.5 10.5L5.5575 11.5575L9 8.1225L12.4425 11.5575L13.5 10.5L9 6Z" fill="#828588" />
+              </svg>
+              <span>
+                {listOpened ? 'Свернуть' : 'Развернуть'}
+              </span>
+            </button>
           )
           : null
       }
-    </List>
+    </li>
   )
 };
 

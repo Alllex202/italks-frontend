@@ -12,7 +12,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Link, Divider, List, ListItem, ListItemIcon, ListItemText, Typography, Button } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 
 import { RoundedButton, ListLinks } from '../';
 
@@ -52,53 +52,91 @@ const useStyles = makeStyles({
       width: 59,
     },
   },
-  buttonMainMenuBackRoot: {
-    justifyContent: 'start',
+  buttonMainMenuBack: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     height: 42,
     width: '100%',
     paddingLeft: 18,
+    paddingRight: 18,
     backgroundColor: 'transparent',
-    color: SD.basic.colors.main.grey,
     transition: '.2s all',
     textTransform: 'none',
+    border: 'none',
+    outline: 'none',
     cursor: 'pointer',
+    '& > svg': {
+      width: 18,
+      height: 18,
+      marginRight: 18,
+      transition: '.2s transform',
+      transitionDelay: '.3s',
+      '& path': {
+        transition: '.2s all',
+      },
+    },
     '&:hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
       color: SD.basic.colors.main.violetDark,
-      '& path': {
+      '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
-      }
+      },
     },
     '&:active': {
       color: SD.basic.colors.main.violetDark,
-      '& path': {
+      '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
-      }
+      },
     },
   },
-  buttonMainMenuBackLabel: {
-    fontFamily: SD.basic.fontsFamily.Roboto,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '16px',
-  },
-  buttonMainMenuBackStartIcon: {
-    width: 18,
-    height: 18,
-    minWidth: 18,
-    minHeight: 18,
-    marginRight: 18,
-    marginLeft: 0,
-    '& path': {
-      transition: '.2s fill',
-      fill: SD.basic.colors.main.grey,
-    },
-    '& svg': {
-      width: 18,
-      height: 18,
-    },
-  },
+  // buttonMainMenuBackRoot: {
+  //   justifyContent: 'start',
+  //   height: 42,
+  //   width: '100%',
+  //   paddingLeft: 18,
+  //   backgroundColor: 'transparent',
+  //   color: SD.basic.colors.main.grey,
+  //   transition: '.2s all',
+  //   textTransform: 'none',
+  //   cursor: 'pointer',
+  //   '&:hover': {
+  //     backgroundColor: SD.basic.colors.translucent.violet,
+  //     color: SD.basic.colors.main.violetDark,
+  //     '& path': {
+  //       fill: SD.basic.colors.main.violetDark,
+  //     }
+  //   },
+  //   '&:active': {
+  //     color: SD.basic.colors.main.violetDark,
+  //     '& path': {
+  //       fill: SD.basic.colors.main.violetDark,
+  //     }
+  //   },
+  // },
+  // buttonMainMenuBackLabel: {
+  //   fontFamily: SD.basic.fontsFamily.Roboto,
+  //   fontStyle: 'normal',
+  //   fontWeight: 'normal',
+  //   fontSize: '14px',
+  //   lineHeight: '16px',
+  // },
+  // buttonMainMenuBackStartIcon: {
+  //   width: 18,
+  //   height: 18,
+  //   minWidth: 18,
+  //   minHeight: 18,
+  //   marginRight: 18,
+  //   marginLeft: 0,
+  //   '& path': {
+  //     transition: '.2s fill',
+  //     fill: SD.basic.colors.main.grey,
+  //   },
+  //   '& svg': {
+  //     width: 18,
+  //     height: 18,
+  //   },
+  // },
   loginBlock: {
     width: '100%',
     // height: 116,
@@ -138,40 +176,40 @@ const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
   },
-  '@media (max-width: 1599px)': {
-    sidebar: {
-      width: 232,
-    },
-    logo: {
-      height: 17,
-      width: 59,
-      marginLeft: 18,
-      marginTop: 24,
-      marginBottom: 23,
-      '& img': {
-        mixBlendMode: 'luminosity',
-        height: 17,
-        width: 59,
-      },
-    },
-    loginBlock: {
-      // height: 116,
-    },
-    loginBlockText: {
+  // '@media (max-width: 1599px)': {
+  //   sidebar: {
+  //     width: 232,
+  //   },
+  //   logo: {
+  //     height: 17,
+  //     width: 59,
+  //     marginLeft: 18,
+  //     marginTop: 24,
+  //     marginBottom: 23,
+  //     '& img': {
+  //       mixBlendMode: 'luminosity',
+  //       height: 17,
+  //       width: 59,
+  //     },
+  //   },
+  //   loginBlock: {
+  //     // height: 116,
+  //   },
+  //   loginBlockText: {
 
-    },
-    titleText: {
-      fontSize: 14,
-      lineHeight: '16px',
-      marginLeft: 18,
-      paddingTop: 13,
-      marginBottom: 13,
-    },
-    loginButton: {
-      width: 96,
-      height: 32,
-    }
-  },
+  //   },
+  //   titleText: {
+  //     fontSize: 14,
+  //     lineHeight: '16px',
+  //     marginLeft: 18,
+  //     paddingTop: 13,
+  //     marginBottom: 13,
+  //   },
+  //   loginButton: {
+  //     width: 96,
+  //     height: 32,
+  //   }
+  // },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
   },
@@ -189,7 +227,7 @@ const mainSidebarItems = [
         <path d="M5.33366 8.00008H2.66699V26.6667C2.66699 28.1334 3.86699 29.3334 5.33366 29.3334H24.0003V26.6667H5.33366V8.00008ZM26.667 2.66675H10.667C9.20033 2.66675 8.00033 3.86675 8.00033 5.33341V21.3334C8.00033 22.8001 9.20033 24.0001 10.667 24.0001H26.667C28.1337 24.0001 29.3337 22.8001 29.3337 21.3334V5.33341C29.3337 3.86675 28.1337 2.66675 26.667 2.66675ZM16.0003 19.3334V7.33342L24.0003 13.3334L16.0003 19.3334Z" fill="#333333" />
       </svg>
     ),
-    href: '/',
+    href: '/overview',
     pageName: 'overview',
   },
   {
@@ -379,13 +417,9 @@ const SidebarFirstLevel = (props) => {
           className={classes.titleText}
         /> */}
 
-        <Typography
-          align='left'
-          display='block'
-          className={classes.titleText}
-        >
+        <div className={classes.titleText}>
           Поиск по категориям
-        </Typography>
+        </div>
 
         <ListLinks
           items={props.categories}
@@ -421,7 +455,22 @@ const SidebarSecondLevel = (props) => {
 
         <Divider />
 
-        <Button
+        <button
+          type='button'
+          onClick={props.hideSidebarSecondLevel}
+          className={classNames(
+            classes.buttonMainMenuBack,
+          )}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 8.24951H5.8725L10.065 4.05701L9 2.99951L3 8.99951L9 14.9995L10.0575 13.942L5.8725 9.74951H15V8.24951Z" fill="#828588" />
+          </svg>
+          <span>
+            Главное меню
+          </span>
+        </button>
+
+        {/* <Button
           onClick={props.hideSidebarSecondLevel}
           disableRipple
           startIcon={(
@@ -437,7 +486,7 @@ const SidebarSecondLevel = (props) => {
           component='div'
         >
           Главное меню
-            </Button>
+            </Button> */}
         <Divider />
 
         {/* Блок для входа */}
@@ -448,13 +497,9 @@ const SidebarSecondLevel = (props) => {
           categories={categories}
           className={classes.titleText}
         /> */}
-        <Typography
-          align='left'
-          display='block'
-          className={classes.titleText}
-        >
+        <div className={classes.titleText}>
           {selectedCategory && selectedCategory.name}
-        </Typography>
+        </div>
 
         <ListLinks
           items={selectedCategory && selectedCategory.subcategories}
@@ -472,15 +517,11 @@ const LoginBlock = (props) => {
 
   return (
     <div className={classes.loginBlock}>
-      <Typography
-        align='left'
-        display='block'
-        className={classes.loginBlockText}
-      >
+      <div className={classes.loginBlockText}>
         Войдите, чтобы отслеживать
         категории и добавлять
         видео в избранное.
-      </Typography>
+      </div>
       <RLink className={classNames(classes.link, classes.linkLoginButton)} to='/login'>
         <RoundedButton
           className={classes.loginButton}
@@ -488,7 +529,6 @@ const LoginBlock = (props) => {
             <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
           </svg>
           )}
-          component='div'
         >
           Вход
       </RoundedButton>

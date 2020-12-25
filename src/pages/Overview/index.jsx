@@ -46,11 +46,11 @@ const Overview = () => {
   const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
   const [lastYearVideo, setLastYearVideo] = React.useState([]);
   const [listSubcategories, setListSubcategories] = React.useState([]);
-  const [isLoading, setLoading] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     console.log('Страница ОБЗОР');
-    setLoading(true)
+    // setLoading(true)
     axios
       .get(`${Settings.serverUrl}/video/promo/`)
       .then(response => {
@@ -58,9 +58,10 @@ const Overview = () => {
         setLastWeekVideo(response.data.week)
         setLastMonthVideo(response.data.month)
         setLastYearVideo(response.data.year)
-        setLoading(false);
       })
       .catch(error => {
+      })
+      .then(() => {
         setLoading(false);
       });
 
@@ -96,10 +97,10 @@ const Overview = () => {
     <div>
       <h1 className={classes.pageTitle}>
         Обзор
-        </h1>
+      </h1>
       <span className={classes.pageSubtitle}>
         Здесь мы собрали категории, события и видео, которые могут быть Вам интересны
-        </span>
+      </span>
       {
         listSubcategories && listSubcategories.length > 0 && (
           <TagsBlock

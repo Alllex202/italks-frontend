@@ -98,7 +98,7 @@ const Login = ({ loginFor }) => {
         // setPassword('');
         // Записать токен
         setAuthToken(response.data.auth_token);
-        setAuth(true);
+        setAuth(true); // TODO Взывает ошибку!!!!
         // Перенаправить на главную
         history.push('/');
       })
