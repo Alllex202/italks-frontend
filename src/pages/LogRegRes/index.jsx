@@ -73,7 +73,7 @@ const LogRegRes = ({ loginFor }) => {
   return (
     <div className={classes.content}>
       <div className={classes.bigTextBlock}>
-        <RLink className={classes.logo} to='/'>
+        <RLink className={classes.logo} to='/overview'>
           <img src={LogoSvg} alt="logo icon" />
         </RLink>
         <div className={classes.bigText}>

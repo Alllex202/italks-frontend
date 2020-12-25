@@ -475,7 +475,7 @@ const Header = (props) => {
           >
             <AppBar className={classes.header}>
               <Toolbar className={classes.toolbar}>
-                <RLink className={classes.logo} to='/'>
+                <RLink className={classes.logo} to='/overview'>
                   <img src={LogoSvg} alt="logo icon" />
                 </RLink>
                 {

@@ -98,6 +98,7 @@ fix
 (done) Неверная ссылка на "Обзор" в левом меню
 (done) Кнопка "Войти" в левом меню поверх ссылки -> Кнопка без ссылки
 (done) .../pages/LogRegRes/Login.jsx - В handleLoginButtonClick() вызывается ошибка
+(done) Исправлены ссылки
 
 * Переработать VideoList
     |
