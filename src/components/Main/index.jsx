@@ -51,6 +51,8 @@ const Main = (props) => {
           <Route exact path={[
             "/category/:categoryId/subcategory/:subcategoryId",
             "/category/:categoryId",
+            '/tracked/category/:trackedCategoryId/subcategory/:trackedSubcategoryId',
+            '/tracked/category/:trackedCategoryId',
           ]}>
             <Category />
           </Route>

@@ -136,11 +136,11 @@ const useStyles = makeStyles({
 
 const ListLinks = ({
   items, className = '', showMore, divider,
-  showSidebarSecondLevel, categoryType, subcategoryType, mainType
+  showSidebarSecondLevel, categoryType, subcategoryType, mainType, trackedType
 }) => {
   const classes = useStyles();
   let location = useLocation();
-  const { categoryId, subcategoryId, pageName } = useParams();
+  const { categoryId, subcategoryId, pageName, trackedCategoryId, trackedSubcategoryId } = useParams();
   const [listOpened, setListOpened] = React.useState(false);
 
   const handleClickShowMore = () => {
@@ -158,15 +158,16 @@ const ListLinks = ({
                   <span
                     className={classNames(
                       classes.listLinksItem,
-                      (categoryType && categoryId === el.id.toString())
+                      (categoryType && categoryId === el.categoryId.toString())
                         || (subcategoryType
-                          && ((subcategoryId === el.id.toString() && categoryId === el.categoryId.toString())
-                            || (!subcategoryId && el.id === 0)))
+                          && ((subcategoryId === el.subcategoryId.toString() && categoryId === el.categoryId.toString())
+                            || (!subcategoryId && el.subcategoryId === 0)))
                         || (!categoryId && !subcategoryId
-                          && ((mainType && el.pageName === pageName)
-                            || ((!pageName
-                              || pageName === 'overview')
-                              && el.pageName === 'overview')))
+                          && ((mainType && el.pageName === pageName)))
+                        || (trackedType 
+                          && (trackedCategoryId === el.categoryId.toString()
+                            || (trackedCategoryId === el.categoryId.toString()
+                              && trackedSubcategoryId === el.subcategoryId.toString())))
                         ? classes.listLinksSelected
                         : ''
                     )}

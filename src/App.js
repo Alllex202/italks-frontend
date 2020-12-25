@@ -38,6 +38,7 @@ const App = (props) => {
           return {
             subcategories: [{
               id: 0,
+              subcategoryId: 0,
               categoryId: category.id,
               icon: (
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +50,7 @@ const App = (props) => {
             }, ...category.subcategory.map(subcategory => {
               return {
                 id: subcategory.id,
+                subcategoryId: subcategory.id,
                 categoryId: category.id,
                 iconBase64: subcategory.icon_base_64,
                 icon: (
@@ -61,6 +63,7 @@ const App = (props) => {
               }
             })],
             id: category.id,
+            categoryId: category.id,
             iconBase64: category.icon_base_64,
             name: category.name,
             href: `/category/${category.id}`,

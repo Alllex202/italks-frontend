@@ -19,6 +19,7 @@ import { RoundedButton, ListLinks } from '../';
 import LogoSvg from '../../assets/img/Logo.svg';
 import { Settings } from '../../settings/settings';
 import { Context } from '../Context';
+import { getAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -90,56 +91,8 @@ const useStyles = makeStyles({
       },
     },
   },
-  // buttonMainMenuBackRoot: {
-  //   justifyContent: 'start',
-  //   height: 42,
-  //   width: '100%',
-  //   paddingLeft: 18,
-  //   backgroundColor: 'transparent',
-  //   color: SD.basic.colors.main.grey,
-  //   transition: '.2s all',
-  //   textTransform: 'none',
-  //   cursor: 'pointer',
-  //   '&:hover': {
-  //     backgroundColor: SD.basic.colors.translucent.violet,
-  //     color: SD.basic.colors.main.violetDark,
-  //     '& path': {
-  //       fill: SD.basic.colors.main.violetDark,
-  //     }
-  //   },
-  //   '&:active': {
-  //     color: SD.basic.colors.main.violetDark,
-  //     '& path': {
-  //       fill: SD.basic.colors.main.violetDark,
-  //     }
-  //   },
-  // },
-  // buttonMainMenuBackLabel: {
-  //   fontFamily: SD.basic.fontsFamily.Roboto,
-  //   fontStyle: 'normal',
-  //   fontWeight: 'normal',
-  //   fontSize: '14px',
-  //   lineHeight: '16px',
-  // },
-  // buttonMainMenuBackStartIcon: {
-  //   width: 18,
-  //   height: 18,
-  //   minWidth: 18,
-  //   minHeight: 18,
-  //   marginRight: 18,
-  //   marginLeft: 0,
-  //   '& path': {
-  //     transition: '.2s fill',
-  //     fill: SD.basic.colors.main.grey,
-  //   },
-  //   '& svg': {
-  //     width: 18,
-  //     height: 18,
-  //   },
-  // },
   loginBlock: {
     width: '100%',
-    // height: 116,
   },
   loginBlockText: {
     fontStyle: 'normal',
@@ -163,9 +116,6 @@ const useStyles = makeStyles({
     paddingTop: 13,
     marginBottom: 13,
   },
-  // linkLoginButton: {
-  //   display: 'inline-block',
-  // },
   loginButton: {
     marginLeft: 18,
     marginBottom: 12,
@@ -173,43 +123,6 @@ const useStyles = makeStyles({
     width: 96,
     height: 32,
   },
-  // link: {
-  //   textDecoration: 'none',
-  // },
-  // '@media (max-width: 1599px)': {
-  //   sidebar: {
-  //     width: 232,
-  //   },
-  //   logo: {
-  //     height: 17,
-  //     width: 59,
-  //     marginLeft: 18,
-  //     marginTop: 24,
-  //     marginBottom: 23,
-  //     '& img': {
-  //       mixBlendMode: 'luminosity',
-  //       height: 17,
-  //       width: 59,
-  //     },
-  //   },
-  //   loginBlock: {
-  //     // height: 116,
-  //   },
-  //   loginBlockText: {
-
-  //   },
-  //   titleText: {
-  //     fontSize: 14,
-  //     lineHeight: '16px',
-  //     marginLeft: 18,
-  //     paddingTop: 13,
-  //     marginBottom: 13,
-  //   },
-  //   loginButton: {
-  //     width: 96,
-  //     height: 32,
-  //   }
-  // },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
   },
@@ -245,59 +158,9 @@ const mainSidebarItems = [
 
 const Sidebar = (props) => {
   const classes = useStyles();
-  const { categoryId, subcategoryId } = useParams();
-  // let location = useLocation();
   const { categories,
     secondLevelMenuShow: secondLevelShow,
     setSecondLevelMenuShow: setSecondLevelShow } = React.useContext(Context);
-  // const [categories, setCategories] = useState(null);
-  // const [secondLevelShow, setSecondLevelShow] = useState(true);
-
-  // React.useEffect(() => {
-  //   setSecondLevelShow(true);
-  // }, [categoryId, subcategoryId]);
-
-  // // Подрузка категорий и подкатегорий
-  // useEffect(() => {
-  //   if (!categories)
-  //     axios
-  //       .get(`${Settings.serverUrl}/categories_and_subcategories/`)
-  //       .then((response) => {
-  //         setCategories(response.data.map(category => {
-  //           return {
-  //             subcategories: [{
-  //               id: 0,
-  //               categoryId: category.id,
-  //               icon: (
-  //                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-  //                   <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
-  //                 </svg>
-  //               ),
-  //               name: 'Все',
-  //               href: `/category/${category.id}`,
-  //             }, ...category.subcategory.map(subcategory => {
-  //               return {
-  //                 id: subcategory.id,
-  //                 categoryId: category.id,
-  //                 iconBase64: subcategory.icon_base_64,
-  //                 icon: (
-  //                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-  //                     <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
-  //                   </svg>
-  //                 ),
-  //                 name: subcategory.name,
-  //                 href: `/category/${category.id}/subcategory/${subcategory.id}`,
-  //               }
-  //             })],
-  //             id: category.id,
-  //             iconBase64: category.icon_base_64,
-  //             name: category.name,
-  //             href: `/category/${category.id}`,
-  //           }
-  //         }));
-  //         // console.log(response.data)
-  //       });
-  // });
 
   const hideSidebarSecondLevel = () => {
     setSecondLevelShow(false);
@@ -310,6 +173,8 @@ const Sidebar = (props) => {
   return (
     <React.Fragment>
       <Route exact path={[
+        '/tracked/category/:trackedCategoryId/subcategory/:trackedSubcategoryId',
+        '/tracked/category/:trackedCategoryId',
         '/week/category/:categoryId/subcategory/:subcategoryId',
         '/week/category/:categoryId',
         '/overview/week',
@@ -331,14 +196,6 @@ const Sidebar = (props) => {
         />
       </Route>
 
-      {/* <Route>
-        <SidebarFirstLevel
-          classes={classes}
-          categories={categories}
-          showSidebarSecondLevel={showSidebarSecondLevel}
-        />
-      </Route> */}
-
       <Route exact path={[
         '/week/category/:categoryId/subcategory/:subcategoryId',
         '/week/category/:categoryId',
@@ -356,27 +213,6 @@ const Sidebar = (props) => {
           secondLevelShow={secondLevelShow}
         />
       </Route>
-
-
-      {/* <Switch>
-        <Route path={['/category/:categoryId/subcategory/:subcategoryId', '/category/:categoryId']}>
-          <SidebarFirstLevel
-            categories={categories}
-            showSidebarSecondLevel={showSidebarSecondLevel}
-          />
-          <SidebarSecondLevel
-            categories={categories}
-            hideSidebarSecondLevel={hideSidebarSecondLevel}
-            secondLevelShow={secondLevelShow}
-          />
-        </Route>
-        <Route path={['/:pageName', '/']}>
-          <SidebarFirstLevel
-            categories={categories}
-            showSidebarSecondLevel={showSidebarSecondLevel}
-          />
-        </Route>
-      </Switch> */}
     </React.Fragment>
   )
 };
@@ -384,9 +220,36 @@ const Sidebar = (props) => {
 const SidebarFirstLevel = (props) => {
   const classes = props.classes;
   const { auth } = React.useContext(Context);
-  const { pageName } = useParams();
+  const [favouriteCategories, setFavouriteCategories] = React.useState(null);
 
-  // return (pageName === 'favourites' || pageName === undefined) && (
+  React.useEffect(() => {
+    axios
+      .get(`${Settings.serverUrl}/favorites/category/`, {
+        headers: {
+          'Authorization': `Token ${getAuthToken()}`,
+        },
+      })
+      .then(response => {
+        setFavouriteCategories(response.data.map((el) => {
+          return {
+            id: el.id,
+            categoryId: el.id,
+            name: el.name,
+            icon: (
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
+              </svg>
+            ),
+            href: `/tracked/category/${el.id}${el.subcateryId ? `/subcategory/${el.subcateryId}` : ''}`,
+          }
+        }));
+      })
+      .catch(error => {
+        // console.log(error.response)
+      })
+      .finally();
+  }, []);
+
   return (
     <div className={classes.sidebar}>
       <Scrollbars
@@ -396,7 +259,7 @@ const SidebarFirstLevel = (props) => {
         renderTrackHorizontal={props => <div {...props} style={{ display: "none" }} />}
         renderThumbHorizontal={props => <div {...props} style={{ display: "none" }} />}
       >
-        <RLink className={classes.logo} to='/'>
+        <RLink className={classes.logo} to='/overview'>
           <img src={LogoSvg} alt="logo icon" />
         </RLink>
 
@@ -409,14 +272,22 @@ const SidebarFirstLevel = (props) => {
         />
 
         {/* Блок для входа */}
-        {!auth && <LoginBlock classes={classes} />}
+        {!auth
+          ? <LoginBlock classes={classes} />
+          : <>
+            <div className={classes.titleText}>
+              Отслеживаемое
+            </div>
+            <ListLinks
+              items={favouriteCategories}
+              trackedType
+              showMore
+            />
+            <Divider />
+          </>
+        }
 
         {/* Отображаемый список */}
-        {/* <ListCategories
-          categories={categories}
-          className={classes.titleText}
-        /> */}
-
         <div className={classes.titleText}>
           Поиск по категориям
         </div>
@@ -449,7 +320,7 @@ const SidebarSecondLevel = (props) => {
         renderTrackHorizontal={props => <div {...props} style={{ display: "none" }} />}
         renderThumbHorizontal={props => <div {...props} style={{ display: "none" }} />}
       >
-        <RLink className={classes.logo} to='/'>
+        <RLink className={classes.logo} to='/overview'>
           <img src={LogoSvg} alt="logo icon" />
         </RLink>
 
@@ -470,33 +341,12 @@ const SidebarSecondLevel = (props) => {
           </span>
         </button>
 
-        {/* <Button
-          onClick={props.hideSidebarSecondLevel}
-          disableRipple
-          startIcon={(
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 8.24951H5.8725L10.065 4.05701L9 2.99951L3 8.99951L9 14.9995L10.0575 13.942L5.8725 9.74951H15V8.24951Z" fill="#828588" />
-            </svg>
-          )}
-          classes={{
-            root: classes.buttonMainMenuBackRoot,
-            label: classes.buttonMainMenuBackLabel,
-            startIcon: classes.buttonMainMenuBackStartIcon,
-          }}
-          component='div'
-        >
-          Главное меню
-            </Button> */}
         <Divider />
 
         {/* Блок для входа */}
         {!auth && <LoginBlock classes={classes} />}
 
         {/* Отображаемый список */}
-        {/* <ListSubcategories
-          categories={categories}
-          className={classes.titleText}
-        /> */}
         <div className={classes.titleText}>
           {selectedCategory && selectedCategory.name}
         </div>
@@ -541,49 +391,6 @@ const LoginBlock = (props) => {
       <Divider />
     </div>
   )
-}
-
-// const ListCategories = (props) => {
-
-//   return (
-//     <React.Fragment>
-//       <Typography
-//         align='left'
-//         display='block'
-//         className={props.className}
-//       >
-//         Поиск по категориям
-//       </Typography>
-
-//       <ListLinks
-//         items={props.categories}
-//         showMore
-//       />
-//     </React.Fragment>
-//   )
-// };
-
-// const ListSubcategories = (props) => {
-//   const { categoryId } = useParams();
-//   const selectedCategory = props.categories
-//     && props.categories.find(category => category.id.toString() === categoryId);
-
-//   return (
-//     <React.Fragment>
-//       <Typography
-//         align='left'
-//         display='block'
-//         className={props.className}
-//       >
-//         {selectedCategory && selectedCategory.name}
-//       </Typography>
-
-//       <ListLinks
-//         items={selectedCategory && selectedCategory.subcategories}
-//         showMore
-//       />
-//     </React.Fragment>
-//   )
-// };
+};
 
 export default Sidebar;

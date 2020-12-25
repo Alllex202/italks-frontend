@@ -89,7 +89,7 @@ const Category = () => {
   const classes = useStyles();
   const { auth } = React.useContext(Context);
   let history = useHistory();
-  const { categoryId, subcategoryId } = useParams();
+  const { categoryId, subcategoryId, trackedCategoryId, trackedSubcategoryId } = useParams();
   const [liked, setLike] = React.useState(false);
   const [lastWeekVideo, setLastWeekVideo] = React.useState([]);
   const [lastMonthVideo, setLastMonthVideo] = React.useState([]);
@@ -111,12 +111,13 @@ const Category = () => {
     axios
       .get(`${Settings.serverUrl}/video/promo/`, {
         params: {
-          category_id: categoryId,
-          subcategory_id: subcategoryId,
+          category_id: categoryId || trackedCategoryId,
+          subcategory_id: subcategoryId || trackedSubcategoryId,
         }
       })
       .then(response => {
         // console.log(response.data)
+        console.log(response.data)
         setLastWeekVideo(response.data.week)
         setLastMonthVideo(response.data.month)
         setLastYearVideo(response.data.year)
@@ -131,7 +132,7 @@ const Category = () => {
     //   reset()
     // }
 
-  }, [categoryId, subcategoryId]);
+  }, [categoryId, subcategoryId, trackedCategoryId, trackedSubcategoryId]);
 
   const handlerOnClickLike = (e) => {
     e.preventDefault();
@@ -182,7 +183,7 @@ const Category = () => {
         lastWeekVideo && lastWeekVideo.length > 0 && (
           <PreviewsBlock
             titleName='На этой неделе'
-            url={`/week/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
+            url={`/week/category/${categoryId || trackedCategoryId}${subcategoryId || trackedSubcategoryId ? `/subcategory/${subcategoryId || trackedSubcategoryId}` : ''}`}
             videos={lastWeekVideo}
           />
         )
@@ -191,7 +192,7 @@ const Category = () => {
         lastMonthVideo && lastMonthVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом месяце'
-            url={`/month/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
+            url={`/month/category/${categoryId || trackedCategoryId}${subcategoryId || trackedSubcategoryId ? `/subcategory/${subcategoryId || trackedSubcategoryId}` : ''}`}
             videos={lastMonthVideo}
           />
         )
@@ -200,7 +201,7 @@ const Category = () => {
         lastYearVideo && lastYearVideo.length > 0 && (
           <PreviewsBlock
             titleName='В этом году'
-            url={`/year/category/${categoryId}${subcategoryId ? `/subcategory/${subcategoryId}` : ''}`}
+            url={`/year/category/${categoryId || trackedCategoryId}${subcategoryId || trackedSubcategoryId ? `/subcategory/${subcategoryId || trackedSubcategoryId}` : ''}`}
             videos={lastYearVideo}
           />
         )
