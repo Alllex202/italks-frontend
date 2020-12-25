@@ -60,6 +60,6 @@ const PagesLogRegRes = ({ auth }) => {
           || loginFor === 'star'
           ? <LogRegRes loginFor={loginFor} />
           : <Redirect to='/login' />
-      : <Redirect to='/' />
+      : <Redirect to='/overview' />
   )
 };
