@@ -163,19 +163,19 @@ const useStyles = makeStyles({
     paddingTop: 13,
     marginBottom: 13,
   },
-  linkLoginButton: {
-    display: 'inline-block',
+  // linkLoginButton: {
+  //   display: 'inline-block',
+  // },
+  loginButton: {
     marginLeft: 18,
     marginBottom: 12,
-  },
-  loginButton: {
     margin: 0,
     width: 96,
     height: 32,
   },
-  link: {
-    textDecoration: 'none',
-  },
+  // link: {
+  //   textDecoration: 'none',
+  // },
   // '@media (max-width: 1599px)': {
   //   sidebar: {
   //     width: 232,
@@ -514,6 +514,11 @@ const SidebarSecondLevel = (props) => {
 
 const LoginBlock = (props) => {
   const classes = props.classes;
+  let history = useHistory();
+
+  const handlerButtonClick = () => {
+    history.push('/login');
+  };
 
   return (
     <div className={classes.loginBlock}>
@@ -522,17 +527,17 @@ const LoginBlock = (props) => {
         категории и добавлять
         видео в избранное.
       </div>
-      <RLink className={classNames(classes.link, classes.linkLoginButton)} to='/login'>
-        <RoundedButton
-          className={classes.loginButton}
-          endIcon={(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <RoundedButton
+        className={classes.loginButton}
+        endIcon={(
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 17L9.6 15.6L12.2 13H2L2 11L12.2 11L9.6 8.4L11 7L16 12L11 17ZM20 5H12V3L20 3C21.1 3 22 3.9 22 5L22 19C22 20.1 21.1 21 20 21L12 21V19L20 19L20 5Z" fill="#828588" />
           </svg>
-          )}
-        >
-          Вход
+        )}
+        onClick={handlerButtonClick}
+      >
+        Вход
       </RoundedButton>
-      </RLink>
       <Divider />
     </div>
   )
