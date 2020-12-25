@@ -225,14 +225,16 @@ const VideoList = ({
     }
   };
 
-  const onClickSortItem = (sortName) => {
-    setSortName(sortName);
-    setVideos([]);
-    setNumberPage(1);
-    setLastPageServer(false);
-    setLoading(true);
-    setScroll(0);
-    closeSortMenu();
+  const onClickSortItem = (_sortName) => {
+    if (_sortName !== sortName) {
+      setSortName(_sortName);
+      setVideos([]);
+      setNumberPage(1);
+      setLastPageServer(false);
+      setLoading(true);
+      setScroll(0);
+      closeSortMenu();
+    }
   };
 
   React.useEffect(() => {
