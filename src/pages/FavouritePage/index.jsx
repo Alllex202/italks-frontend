@@ -6,7 +6,6 @@ import { Settings } from '../../settings/settings';
 import PromoPage from './PromoPage';
 
 const FavouritePage = () => {
-  const token = getAuthToken();
   const { auth } = React.useContext(Context);
   const [isAuthenticated, setAuthenticated] = React.useState(true);
   return (
@@ -14,7 +13,7 @@ const FavouritePage = () => {
       ? <VideoList
         url={`${Settings.serverUrl}/favorites/video/`}
         headers={{
-          'Authorization': `Token ${token}`,
+          'Authorization': `Token ${getAuthToken()}`,
         }}
         title={'Избранное'}
         setAuthenticated={setAuthenticated}
