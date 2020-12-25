@@ -33,6 +33,7 @@ const useStyles = makeStyles({
 
 const Main = (props) => {
   const classes = useStyles();
+  const { auth } = React.useContext(Context);
   // const 
 
   return (
@@ -51,10 +52,15 @@ const Main = (props) => {
           <Route exact path={[
             "/category/:categoryId/subcategory/:subcategoryId",
             "/category/:categoryId",
+          ]}>
+            <Category />
+          </Route>
+
+          <Route exact path={[
             '/tracked/category/:trackedCategoryId/subcategory/:trackedSubcategoryId',
             '/tracked/category/:trackedCategoryId',
           ]}>
-            <Category />
+            {auth ? <Category /> : <Redirect to='/overview' />}
           </Route>
 
           <Route exact path={[
