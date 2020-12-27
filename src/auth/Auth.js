@@ -27,4 +27,9 @@ const setAuthToken = (token) => localStorage.setItem('auth_token', token);
 
 const removeAuthToken = () => localStorage.removeItem('auth_token');
 
-export { checkAuth, getAuthToken, setAuthToken, removeAuthToken };
+export { 
+  checkAuth, 
+  getAuthToken, 
+  setAuthToken, 
+  removeAuthToken 
+};

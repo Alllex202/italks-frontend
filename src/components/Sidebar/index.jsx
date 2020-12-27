@@ -158,9 +158,12 @@ const mainSidebarItems = [
 
 const Sidebar = (props) => {
   const classes = useStyles();
-  const { categories,
+  const {
+    categories,
+    favouriteCategories,
     secondLevelMenuShow: secondLevelShow,
-    setSecondLevelMenuShow: setSecondLevelShow } = React.useContext(Context);
+    setSecondLevelMenuShow: setSecondLevelShow
+  } = React.useContext(Context);
 
   const hideSidebarSecondLevel = () => {
     setSecondLevelShow(false);
@@ -192,6 +195,7 @@ const Sidebar = (props) => {
         <SidebarFirstLevel
           classes={classes}
           categories={categories}
+          favouriteCategories={favouriteCategories}
           showSidebarSecondLevel={showSidebarSecondLevel}
         />
       </Route>
@@ -220,35 +224,12 @@ const Sidebar = (props) => {
 const SidebarFirstLevel = (props) => {
   const classes = props.classes;
   const { auth } = React.useContext(Context);
-  const [favouriteCategories, setFavouriteCategories] = React.useState(null);
 
-  React.useEffect(() => {
-    axios
-      .get(`${Settings.serverUrl}/favorites/category/`, {
-        headers: {
-          'Authorization': `Token ${getAuthToken()}`,
-        },
-      })
-      .then(response => {
-        setFavouriteCategories(response.data.map((el) => {
-          return {
-            id: el.id,
-            categoryId: el.id,
-            name: el.name,
-            icon: (
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 1.5L4.875 8.25H13.125L9 1.5ZM9 4.38L10.4475 6.75H7.545L9 4.38ZM13.125 9.75C11.2575 9.75 9.75 11.2575 9.75 13.125C9.75 14.9925 11.2575 16.5 13.125 16.5C14.9925 16.5 16.5 14.9925 16.5 13.125C16.5 11.2575 14.9925 9.75 13.125 9.75ZM13.125 15C12.09 15 11.25 14.16 11.25 13.125C11.25 12.09 12.09 11.25 13.125 11.25C14.16 11.25 15 12.09 15 13.125C15 14.16 14.16 15 13.125 15ZM2.25 16.125H8.25V10.125H2.25V16.125ZM3.75 11.625H6.75V14.625H3.75V11.625Z" fill="#333333" />
-              </svg>
-            ),
-            href: `/tracked/category/${el.id}${el.subcateryId ? `/subcategory/${el.subcateryId}` : ''}`,
-          }
-        }));
-      })
-      .catch(error => {
-        // console.log(error.response)
-      })
-      .finally();
-  }, []);
+  // React.useEffect(() => {
+  //   getCategories();
+  //   getFavouritesCategories();
+  // }, []);
+
 
   return (
     <div className={classes.sidebar}>
@@ -279,7 +260,7 @@ const SidebarFirstLevel = (props) => {
               Отслеживаемое
             </div>
             <ListLinks
-              items={favouriteCategories}
+              items={props.favouriteCategories}
               trackedType
               showMore
             />
@@ -293,6 +274,7 @@ const SidebarFirstLevel = (props) => {
         </div>
 
         <ListLinks
+          // items={props.categories}
           items={props.categories}
           showSidebarSecondLevel={props.showSidebarSecondLevel}
           categoryType
