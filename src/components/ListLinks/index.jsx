@@ -136,7 +136,7 @@ const useStyles = makeStyles({
 
 const ListLinks = ({
   items, className = '', showMore, divider,
-  showSidebarSecondLevel, categoryType, subcategoryType, mainType, trackedType
+  onClick, categoryType, subcategoryType, mainType, trackedType
 }) => {
   const classes = useStyles();
   let location = useLocation();
@@ -145,6 +145,21 @@ const ListLinks = ({
 
   const handleClickShowMore = () => {
     setListOpened(!listOpened);
+  };
+
+  const getSelectedElement = (el) => {
+    // console.log(el)
+    return (categoryType && categoryId === el.categoryId.toString())
+      || (subcategoryType
+        && ((subcategoryId === el.subcategoryId.toString() && categoryId === el.categoryId.toString())
+          || (!subcategoryId && el.subcategoryId === 0)))
+      || (!categoryId && !subcategoryId
+        && ((mainType && el.pageName === pageName)))
+      || (trackedType
+        && (categoryId === el.categoryId.toString()
+            && subcategoryId === el.subcategoryId.toString()))
+      ? classes.listLinksSelected
+      : '';
   };
 
   return (
@@ -158,20 +173,9 @@ const ListLinks = ({
                   <span
                     className={classNames(
                       classes.listLinksItem,
-                      (categoryType && categoryId === el.categoryId.toString())
-                        || (subcategoryType
-                          && ((subcategoryId === el.subcategoryId.toString() && categoryId === el.categoryId.toString())
-                            || (!subcategoryId && el.subcategoryId === 0)))
-                        || (!categoryId && !subcategoryId
-                          && ((mainType && el.pageName === pageName)))
-                        || (trackedType 
-                          && (trackedCategoryId === el.categoryId.toString()
-                            || (trackedCategoryId === el.categoryId.toString()
-                              && trackedSubcategoryId === el.subcategoryId.toString())))
-                        ? classes.listLinksSelected
-                        : ''
+                      getSelectedElement(el)
                     )}
-                    onClick={showSidebarSecondLevel}
+                    onClick={onClick}
                   >
                     <div
                       className={classes.listLinksIcon}

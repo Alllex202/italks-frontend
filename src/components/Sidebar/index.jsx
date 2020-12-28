@@ -19,7 +19,6 @@ import { RoundedButton, ListLinks } from '../';
 import LogoSvg from '../../assets/img/Logo.svg';
 import { Settings } from '../../settings/settings';
 import { Context } from '../Context';
-import { getAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -197,6 +196,7 @@ const Sidebar = (props) => {
           categories={categories}
           favouriteCategories={favouriteCategories}
           showSidebarSecondLevel={showSidebarSecondLevel}
+          hideSidebarSecondLevel={hideSidebarSecondLevel}
         />
       </Route>
 
@@ -224,12 +224,6 @@ const Sidebar = (props) => {
 const SidebarFirstLevel = (props) => {
   const classes = props.classes;
   const { auth } = React.useContext(Context);
-
-  // React.useEffect(() => {
-  //   getCategories();
-  //   getFavouritesCategories();
-  // }, []);
-
 
   return (
     <div className={classes.sidebar}>
@@ -261,6 +255,7 @@ const SidebarFirstLevel = (props) => {
             </div>
             <ListLinks
               items={props.favouriteCategories}
+              onClick={props.hideSidebarSecondLevel}
               trackedType
               showMore
             />
@@ -276,7 +271,7 @@ const SidebarFirstLevel = (props) => {
         <ListLinks
           // items={props.categories}
           items={props.categories}
-          showSidebarSecondLevel={props.showSidebarSecondLevel}
+          onClick={props.showSidebarSecondLevel}
           categoryType
           showMore
         />
