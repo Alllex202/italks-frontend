@@ -12,6 +12,7 @@ import { Settings } from '../../settings/settings';
 import { makeStyles } from '@material-ui/core';
 import { PreviewsBlock } from '../../components';
 import { Context } from '../../components/Context';
+import { getAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   title: {
@@ -87,7 +88,11 @@ const useStyles = makeStyles({
 
 const Category = () => {
   const classes = useStyles();
-  const { auth } = React.useContext(Context);
+  const {
+    auth,
+    removeFavouritesCategory,
+    addFavouritesCategory
+  } = React.useContext(Context);
   let history = useHistory();
   const { categoryId, subcategoryId, trackedCategoryId, trackedSubcategoryId } = useParams();
   const [liked, setLike] = React.useState(false);
@@ -96,20 +101,17 @@ const Category = () => {
   const [lastYearVideo, setLastYearVideo] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
   const [pageTItle, setPageTitle] = React.useState('');
-
-  // const reset = () => {
-  //   setLastWeekVideo([])
-  //   setLastMonthVideo([])
-  //   setLastYearVideo([])
-  //   setLoading(true)
-  // }
+  const [clickedFavourite, clickFavourite] = React.useState(false);
 
   React.useEffect(() => {
     console.log('Страница КАТЕГОРИЯ или ПОДКАТЕГОРИЯ');
-    // reset();
-    setLoading(true)
+    // setLoading(true)
+    const token = getAuthToken();
     axios
       .get(`${Settings.serverUrl}/video/promo/`, {
+        headers: {
+          'Authorization': token ? `Token ${token}` : null,
+        },
         params: {
           category_id: categoryId || trackedCategoryId,
           subcategory_id: subcategoryId || trackedSubcategoryId,
@@ -117,20 +119,21 @@ const Category = () => {
       })
       .then(response => {
         // console.log(response.data)
-        console.log(response.data)
         setLastWeekVideo(response.data.week)
         setLastMonthVideo(response.data.month)
         setLastYearVideo(response.data.year)
         setPageTitle(response.data.subcategory_name || response.data.category_name)
-        setLoading(false);
+        if (subcategoryId || trackedSubcategoryId) {
+          setLike(response.data.subcategory_is_favorite);
+        } else {
+          setLike(response.data.category_is_favorite);
+        }
       })
       .catch(error => {
+      })
+      .finally(() => {
         setLoading(false);
       });
-
-    // return () => {
-    //   reset()
-    // }
 
   }, [categoryId, subcategoryId, trackedCategoryId, trackedSubcategoryId]);
 
@@ -138,10 +141,51 @@ const Category = () => {
     e.preventDefault();
     if (!auth) {
       history.push('/login/for/like');
-    } else {
-      setLike(!liked);
-      // TODO connect to server
+    } else if (!clickedFavourite) {
+      // setLike(!liked);
+      const token = getAuthToken();
+      // console.log(token)
+      clickFavourite(true);
+      axios
+        .post(`${Settings.serverUrl}${getUrlPathForLike()}`, {}, {
+          headers: {
+            'Authorization': token ? `Token ${token}` : null,
+          },
+        })
+        .then(response => {
+          // console.log(111, response)
+          response.data && (liked ? removeFavouritesCategory(response.data) : addFavouritesCategory(response.data));
+          setLike(!liked);
+        })
+        .catch(error => {
+          // console.log(222, error)
+          if (error.response.status === 401) {
+            history.push('/login/for/like');
+          }
+        })
+        .finally(() => {
+          clickFavourite(false);
+        });
     }
+  };
+
+  const getUrlPathForLike = () => {
+    let urlPath = '';
+    if (subcategoryId || trackedSubcategoryId) {
+      urlPath += '/favorites/subcategory';
+    } else {
+      urlPath += '/favorites/category';
+    }
+    if (liked) {
+      urlPath += `/remove`;
+    } else {
+      urlPath += `/add`;
+    }
+    urlPath += `/${subcategoryId || trackedSubcategoryId
+      ? subcategoryId || trackedSubcategoryId
+      : categoryId}/`;
+
+    return urlPath;
   };
 
   return (

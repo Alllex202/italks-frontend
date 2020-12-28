@@ -1,5 +1,6 @@
 import React from 'react';
 
+import axios from 'axios';
 import classNames from 'classnames';
 
 import { stylesDictionary as SD } from '../../settings/styles';
@@ -8,6 +9,8 @@ import { makeStyles } from '@material-ui/core';
 import TagsBlock from '../TagsBlock';
 import { Context } from '../Context';
 import { useHistory } from 'react-router-dom';
+import { getAuthToken } from '../../auth/Auth';
+import { Settings } from '../../settings/settings';
 
 const useStyles = makeStyles({
   videoItem: {
@@ -173,7 +176,8 @@ const VideoItem = ({ className, videoData }) => {
   const classes = useStyles();
   let history = useHistory();
   const { auth } = React.useContext(Context);
-  const [isFav, fav] = React.useState(videoData.is_favourite);
+  const [isFav, setFav] = React.useState(videoData.is_favorite);
+  const [clickedFavourite, clickFavourite] = React.useState(false);
 
   const getFullTime = (seconds) => {
     const _hours = Math.floor(seconds / (60 * 60));
@@ -233,10 +237,45 @@ const VideoItem = ({ className, videoData }) => {
     e.preventDefault();
     if (!auth) {
       history.push('/login/for/star');
-    } else {
-      fav(!isFav);
+    } else if (!clickedFavourite) {
+      // setFav(!isFav);
       // TODO connect to server
+
+      const token = getAuthToken();
+      // console.log(token)
+      clickFavourite(true);
+      axios
+        .post(`${Settings.serverUrl}${getUrlPathForLike()}`, {}, {
+          headers: {
+            'Authorization': token ? `Token ${token}` : null,
+          },
+        })
+        .then(response => {
+          // console.log(111, response)
+          setFav(!isFav);
+        })
+        .catch(error => {
+          // console.log(222, error)
+          if (error.response.status === 401) {
+            history.push('/login/for/like');
+          }
+        })
+        .finally(() => {
+          clickFavourite(false);
+        });
     }
+  };
+
+  const getUrlPathForLike = () => {
+    let urlPath = '/favorites/video';
+    if (isFav) {
+      urlPath += `/remove`;
+    } else {
+      urlPath += `/add`;
+    }
+    urlPath += `/${videoData.id}/`;
+
+    return urlPath;
   };
 
   return (

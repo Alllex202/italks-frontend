@@ -7,6 +7,7 @@ import { stylesDictionary as SD } from '../../settings/styles';
 import { makeStyles } from '@material-ui/core';
 import { PreviewsBlock, TagsBlock } from '../../components';
 import { Settings } from '../../settings/settings';
+import { getAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   pageTitle: {
@@ -50,9 +51,14 @@ const Overview = () => {
 
   React.useEffect(() => {
     console.log('Страница ОБЗОР');
-    // setLoading(true)
+    // setLoading(true)    
+    const token = getAuthToken();
     axios
-      .get(`${Settings.serverUrl}/video/promo/`)
+      .get(`${Settings.serverUrl}/video/promo/`,{        
+        headers: {
+          'Authorization': token ? `Token ${token}` : null,
+        },
+      })
       .then(response => {
         // console.log(response.data)
         setLastWeekVideo(response.data.week)
