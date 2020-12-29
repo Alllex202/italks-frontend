@@ -17,6 +17,7 @@ const stylesDictionary = {
         blackLight: '#333333',
         grey: '#828588',
         greyLight: '#E8E8E8',
+        yellow: '#FFDD1E',
       },
       translucent: {
         violet: 'rgba(109, 30, 255, 0.1)',

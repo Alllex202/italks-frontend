@@ -175,6 +175,7 @@ const Sidebar = (props) => {
   return (
     <React.Fragment>
       <Route exact path={[
+        '/video/:videoId',
         '/week/category/:categoryId/subcategory/:subcategoryId',
         '/week/category/:categoryId',
         '/overview/week',

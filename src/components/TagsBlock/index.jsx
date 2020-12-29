@@ -38,6 +38,13 @@ const useStyles = makeStyles({
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
   },
+  manyStrings: {
+    height: 'auto',
+    overflow: 'auto',
+    '& > $tag': {
+      marginBottom: 8,
+    }
+  },
   tag: {
     display: 'flex',
     alignItems: 'center',
@@ -69,14 +76,14 @@ const useStyles = makeStyles({
   }
 });
 
-const TagsBlock = ({ className, tags, videoItem }) => {
+const TagsBlock = ({ className, tags, withoutBorder, manyStrings }) => {
   const classes = useStyles();
 
 
   // console.log(tags)
   return (
-    <div className={classNames(classes.tags, className, videoItem && classes.tagsWithoutBorder)}>
-      <div className={classes.tagsWrapper}>
+    <div className={classNames(classes.tags, className, withoutBorder && classes.tagsWithoutBorder)}>
+      <div className={classNames(classes.tagsWrapper, manyStrings ? classes.manyStrings : '')}>
         {
           tags && tags.length > 0 && tags.map(tag => (
             <Tag

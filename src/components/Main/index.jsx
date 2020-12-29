@@ -7,16 +7,19 @@ import { VideoList } from '..';
 import { Settings } from '../../settings/settings';
 import { getAuthToken } from '../../auth/Auth';
 import { Context } from '../Context';
+import PageVideoViewer from '../../pages/PageVideoViewer';
 
 const useStyles = makeStyles({
   main: {
     height: 'auto',
     width: '100%',
-    padding: '90px 36px 100px 268px',
+    // padding: '90px 36px 100px 268px',
+    padding: '65px 0 100px 232px',
   },
   mainContainer: {
     height: 'auto',
     width: '976px',
+    padding: '25px 0 0 0',
     margin: '0 auto',
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
@@ -38,47 +41,57 @@ const Main = (props) => {
 
   return (
     <div className={classes.main}>
-      <div className={classes.mainContainer}>
-        <Switch>
-          <Route exact path="/overview">
-            <Overview />
-          </Route>
+      {/* <div className={classes.mainContainer}> */}
+      <Switch>
+        <Route exact path={[
+          "/video/:videoId",
+        ]}>
+          <PageVideoViewer />
+        </Route>
+
+        <Route>
+          <div className={classes.mainContainer}>
+            <Switch>
+              <Route exact path="/overview">
+                <Overview />
+              </Route>
 
 
-          <Route exact path="/favourites">
-            <FavouritePage />
-          </Route>
+              <Route exact path="/favourites">
+                <FavouritePage />
+              </Route>
 
-          <Route exact path={[
-            "/category/:categoryId/subcategory/:subcategoryId",
-            "/category/:categoryId",
-          ]}>
-            <Category />
-          </Route>
+              <Route exact path={[
+                "/category/:categoryId/subcategory/:subcategoryId",
+                "/category/:categoryId",
+              ]}>
+                <Category />
+              </Route>
 
-          <Route exact path={[
-            "/overview/:period",
-          ]}>
-            <PageOverviewPeriod />
-          </Route>
+              <Route exact path={[
+                "/overview/:period",
+              ]}>
+                <PageOverviewPeriod />
+              </Route>
 
-          <Route exact path={[
-            "/:period/category/:categoryId/subcategory/:subcategoryId",
-            "/:period/category/:categoryId",
-          ]}>
-            <PageCategoryPeriod />
-          </Route>
+              <Route exact path={[
+                "/:period/category/:categoryId/subcategory/:subcategoryId",
+                "/:period/category/:categoryId",
+              ]}>
+                <PageCategoryPeriod />
+              </Route>
 
-          <Route exact path={'/results'}>
-            <PageSearch />
-          </Route>
+              <Route exact path={'/results'}>
+                <PageSearch />
+              </Route>
 
-          <Route>
-            <PageNotFind />
-          </Route>
-
-        </Switch>
-      </div>
+              <Route>
+                <PageNotFind />
+              </Route>
+            </Switch>
+          </div>
+        </Route>
+      </Switch>
     </div>
   )
 };

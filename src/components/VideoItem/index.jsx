@@ -8,7 +8,7 @@ import { stylesDictionary as SD } from '../../settings/styles';
 import { makeStyles } from '@material-ui/core';
 import TagsBlock from '../TagsBlock';
 import { Context } from '../Context';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getAuthToken } from '../../auth/Auth';
 import { Settings } from '../../settings/settings';
 
@@ -278,8 +278,12 @@ const VideoItem = ({ className, videoData }) => {
   }, [clickedFavourite]);
 
   return (
-    <a
-      href={`https://youtu.be/${videoData.src}`}
+    // <a
+    //   href={`https://youtu.be/${videoData.src}`}
+    //   className={classNames(classes.videoItem, className)}
+    // >
+    <Link
+      to={`/video/${videoData.src}`}
       className={classNames(classes.videoItem, className)}
     >
       <div className={classes.videoPreview}>
@@ -339,14 +343,15 @@ const VideoItem = ({ className, videoData }) => {
           <div className={classes.videoTags}>
             <object data="" type="">
               <TagsBlock
-                videoItem
+                withoutBorder
                 tags={videoData.subcategory.slice(0, 5)}
               />
             </object>
           </div>
         )
       }
-    </a>
+    </Link >
+    // </a>
   )
 };
 
