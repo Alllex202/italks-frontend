@@ -238,31 +238,7 @@ const VideoItem = ({ className, videoData }) => {
     if (!auth) {
       history.push('/login/for/star');
     } else if (!clickedFavourite) {
-      // setFav(!isFav);
-      // TODO connect to server
-
-      const token = getAuthToken();
-      // console.log(token)
       clickFavourite(true);
-      axios
-        .post(`${Settings.serverUrl}${getUrlPathForLike()}`, {}, {
-          headers: {
-            'Authorization': token ? `Token ${token}` : null,
-          },
-        })
-        .then(response => {
-          // console.log(111, response)
-          setFav(!isFav);
-        })
-        .catch(error => {
-          // console.log(222, error)
-          if (error.response.status === 401) {
-            history.push('/login/for/like');
-          }
-        })
-        .finally(() => {
-          clickFavourite(false);
-        });
     }
   };
 
@@ -277,6 +253,29 @@ const VideoItem = ({ className, videoData }) => {
 
     return urlPath;
   };
+
+  React.useEffect(() => {
+    if (clickedFavourite) {
+      const token = getAuthToken();
+      axios
+        .post(`${Settings.serverUrl}${getUrlPathForLike()}`, {}, {
+          headers: {
+            'Authorization': token ? `Token ${token}` : null,
+          },
+        })
+        .then(response => {
+          setFav(prev => !prev);
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            history.push('/login/for/like');
+          }
+        })
+        .finally(() => {
+          clickFavourite(false);
+        });
+    }
+  }, [clickedFavourite]);
 
   return (
     <a

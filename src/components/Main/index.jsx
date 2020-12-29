@@ -57,13 +57,6 @@ const Main = (props) => {
           </Route>
 
           <Route exact path={[
-            '/tracked/category/:trackedCategoryId/subcategory/:trackedSubcategoryId',
-            '/tracked/category/:trackedCategoryId',
-          ]}>
-            {auth ? <Category /> : <Redirect to='/overview' />}
-          </Route>
-
-          <Route exact path={[
             "/overview/:period",
           ]}>
             <PageOverviewPeriod />

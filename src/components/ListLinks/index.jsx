@@ -139,8 +139,8 @@ const ListLinks = ({
   onClick, categoryType, subcategoryType, mainType, trackedType
 }) => {
   const classes = useStyles();
-  let location = useLocation();
-  const { categoryId, subcategoryId, pageName, trackedCategoryId, trackedSubcategoryId } = useParams();
+  // let location = useLocation();
+  const { categoryId, subcategoryId, pageName } = useParams();
   const [listOpened, setListOpened] = React.useState(false);
 
   const handleClickShowMore = () => {

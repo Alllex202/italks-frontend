@@ -101,7 +101,7 @@ const App = (props) => {
   };
 
   const addFavouritesCategory = (addedCategories) => {
-    setFavouriteCategories([...favouriteCategories, ...(addedCategories.map((el) => {
+    setFavouriteCategories(prev => [...prev, ...(addedCategories.map((el) => {
       return {
         id: el.subcategory_id,
         categoryId: el.category_id,
