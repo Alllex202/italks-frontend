@@ -29,7 +29,7 @@ const useStyles = makeStyles({
         color: SD.basic.colors.main.greyLight,
       },
     },
-    '&:hover': {
+    '&:not(:disabled):hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
     },
     '&:active': {
@@ -71,71 +71,6 @@ const useStyles = makeStyles({
   roundedButtonStartIcon: {
     marginRight: 4,
   },
-
-
-
-  // rootRoundedButton: {
-  //   borderRadius: '32px',
-  //   border: '1px solid #6D1EFF',
-  //   // width: 'auto',
-  //   // height: 48,
-  //   transition: '.2s all',
-  //   '&:hover, &:focus': {
-  //     backgroundColor: SD.basic.colors.translucent.violet,
-  //   },
-  //   '&:active': {
-  //     backgroundColor: SD.basic.colors.main.violetDark,
-  //     '& span': {
-  //       color: SD.basic.colors.main.white,
-  //     },
-  //     '& path': {
-  //       fill: SD.basic.colors.main.white,
-  //     }
-  //   },
-  // },
-  // disabledRoudedButton: {
-  //   cursor: 'not-allowed',
-  //   '&:disabled': {
-  //     cursor: 'not-allowed',
-  //   },
-  // },
-  // labelRoundedButton: {
-  //   transition: '.2s all',
-  //   fontStyle: 'normal',
-  //   fontWeight: 'normal',
-  //   fontSize: '14px',
-  //   lineHeight: '16px',
-  //   textTransform: 'none',
-  //   color: SD.basic.colors.main.violetDark,
-  // },
-  // iconRoudedButton: {
-  //   transition: '.2s all',
-  //   '& path': {
-  //     fill: SD.basic.colors.main.violetDark,
-  //   },
-  //   '& svg': {
-  //     width: 14,
-  //     height: 14,
-  //   },
-  // },
-  // '@media (max-width: 1599px)': {
-  //   labelRoundedButton: {
-  //     fontSize: '14px',
-  //     lineHeight: '16px',
-  //   },
-  //   iconRoudedButton: {
-  //     '& svg': {
-  //       width: 14,
-  //       height: 14,
-  //     },
-  //   }
-  // },
-  // '@media (min-width: 1600px) and (max-width: 1919px)': {
-
-  // },
-  // '@media (min-width: 1920px)': {
-
-  // }
 });
 
 const RoundedButton = (props) => {
@@ -175,25 +110,6 @@ const RoundedButton = (props) => {
         </div>
       }
     </button>
-    // <Button
-    //   endIcon={props.endIcon}
-    //   startIcon={props.startIcon}
-    //   component={props.component}
-    //   disableRipple
-    //   className={props.className}
-    //   classes={{
-    //     root: classNames(classes.rootRoundedButton, props.classes && props.classes.root),
-    //     label: classNames(classes.labelRoundedButton, props.classes && props.classes.label),
-    //     endIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.endIcon),
-    //     startIcon: classNames(classes.iconRoudedButton, props.classes && props.classes.startIcon),
-    //     // disabled: classNames(classes.disabledRoudedButton, props.classes && props.classes.disabled)
-    //   }}
-    //   children={props.children}
-    //   onClick={props.onClick}
-    //   id={props.id}
-    //   name={props.name}
-    //   disabled={props.disabled}
-    // />
   )
 }
 
