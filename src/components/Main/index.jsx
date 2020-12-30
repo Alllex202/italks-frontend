@@ -7,19 +7,19 @@ import { VideoList } from '..';
 import { Settings } from '../../settings/settings';
 import { getAuthToken } from '../../auth/Auth';
 import { Context } from '../Context';
-import PageVideoViewer from '../../pages/PageVideoViewer';
+import {PageVideoViewer} from '../../pages';
 
 const useStyles = makeStyles({
   main: {
     height: 'auto',
     width: '100%',
     // padding: '90px 36px 100px 268px',
-    padding: '65px 0 100px 232px',
+    padding: '65px 0 0 232px',
   },
   mainContainer: {
     height: 'auto',
     width: '976px',
-    padding: '25px 0 0 0',
+    padding: '25px 0 100px 0',
     margin: '0 auto',
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
