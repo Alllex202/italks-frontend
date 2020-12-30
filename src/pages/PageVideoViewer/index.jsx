@@ -2,13 +2,14 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { stylesDictionary as SD } from '../../settings/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { TagsBlock } from '../../components';
+import { TagsBlock, VideoItem } from '../../components';
 
 import axios from 'axios';
 import classNames from 'classnames';
 import { Settings } from '../../settings/settings';
 import { Context } from '../../components/Context';
 import { getAuthToken } from '../../auth/Auth';
+import ListRecommendedVideo from './ListRecommendedVideo';
 
 const useStyles = makeStyles({
   pageVideoViewer: {
@@ -17,15 +18,15 @@ const useStyles = makeStyles({
   video: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 785,
-    width: 'calc(100% - 244px)',
-    // height: 3333,
+    minWidth: 769,
+    width: 'calc(100% - 262px)',
   },
   videoPlayerWrapper: {
-    minWidth: 785,
+    minWidth: 769,
     width: '100%',
     position: 'relative',
-    paddingTop: 'max(56.25%, 441.5px)',
+    paddingTop: 'max(56.25%, 433px)',
+    backgroundColor: SD.basic.colors.main.grey,
   },
   videoPlayer: {
     width: '100%',
@@ -45,13 +46,14 @@ const useStyles = makeStyles({
     right: 18,
     width: 24,
     height: 24,
-    transition: 'opacity .3s, transform .5s',
+    // transition: 'opacity .3s, transform .5s',
+    transition: 'opacity .3s',
     cursor: 'pointer',
   },
   favouriteActive: {
-    transform: 'rotate(360deg)',
-    '& > $favouriteIcon': {
-      opacity: 1,
+    // transform: 'rotate(360deg)',
+    '& > $unfavouriteIcon': {
+      opacity: 0,
     }
   },
   videoFavouriteIcon: {
@@ -65,14 +67,14 @@ const useStyles = makeStyles({
       width: 24,
       height: 24,
       '& > path': {
-        fill: SD.basic.colors.main.yellow,
+        // fill: SD.basic.colors.main.yellow,
       },
     },
   },
   unfavouriteIcon: {
   },
   favouriteIcon: {
-    opacity: 0,
+    // opacity: 0,
   },
   videoName: {
     fontStyle: 'normal',
@@ -120,10 +122,15 @@ const useStyles = makeStyles({
   },
   recommendedVideo: {
     display: 'flex',
-    minWidth: 244,
-    maxWidth: 244,
-    width: 244,
-    backgroundColor: SD.basic.colors.main.whiteSmoke,
+    flexDirection: 'column',
+    minWidth: 262,
+    maxWidth: 262,
+    width: 262,
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: 100,
+    // backgroundColor: SD.basic.colors.main.whiteSmoke,
+    borderLeft: `1px solid ${SD.basic.colors.main.greyLight}`,
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
@@ -132,6 +139,21 @@ const useStyles = makeStyles({
 
   }
 });
+
+const months = {
+  0: 'Января',
+  1: 'Февраля',
+  2: 'Марта',
+  3: 'Апреля',
+  4: 'Мая',
+  5: 'Июня',
+  6: 'Июля',
+  7: 'Августа',
+  8: 'Сентября',
+  9: 'Октября',
+  10: 'Ноября',
+  11: 'Декабря',
+};
 
 const PageVideoViewer = () => {
   const classes = useStyles();
@@ -142,6 +164,10 @@ const PageVideoViewer = () => {
   const [isFav, setFav] = React.useState(false);
   const [clickedFavourite, clickFavourite] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
+  const [similarVideos, setSimilarVideos] = React.useState([]);
+  const [isLoadingSimilarVideos, setLoadingSimilarVideos] = React.useState(true);
+  const [isLastPageSimilarVideos, setLastPageSimilarVideos] = React.useState(false);
+  const [numberPageSimilarVideos, setNumberPageSimilarVideos] = React.useState(1);
 
   const handlerClickFavourite = (e) => {
     e.preventDefault();
@@ -163,6 +189,49 @@ const PageVideoViewer = () => {
 
     return urlPath;
   };
+
+  const formatDate = (date) => {
+    // console.log(1)
+    const createDate = new Date(date);
+    return `${createDate.getDate()} ${months[createDate.getMonth()]} ${createDate.getFullYear()}`;
+  };
+
+  const handlerClickLoadVideoMore = () => {
+    if (!isLastPageSimilarVideos && !isLoadingSimilarVideos) {
+      setNumberPageSimilarVideos(prev => prev + 1);
+    }
+  };
+
+  const getNewSimilarVideos = () => {
+    setLoadingSimilarVideos(true);
+    const token = getAuthToken();
+    axios
+      // .get(`${Settings.serverUrl}/video/similar/${videoId}/?page=${numberPageSimilarVideos}`, {
+      //   headers: {
+      //     'Authorization': token ? `Token ${token}` : null,
+      //   },
+      // })
+      .get(`${Settings.serverUrl}/video/similar/1/?page=${numberPageSimilarVideos}`, {
+        headers: {
+          'Authorization': token ? `Token ${token}` : null,
+        },
+      })
+      .then(response => {
+        // console.log(response)
+        setSimilarVideos(prev => [...prev, ...response.data.videos_page])
+        setLastPageSimilarVideos(response.data.is_last_page);
+      })
+      .catch(error => {
+        console.log(error.response)
+      })
+      .finally(() => {
+        setLoadingSimilarVideos(false);
+      });
+  };
+
+  React.useEffect(() => {
+    getNewSimilarVideos();
+  }, [numberPageSimilarVideos]);
 
   React.useEffect(() => {
     if (clickedFavourite) {
@@ -189,6 +258,7 @@ const PageVideoViewer = () => {
 
   React.useEffect(() => {
     axios
+      // .get(`${Settings.serverUrl}/video/${videoId}/`)
       .get(`${Settings.serverUrl}/video/1/`)
       .then(response => {
         console.log(response)
@@ -199,7 +269,7 @@ const PageVideoViewer = () => {
 
       })
       .finally(() => {
-        setLoading(false)
+        setLoading(false);
       });
   }, []);
 
@@ -218,21 +288,24 @@ const PageVideoViewer = () => {
         </div>
         <div className={classes.videoData}>
           <div
-            className={classNames(classes.favouriteButton, isFav && classes.favouriteActive)}
+            className={classNames(classes.favouriteButton,
+              isFav && classes.favouriteActive)}
             onClick={handlerClickFavourite}
           >
             <div className={classNames(classes.videoFavouriteIcon, classes.favouriteIcon)}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.0003 23.0267L24.2403 28.0001L22.0537 18.6267L29.3337 12.3201L19.747 11.5067L16.0003 2.66675L12.2537 11.5067L2.66699 12.3201L9.94699 18.6267L7.76033 28.0001L16.0003 23.0267Z" fill="#333333" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="4" fill="black" />
+                <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="white" />
               </svg>
             </div>
             <div className={classNames(classes.videoFavouriteIcon, classes.unfavouriteIcon)}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="#FFDD1E" />
+                <rect width="24" height="24" rx="4" fill="black" />
+                <path d="M22 9.24L14.81 8.62L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.55 13.97L22 9.24ZM12 15.4L8.24 17.67L9.24 13.39L5.92 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="white" />
               </svg>
             </div>
           </div>
-          <span className={classes.videoName}>Machine Learning на Python или зачем я это делаю?</span>
+          <span className={classes.videoName}>{videoData.name}</span>
           <div className={classes.videoBlockDetails}>
             <span className={classes.videoDetails}>
               <span className={classes.videoDetail}>
@@ -246,7 +319,7 @@ const PageVideoViewer = () => {
                 </a>
               </span>
               <span className={classes.videoDetail}>
-                {videoData.date}
+                {formatDate(videoData.date)}
               </span>
             </span>
           </div>
@@ -265,10 +338,16 @@ const PageVideoViewer = () => {
 
       </div>
       <div className={classes.recommendedVideo}>
-
+        <ListRecommendedVideo
+          isLastPage={isLastPageSimilarVideos}
+          videos={similarVideos}
+          onLoadVideoMore={handlerClickLoadVideoMore}
+          isLoading={isLoadingSimilarVideos}
+        />
       </div>
     </div>
   )
 };
 
 export default PageVideoViewer;
+
