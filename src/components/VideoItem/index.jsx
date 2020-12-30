@@ -24,14 +24,16 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     cursor: 'pointer',
     '&:hover': {
-      width: 262,
-      top: -18,
-      left: -18,
-      padding: 15,
-      border: '3px solid #1E40FF',
-      boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
-      borderRadius: '4px',
-      zIndex: 1,
+      '&:not($videoItemWithoutBorder)': {
+        width: 262,
+        top: -18,
+        left: -18,
+        padding: 15,
+        border: '3px solid #1E40FF',
+        boxShadow: '0px 2px 10px 8px rgba(0, 0, 0, 0.12)',
+        borderRadius: '4px',
+        zIndex: 1,
+      },
       '& $videoTags': {
         marginTop: 26,
         opacity: '1',
@@ -48,6 +50,9 @@ const useStyles = makeStyles({
         },
       },
     },
+  },
+  videoItemWithoutBorder: {
+
   },
   videoPreview: {
     width: '100%',
@@ -172,7 +177,7 @@ const useStyles = makeStyles({
   }
 });
 
-const VideoItem = ({ className, videoData }) => {
+const VideoItem = ({ className, videoData, withoutBorder, withoutTags }) => {
   const classes = useStyles();
   let history = useHistory();
   const { auth } = React.useContext(Context);
@@ -284,7 +289,9 @@ const VideoItem = ({ className, videoData }) => {
     // >
     <Link
       to={`/video/${videoData.src}`}
-      className={classNames(classes.videoItem, className)}
+      className={classNames(classes.videoItem,
+        withoutBorder && classes.videoItemWithoutBorder,
+        className)}
     >
       <div className={classes.videoPreview}>
         <img
@@ -339,7 +346,7 @@ const VideoItem = ({ className, videoData }) => {
         </object>
       </div>
       {
-        videoData && videoData.subcategory && videoData.subcategory.length > 0 && (
+        !withoutTags && videoData && videoData.subcategory && videoData.subcategory.length > 0 && (
           <div className={classes.videoTags}>
             <object data="" type="">
               <TagsBlock
