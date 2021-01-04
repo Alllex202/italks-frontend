@@ -14,12 +14,11 @@ const App = (props) => {
   const [auth, setAuth] = useState(null);
   const [categories, setCategories] = React.useState(null);
   const [favouriteCategories, setFavouriteCategories] = React.useState(null);
-  const [infoUser, setInfoUser] = useState({
-    notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
-  });
+  const [infoUser, setInfoUser] = useState(null);
   let location = useLocation();
   const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
   const [timerId, setTimerId] = React.useState(null);
+  const [lastVideo, setLastVideo] = React.useState(null);
 
   const getCategories = () => {
     axios
@@ -129,7 +128,7 @@ const App = (props) => {
   };
 
   React.useEffect(() => {
-    checkAuth(setAuth);
+    checkAuth(setAuth, setInfoUser);
     getCategories();
   }, []);
 

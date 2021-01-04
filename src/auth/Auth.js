@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Settings } from '../settings/settings';
 
-const checkAuth = (setAuth) => {
+const checkAuth = (setAuth, setInfoUser) => {
   const token = getAuthToken();
   if (token) {
     axios
@@ -11,7 +11,12 @@ const checkAuth = (setAuth) => {
         }
       })
       .then(response => {
-        response.status === 201 ? setAuth(true) : setAuth(false);
+        if (response.status === 201){
+          setAuth(true)
+          // setInfoUser(response.data.infoUser)
+        } else {
+          setAuth(false)
+        };
       })
       .catch(error => {
         setAuth(false);

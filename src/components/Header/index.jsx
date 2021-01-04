@@ -536,7 +536,6 @@ const Header = (props) => {
                           </span>
                           {
                             notificationsOpened && (<Notifications
-                              infoUser={infoUser}
                               openNotifications={openNotifications}
                               notificationsOpened={notificationsOpened}
                               lockScroll={lockScroll}
@@ -592,9 +591,26 @@ const Header = (props) => {
 export default Header;
 
 
-const Notifications = ({ infoUser, openNotifications, notificationsOpened,
+const Notifications = ({ openNotifications, notificationsOpened,
   lockScroll, setScroll }) => {
   const classes = useStyles();
+  const [isLoading, setLoading] = React.useState(true);
+  const [notifications, setNotifications] = React.useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${Settings.serverUrl}/`)
+      .then(response => {
+        setNotifications(response.data)
+      })
+      .catch(error => {
+        console.log(error.response);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const scroll = parseInt(window.pageYOffset);
@@ -615,28 +631,30 @@ const Notifications = ({ infoUser, openNotifications, notificationsOpened,
           className={classNames(classes.smallContainer, classes.notifications)}
         >
           {
-            infoUser && infoUser.notifications.length === 0
-              ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
-              : (
-                infoUser.notifications.map(notif => (
-                  <a
-                    // key={ind}
-                    href='#w'
-                    className={classes.notification}
-                    onClick={() => openNotifications(false)}
-                  >
-                    <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
-                    <div className={classes.notificationText}>
-                      <span href='#qwe' className={classes.notificatioTitle}>
-                        <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
+            !isLoading && notifications
+              ? notifications.length === 0
+                ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
+                : (
+                  notifications.map(notif => (
+                    <a
+                      // key={ind}
+                      href='#w'
+                      className={classes.notification}
+                      onClick={() => openNotifications(false)}
+                    >
+                      <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
+                      <div className={classes.notificationText}>
+                        <span href='#qwe' className={classes.notificatioTitle}>
+                          <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
                                         </span>
-                      <span className={classes.notificatioDate}>
-                        16 ноября в 11:42
+                        <span className={classes.notificatioDate}>
+                          16 ноября в 11:42
                                         </span>
-                    </div>
-                  </a>
-                ))
-              )
+                      </div>
+                    </a>
+                  ))
+                )
+              : <>LOADING</>
           }
         </div>
       </div>
