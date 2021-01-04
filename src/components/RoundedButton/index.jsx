@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     '&:not(:disabled):hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
     },
-    '&:active': {
+    '&:not(:disabled):active': {
       backgroundColor: SD.basic.colors.main.violetDark,
       '& > $roundedButtonIcon path': {
         fill: SD.basic.colors.main.white,

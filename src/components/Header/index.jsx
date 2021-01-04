@@ -184,7 +184,7 @@ const useStyles = makeStyles({
     width: 180,
     backgroundColor: 'transparent',
     border: '1px solid #000000',
-    '&:hover': {
+    '&:not(:disabled):hover': {
       backgroundColor: SD.basic.colors.main.violetDark,
       borderColor: SD.basic.colors.main.violetDark,
       '& span': {
