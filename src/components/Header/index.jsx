@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { stylesDictionary as SD, stylesDictionary } from '../../settings/styles'
 
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink, Route, Switch } from 'react-router-dom';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -431,7 +431,7 @@ const useStyles = makeStyles({
     margin: 'auto',
   },
   '@media (max-width: 1599px)': {
-    
+
   },
   '@media (min-width: 1600px) and (max-width: 1919px)': {
 
@@ -494,30 +494,36 @@ const Header = (props) => {
                       </span>
                     </React.Fragment>)
                     : (<React.Fragment>
-                      <div className={classNames(classes.containerBlock, classes.continueWatchingBlock)}>
-                        <RoundedButton
-                          onClick={() => console.log('Продолжить просмотр')}
-                          className={classes.continueWatchingButton}
-                          classes={{
-                            label: classes.continueWatchingLabel,
-                          }}
-                        >
-                          Продолжить просмотр
-                        </RoundedButton>
-                        <div className={classNames(classes.smallContainerWrapper, classes.continueWatchingInfoWrapper)}>
-                          <div className={classNames(classes.smallContainer, classes.continueWatchingInfo)}>
-                            <img className={classes.continueWatchingImage} src={continueWatchingImage} alt="preview" />
-                            <div>
-                              <span className={classes.continueWatchingTitle}>
-                                Machine Learning на Python или зачем я это делаю?
+                      <Switch>
+                        <Route exact path='/video/:videoId'>
+                        </Route>
+                        <Route>
+                          <div className={classNames(classes.containerBlock, classes.continueWatchingBlock)}>
+                            <RoundedButton
+                              onClick={() => console.log('Продолжить просмотр')}
+                              className={classes.continueWatchingButton}
+                              classes={{
+                                label: classes.continueWatchingLabel,
+                              }}
+                            >
+                              Продолжить просмотр
+                            </RoundedButton>
+                            <div className={classNames(classes.smallContainerWrapper, classes.continueWatchingInfoWrapper)}>
+                              <div className={classNames(classes.smallContainer, classes.continueWatchingInfo)}>
+                                <img className={classes.continueWatchingImage} src={continueWatchingImage} alt="preview" />
+                                <div>
+                                  <span className={classes.continueWatchingTitle}>
+                                    Machine Learning на Python или зачем я это делаю?
                               </span>
-                              <span className={classes.continueWatchingTime}>
-                                22:48 из 42:43
+                                  <span className={classes.continueWatchingTime}>
+                                    22:48 из 42:43
                               </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </Route>
+                      </Switch>
                       <ClickAwayListener onClickAway={() => openNotifications(false)}>
                         <div className={classNames(classes.containerBlock, classes.imageButtonBlock)}>
                           <span
