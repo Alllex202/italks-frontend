@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { Route, Redirect, useLocation, Switch, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // import { Header, Main, Sidebar, Test } from './components';
 // import { ActivateProfile, LogRegRes } from './pages';
 import axios from 'axios';
@@ -17,8 +17,9 @@ const App = (props) => {
   const [infoUser, setInfoUser] = useState({
     notifications: [1, 2, 3, 1, 1, 1, 1, 1,],
   });
-  // let location = useLocation();
+  let location = useLocation();
   const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
+  const [timerId, setTimerId] = React.useState(null);
 
   const getCategories = () => {
     axios
@@ -122,6 +123,11 @@ const App = (props) => {
       .filter(el => !removedCategories.some(rem => rem.category_id === el.categoryId && rem.subcategory_id === el.subcategoryId)));
   };
 
+  const resetTimer = () => {
+    clearInterval(timerId);
+    setTimerId(null);
+  };
+
   React.useEffect(() => {
     checkAuth(setAuth);
     getCategories();
@@ -134,6 +140,10 @@ const App = (props) => {
       removeFavouritesCategories();
     }
   }, [auth]);
+
+  React.useEffect(() => {
+    resetTimer();
+  }, [location]);
 
   return (
     (auth !== null && categories !== null) ?
@@ -150,7 +160,10 @@ const App = (props) => {
           removeFavouritesCategory,
           getFavouritesCategories,
           secondLevelMenuShow,
-          setSecondLevelMenuShow
+          setSecondLevelMenuShow,
+          timerId,
+          setTimerId,
+          resetTimer
         }}>
           <SiteRouting />
         </Context.Provider>

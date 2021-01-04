@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { stylesDictionary as SD } from '../../settings/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { TagsBlock, VideoItem } from '../../components';
@@ -10,6 +10,7 @@ import { Settings } from '../../settings/settings';
 import { Context } from '../../components/Context';
 import { getAuthToken } from '../../auth/Auth';
 import ListRecommendedVideo from './ListRecommendedVideo';
+import YouTube from 'react-youtube';
 
 const useStyles = makeStyles({
   pageVideoViewer: {
@@ -159,7 +160,9 @@ const PageVideoViewer = () => {
   const classes = useStyles();
   let { videoId } = useParams();
   let history = useHistory();
-  const { auth } = React.useContext(Context);
+  let location = useLocation();
+  const timeTransferPeriodMs = 1000;
+  const { auth, timerId, setTimerId, resetTimer } = React.useContext(Context);
   const [videoData, setVideoData] = React.useState(null);
   const [isFav, setFav] = React.useState(false);
   const [clickedFavourite, clickFavourite] = React.useState(false);
@@ -169,13 +172,10 @@ const PageVideoViewer = () => {
   const [isLastPageSimilarVideos, setLastPageSimilarVideos] = React.useState(false);
   const [numberPageSimilarVideos, setNumberPageSimilarVideos] = React.useState(1);
 
-  const handlerClickFavourite = (e) => {
-    e.preventDefault();
-    if (!auth) {
-      history.push('/login/for/star');
-    } else if (!clickedFavourite) {
-      clickFavourite(true);
-    }
+  const formatDate = (date) => {
+    // console.log(1)
+    const createDate = new Date(date);
+    return `${createDate.getDate()} ${months[createDate.getMonth()]} ${createDate.getFullYear()}`;
   };
 
   const getUrlPathForLike = () => {
@@ -190,48 +190,92 @@ const PageVideoViewer = () => {
     return urlPath;
   };
 
-  const formatDate = (date) => {
-    // console.log(1)
-    const createDate = new Date(date);
-    return `${createDate.getDate()} ${months[createDate.getMonth()]} ${createDate.getFullYear()}`;
-  };
-
   const handlerClickLoadVideoMore = () => {
     if (!isLastPageSimilarVideos && !isLoadingSimilarVideos) {
       setNumberPageSimilarVideos(prev => prev + 1);
     }
   };
 
-  const getNewSimilarVideos = () => {
+  const handlerClickFavourite = (e) => {
+    e.preventDefault();
+    if (!auth) {
+      history.push('/login/for/star');
+    } else if (!clickedFavourite) {
+      clickFavourite(true);
+    }
+  };
+
+  const setTimer = (e) => {
+    setTimerId(setInterval(() => {
+      const currentTime = Math.trunc(e.target.getCurrentTime());
+      const token = getAuthToken();
+      // console.log(currentTime);
+      axios
+        .post(`${Settings.serverUrl}/video/time/${videoData.id}/?time=${currentTime}`, {}, {
+          headers: {
+            'Authorization': token ? `Token ${token}` : null,
+          },
+        })
+        .then(response => {
+          // console.log(response)
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
+    }, timeTransferPeriodMs));
+  };
+
+  React.useEffect(() => {
+    resetTimer();
+    setLoading(true);
+    setVideoData(null);
+    setFav(false);
+    setSimilarVideos([]);
     setLoadingSimilarVideos(true);
+    setLastPageSimilarVideos(false);
+    setNumberPageSimilarVideos(1);
+
+    // console.log(videoId);
     const token = getAuthToken();
     axios
-      // .get(`${Settings.serverUrl}/video/similar/${videoId}/?page=${numberPageSimilarVideos}`, {
-      //   headers: {
-      //     'Authorization': token ? `Token ${token}` : null,
-      //   },
-      // })
-      .get(`${Settings.serverUrl}/video/similar/1/?page=${numberPageSimilarVideos}`, {
+      .get(`${Settings.serverUrl}/video/info/${videoId}/`, {
         headers: {
           'Authorization': token ? `Token ${token}` : null,
         },
       })
       .then(response => {
         // console.log(response)
-        setSimilarVideos(prev => [...prev, ...response.data.videos_page])
-        setLastPageSimilarVideos(response.data.is_last_page);
+        setVideoData(response.data);
+        setFav(response.data.is_favorite);
+
+        // Загрузка рекомендаций
+        setLoadingSimilarVideos(true);
+        // const token = getAuthToken();
+        axios
+          .get(`${Settings.serverUrl}/video/similar/${videoId}/?page=${1}`, {
+            headers: {
+              'Authorization': token ? `Token ${token}` : null,
+            },
+          })
+          .then(response => {
+            // console.log(response)
+            setSimilarVideos(response.data.videos_page)
+            setLastPageSimilarVideos(response.data.is_last_page);
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
+          .finally(() => {
+            setLoadingSimilarVideos(false);
+          });
       })
       .catch(error => {
         console.log(error.response)
       })
       .finally(() => {
-        setLoadingSimilarVideos(false);
+        setLoading(false);
       });
-  };
-
-  React.useEffect(() => {
-    getNewSimilarVideos();
-  }, [numberPageSimilarVideos]);
+  }, [videoId]);
 
   React.useEffect(() => {
     if (clickedFavourite) {
@@ -246,6 +290,7 @@ const PageVideoViewer = () => {
           setFav(prev => !prev);
         })
         .catch(error => {
+          console.log(error.response)
           if (error.response.status === 401) {
             history.push('/login/for/like');
           }
@@ -257,33 +302,48 @@ const PageVideoViewer = () => {
   }, [clickedFavourite]);
 
   React.useEffect(() => {
-    axios
-      // .get(`${Settings.serverUrl}/video/${videoId}/`)
-      .get(`${Settings.serverUrl}/video/1/`)
-      .then(response => {
-        console.log(response)
-        setVideoData(response.data);
-        response.data.is_favorite && setFav(response.data.is_favorite);
-      })
-      .catch(error => {
-
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    if (similarVideos.length > 0) {
+      setLoadingSimilarVideos(true);
+      const token = getAuthToken();
+      axios
+        .get(`${Settings.serverUrl}/video/similar/${videoId}/?page=${numberPageSimilarVideos}`, {
+          headers: {
+            'Authorization': token ? `Token ${token}` : null,
+          },
+        })
+        .then(response => {
+          // console.log(response)
+          setSimilarVideos(prev => [...prev, ...response.data.videos_page])
+          setLastPageSimilarVideos(response.data.is_last_page);
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
+        .finally(() => {
+          setLoadingSimilarVideos(false);
+        });
+    }
+  }, [numberPageSimilarVideos]);
 
   return (
     !isLoading && <div className={classes.pageVideoViewer}>
       <div className={classes.video}>
         <div className={classes.videoPlayerWrapper}>
-          <iframe
+          <YouTube
+            videoId={videoId}
             className={classes.videoPlayer}
-            title='video'
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?&autoplay=1&start=0`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+            opts={{
+              playerVars: {
+                autoplay: 1,  // Автовоспроизведение
+                // color: 'white',  // Цвет - red | white
+                start: videoData.time || 1,  // Старт видео
+                rel: 0,  // Настройки для рекомендаций ютуба
+                mute: 1,
+              },
+            }}
+            onPlay={setTimer}
+            onPause={resetTimer}
+            onEnd={resetTimer}
           />
         </div>
         <div className={classes.videoData}>
@@ -309,12 +369,12 @@ const PageVideoViewer = () => {
           <div className={classes.videoBlockDetails}>
             <span className={classes.videoDetails}>
               <span className={classes.videoDetail}>
-                <a href={videoData.resource.src}>
+                <a href={videoData.resource.src} target='_blank' rel="noopener noreferrer">
                   {videoData.resource.name}
                 </a>
               </span>
               <span className={classes.videoDetail}>
-                <a href={videoData.author.src}>
+                <a href={videoData.author.src} target='_blank' rel="noopener noreferrer">
                   {videoData.author.name}
                 </a>
               </span>
@@ -350,4 +410,3 @@ const PageVideoViewer = () => {
 };
 
 export default PageVideoViewer;
-
