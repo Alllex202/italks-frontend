@@ -100,7 +100,7 @@ const PageSettings = () => {
       clickButtonSave(true);
       const token = getAuthToken();
       const data = {
-        userName: username
+        username: username,
       };
       if (oldPassword !== '' && newPassword !== '') {
         data['old_password'] = oldPassword;
@@ -113,22 +113,34 @@ const PageSettings = () => {
           },
         })
         .then(response => {
-          console.log(response);
-          setUsername(response.data.username);
+          // console.log(response);
+          setUsername(response.data.info_user.username);
+          setErrorUsername('');
+          setErrorOldPassword('');
+          setErrorNewPassword('');
+          setOldPassword('');
+          setNewPassword('');
         })
         .catch(error => {
-          console.log(error.response);
-          if (error.response.status === '') {
+          setErrorUsername('');
+          setErrorOldPassword('');
+          setErrorNewPassword('');
+          setOldPassword('');
+          setNewPassword('');
+          // console.log(error.response);
+          if (error.response.status === 400) {
             if (error.response) {
               setUsername(error.response.data.info_user.username);
-              error.response.data.errors && error.response.data.errors.username
-                && setErrorUsername(error.response.data.errors.username);
+              if (error.response.data.errors && error.response.data.errors.username) {
+                setErrorUsername(error.response.data.errors.username);
+              }
+              if (error.response.data.errors && error.response.data.errors.old_password) {
+                setErrorOldPassword(error.response.data.errors.old_password);
+              }
 
-              error.response.data.errors && error.response.data.errors.old_password
-                && setErrorOldPassword(error.response.data.errors.old_password);
-
-              error.response.data.errors && error.response.data.errors.new_password
-                && setErrorNewPassword(error.response.data.errors.new_password);
+              if (error.response.data.errors && error.response.data.errors.new_password) {
+                setErrorNewPassword(error.response.data.errors.new_password);
+              }
             }
           }
         })
@@ -251,6 +263,7 @@ const PageSettings = () => {
             <RoundedInputWithErrors
               className={classes.settingInput}
               value={username}
+              type='text'
               placeholder='Имя'
               error={errorUsername}
               onChange={(e) => setUsername(e.target.value)}
@@ -262,6 +275,7 @@ const PageSettings = () => {
               className={classes.settingInput}
               // disabled
               value={email}
+              type='email'
               placeholder='E-mail'
               readOnly
               onChange={(e) => e.preventDefault()}
@@ -323,6 +337,7 @@ const PageSettings = () => {
         <RoundedButton
           className={classes.btnSave}
           onClick={handlerButtonSave}
+          disabled={clickedButtonSave}
         >
           Сохранить настройки
         </RoundedButton>
