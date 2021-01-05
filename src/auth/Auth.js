@@ -11,7 +11,7 @@ const checkAuth = (setAuth, setInfoUser) => {
         }
       })
       .then(response => {
-        if (response.status === 201){
+        if (response.status === 200){
           setAuth(true)
           // setInfoUser(response.data.infoUser)
         } else {
