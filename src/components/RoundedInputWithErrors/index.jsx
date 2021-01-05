@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {stylesDictionary as SD} from '../../settings/styles';
+import { stylesDictionary as SD } from '../../settings/styles';
 
 import { makeStyles } from '@material-ui/core';
 import { RoundedInput } from '../../components';
 import classNames from 'classnames';
 
 const useStyle = makeStyles({
-   inputWrapper: {
+  inputWrapper: {
     position: 'relative',
   },
   inputError: {
@@ -26,7 +26,7 @@ const useStyle = makeStyles({
 });
 
 const RoundedInputWithErrors = (props) => {
-const classes = useStyle();
+  const classes = useStyle();
 
   return (
     <div className={classes.inputWrapper}>
@@ -38,7 +38,7 @@ const classes = useStyle();
       <RoundedInput
         className={classNames(classes.input, props.className)}
         type={props.type}
-        autoComplete={props.autoComplete}
+        autoCompleteOff={props.autoCompleteOff}
         maxLength={props.maxLength}
         autoFocus={props.autoFocus}
         placeholder={props.placeholder}
@@ -47,6 +47,9 @@ const classes = useStyle();
         value={props.value}
         id={props.id}
         name={props.name}
+        readOnly={props.readOnly}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
       />
     </div>
   )

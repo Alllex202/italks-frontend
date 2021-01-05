@@ -100,6 +100,7 @@ const RestoreConfirm = () => {
           onChange={e => setNewPass(e.target.value)}
           id='password'
           error={passError}
+          autoCompleteOff
         />
         <RoundedButton
           className={classes.submitButtom}

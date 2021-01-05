@@ -5,3 +5,4 @@ export {default as Search} from './Search';
 export {default as ActivateProfile} from './ActivateProfile';
 export {default as FavouritePage} from './FavouritePage';
 export {default as PageVideoViewer} from './PageVideoViewer';
+export {default as PageSettings} from './PageSettings';

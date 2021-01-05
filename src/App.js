@@ -162,7 +162,9 @@ const App = (props) => {
           setSecondLevelMenuShow,
           timerId,
           setTimerId,
-          resetTimer
+          resetTimer,
+          lastVideo,
+          setLastVideo
         }}>
           <SiteRouting />
         </Context.Provider>

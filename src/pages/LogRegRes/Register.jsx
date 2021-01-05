@@ -130,6 +130,7 @@ const Register = () => {
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 error={usernameError}
+                autoCompleteOff
               />
               <RoundedInputWithErrors
                 className={classes.input}
@@ -137,7 +138,7 @@ const Register = () => {
                 placeholder='Почта'
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                autoComplete='true'
+                autoCompleteOff
                 error={emailError}
               />
               <RoundedInputWithErrors
@@ -147,6 +148,7 @@ const Register = () => {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 error={passwordError}
+                autoCompleteOff
               />
               <RoundedButton
                 className={classes.submitButtom}

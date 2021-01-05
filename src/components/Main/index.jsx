@@ -2,12 +2,12 @@ import React from 'react';
 import { Switch, Route, useParams, useLocation, Redirect, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Category, FavouritePage, Overview, Search } from '../../pages';
+import { Category, FavouritePage, Overview, PageSettings, Search } from '../../pages';
 import { VideoList } from '..';
 import { Settings } from '../../settings/settings';
 import { getAuthToken } from '../../auth/Auth';
 import { Context } from '../Context';
-import {PageVideoViewer} from '../../pages';
+import { PageVideoViewer } from '../../pages';
 
 const useStyles = makeStyles({
   main: {
@@ -83,6 +83,14 @@ const Main = (props) => {
 
               <Route exact path={'/results'}>
                 <PageSearch />
+              </Route>
+
+              <Route exact path={'/settings'}>
+                {
+                  auth
+                    ? <PageSettings />
+                    : <Redirect to='/' />
+                }
               </Route>
 
               <Route>

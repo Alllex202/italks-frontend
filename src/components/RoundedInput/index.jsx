@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyle = makeStyles({
   roundedInput: {
-    transition: '.1s all',
+    transition: '.05s all',
     border: `1px solid ${SD.basic.colors.main.grey}`,
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -39,7 +39,6 @@ const useStyle = makeStyles({
 const RoundedInput = ({
   className,
   type,
-  autoComplete,
   maxLength,
   autoFocus,
   placeholder,
@@ -47,7 +46,9 @@ const RoundedInput = ({
   onChange,
   value,
   id,
-  name
+  name,
+  autoCompleteOff,
+  readOnly
 }) => {
   const classes = useStyle();
 
@@ -55,7 +56,7 @@ const RoundedInput = ({
     <input
       className={classNames(classes.roundedInput, className)}
       type={type}
-      autoComplete={autoComplete}
+      autoComplete={autoCompleteOff ? 'new-password' : ''}
       maxLength={maxLength}
       autoFocus={autoFocus}
       placeholder={placeholder}
@@ -64,6 +65,7 @@ const RoundedInput = ({
       value={value}
       id={id}
       name={name}
+      readOnly={readOnly}
     />
   )
 };

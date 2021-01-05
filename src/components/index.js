@@ -13,4 +13,5 @@ export {default as VideoItem} from './VideoItem';
 export {default as TagsBlock} from './TagsBlock';
 export {default as Tag} from './Tag';
 export {default as VideoList} from './VideoList';
+export {default as RoundedCheckbox} from './RoundedCheckbox';
 // export {default as Context} from './Context';
