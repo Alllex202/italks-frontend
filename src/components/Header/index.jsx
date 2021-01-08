@@ -289,7 +289,8 @@ const useStyles = makeStyles({
   notification: {
     display: 'flex',
     width: 267,
-    height: 'auto',
+    // minHeight: 64,
+    // height: 'auto',
     justifyContent: 'flex-start',
     // marginBottom: 12,
     padding: '6px 18px 6px 18px',
