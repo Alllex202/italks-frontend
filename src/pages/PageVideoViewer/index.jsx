@@ -162,7 +162,7 @@ const PageVideoViewer = () => {
   let history = useHistory();
   let location = useLocation();
   const timeTransferPeriodMs = 1000;
-  const { auth, timerId, setTimerId, resetTimer } = React.useContext(Context);
+  const { auth, timerId, setTimerId, resetTimer, setLastVideo } = React.useContext(Context);
   const [videoData, setVideoData] = React.useState(null);
   const [isFav, setFav] = React.useState(false);
   const [clickedFavourite, clickFavourite] = React.useState(false);
@@ -218,6 +218,7 @@ const PageVideoViewer = () => {
         })
         .then(response => {
           // console.log(response)
+          setLastVideo(response.data)
         })
         .catch(error => {
           console.log(error.response)

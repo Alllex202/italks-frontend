@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { stylesDictionary as SD, stylesDictionary } from '../../settings/styles'
 
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -219,7 +219,7 @@ const useStyles = makeStyles({
   continueWatchingImage: {
     width: 80,
     height: 45,
-    objectFit: 'contain',
+    objectFit: 'cover',
     marginRight: 12,
   },
   continueWatchingTitle: {
@@ -443,12 +443,13 @@ const useStyles = makeStyles({
 
 const Header = (props) => {
   const classes = useStyles();
+  let history = useHistory();
   const [searchOpened, openSearch] = React.useState(false);
   const [notificationsOpened, openNotifications] = React.useState(false);
   const [menuOpened, openMenu] = React.useState(false);
   const [inputSearch, setInputSearch] = React.useState('');
   const [currentScroll, setScroll] = React.useState(0);
-  const { auth, infoUser } = React.useContext(Context);
+  const { auth, infoUser, lastVideo } = React.useContext(Context);
 
   const handleOpenSearch = () => {
     openNotifications(false);
@@ -459,6 +460,33 @@ const Header = (props) => {
   const handleCloseSearch = () => {
     openSearch(false);
     setInputSearch('');
+  }
+
+  const formatVideoViewingTime = (duration, time) => {
+    const hoursDuration = Math.floor(duration / (60 * 60));
+    const minutesDuration = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(Math.floor(duration % (60 * 60) / 60));
+    const secondsDuration = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(duration % 60);
+
+    const hoursTime = new Intl.NumberFormat('ru', { minimumIntegerDigits: hoursDuration.toString().length })
+      .format(Math.floor(time / (60 * 60)));
+    const minutesTime = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(Math.floor(time % (60 * 60) / 60));
+    const secondsTime = new Intl.NumberFormat('ru', { minimumIntegerDigits: 2 })
+      .format(time % 60);
+
+    let resultTime = '';
+    let resultDuration = '';
+
+    if (hoursDuration > 0) {
+      resultTime += `${hoursTime}:`;
+      resultDuration += `${hoursDuration}:`;
+    }
+    resultTime += `${minutesTime}:${secondsTime}`;
+    resultDuration += `${minutesDuration}:${secondsDuration}`;
+
+    return `${resultTime} из ${resultDuration}`;
   }
 
   // const actionScroll = () => window.scrollTo({ top: currentScroll });
@@ -498,30 +526,36 @@ const Header = (props) => {
                         <Route exact path='/video/:videoId'>
                         </Route>
                         <Route>
-                          <div className={classNames(classes.containerBlock, classes.continueWatchingBlock)}>
-                            <RoundedButton
-                              onClick={() => console.log('Продолжить просмотр')}
-                              className={classes.continueWatchingButton}
-                              classes={{
-                                label: classes.continueWatchingLabel,
-                              }}
-                            >
-                              Продолжить просмотр
-                            </RoundedButton>
-                            <div className={classNames(classes.smallContainerWrapper, classes.continueWatchingInfoWrapper)}>
-                              <div className={classNames(classes.smallContainer, classes.continueWatchingInfo)}>
-                                <img className={classes.continueWatchingImage} src={continueWatchingImage} alt="preview" />
-                                <div>
-                                  <span className={classes.continueWatchingTitle}>
-                                    Machine Learning на Python или зачем я это делаю?
-                              </span>
-                                  <span className={classes.continueWatchingTime}>
-                                    22:48 из 42:43
-                              </span>
+                          {
+                            lastVideo && <div className={classNames(classes.containerBlock, classes.continueWatchingBlock)}>
+                              <RoundedButton
+                                onClick={() => { history.push(`/video/${lastVideo.src}`) }}
+                                className={classes.continueWatchingButton}
+                                classes={{
+                                  label: classes.continueWatchingLabel,
+                                }}
+                              >
+                                Продолжить просмотр
+                              </RoundedButton>
+                              <div className={classNames(classes.smallContainerWrapper, classes.continueWatchingInfoWrapper)}>
+                                <div className={classNames(classes.smallContainer, classes.continueWatchingInfo)}>
+                                  <img
+                                    className={classes.continueWatchingImage}
+                                    src={`https://img.youtube.com/vi/${lastVideo.src}/default.jpg`}
+                                    alt="preview"
+                                  />
+                                  <div>
+                                    <span className={classes.continueWatchingTitle}>
+                                      {lastVideo.name}
+                                    </span>
+                                    <span className={classes.continueWatchingTime}>
+                                      {formatVideoViewingTime(lastVideo.duration, lastVideo.time)}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          }
                         </Route>
                       </Switch>
                       <ClickAwayListener onClickAway={() => openNotifications(false)}>
