@@ -27,6 +27,7 @@ import { getAuthToken, removeAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   header: {
+    color: SD.basic.colors.main.black,
     transition: 'all .3s',
     backgroundColor: SD.basic.colors.main.orange,
     height: 65,
@@ -291,7 +292,7 @@ const useStyles = makeStyles({
     height: 'auto',
     justifyContent: 'flex-start',
     // marginBottom: 12,
-    padding: '6px 18px 4px 18px',
+    padding: '6px 18px 6px 18px',
     backgroundColor: 'transparent',
     '&:hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
@@ -303,7 +304,7 @@ const useStyles = makeStyles({
   notificationImage: {
     width: 80,
     height: 45,
-    objectFit: 'contain',
+    objectFit: 'cover',
     marginRight: 12,
   },
   notificationText: {
@@ -597,6 +598,7 @@ const Header = (props) => {
                               lockScroll={lockScroll}
                               setScroll={setScroll}
                               currentScroll={currentScroll}
+                              infoUser={infoUser}
                             />)
                           }
                         </div>
@@ -622,21 +624,46 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default Header;  
 
+const months = {
+  0: 'Января',
+  1: 'Февраля',
+  2: 'Марта',
+  3: 'Апреля',
+  4: 'Мая',
+  5: 'Июня',
+  6: 'Июля',
+  7: 'Августа',
+  8: 'Сентября',
+  9: 'Октября',
+  10: 'Ноября',
+  11: 'Декабря',
+};
 
 const Notifications = ({ openNotifications, notificationsOpened,
   lockScroll, setScroll }) => {
   const classes = useStyles();
   const [isLoading, setLoading] = React.useState(true);
-  const [notifications, setNotifications] = React.useState(null);
+  const [notifications, setNotifications] = React.useState([]);
+
+  const formatDate = (date) => {
+    const _date = new Date(date);
+    return `${_date.getDate()} ${months[_date.getMonth()]}`
+  }
 
   useEffect(() => {
     setLoading(true);
+    const token = getAuthToken();
+    const headers = {};
+    if (token) {
+      headers['Authorization'] = `Token ${token}`;
+    }
     axios
-      .get(`${Settings.serverUrl}/`)
+      .get(`${Settings.serverUrl}/notifications/`, { headers })
       .then(response => {
-        setNotifications(response.data)
+        console.log(response.data.notifications)
+        setNotifications(response.data.notifications)
       })
       .catch(error => {
         console.log(error.response);
@@ -667,23 +694,27 @@ const Notifications = ({ openNotifications, notificationsOpened,
           {
             !isLoading && notifications
               ? notifications.length === 0
-                ? (<span className={classes.notificationsEmpty}>'Сейчас уведомлений нет'</span>)
+                ? (<span className={classes.notificationsEmpty}>Сейчас уведомлений нет</span>)
                 : (
                   notifications.map(notif => (
                     <a
-                      // key={ind}
-                      href='#w'
+                      key={notif.id}
+                      href={`/video/${notif.video.src}`}
                       className={classes.notification}
                       onClick={() => openNotifications(false)}
                     >
-                      <img className={classes.notificationImage} src={continueWatchingImage} alt="preview" />
+                      <img
+                        className={classes.notificationImage}
+                        src={`https://img.youtube.com/vi/${notif.video.src}/default.jpg`}
+                        alt="preview"
+                      />
                       <div className={classes.notificationText}>
-                        <span href='#qwe' className={classes.notificatioTitle}>
-                          <b>Python</b> “Machine Learning на Python или зачем я это делаю?”
-                                        </span>
+                        <span className={classes.notificatioTitle}>
+                          <b>{notif.video.subcategory[0].name}</b> {`“${notif.video.name}”`}
+                        </span>
                         <span className={classes.notificatioDate}>
-                          16 ноября в 11:42
-                                        </span>
+                          {formatDate(notif.date)}
+                        </span>
                       </div>
                     </a>
                   ))
@@ -696,7 +727,7 @@ const Notifications = ({ openNotifications, notificationsOpened,
   )
 };
 
-const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
+const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll, infoUser: { username } }) => {
   const classes = useStyles();
   const { setAuth } = useContext(Context);
   const [logoutClicked, clickLogout] = React.useState(false);
@@ -734,7 +765,7 @@ const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
       <ul
         className={classNames(classes.smallContainer, classes.menu)}
       >
-        <span className={classes.menuUser}>Александр Петухов</span>
+        <span className={classes.menuUser}>{username}</span>
         <li className={classes.menuItem}>
           <Link
             to='/settings'

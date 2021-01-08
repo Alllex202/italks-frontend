@@ -79,6 +79,7 @@ const useStyles = makeStyles({
 
 const PageSettings = () => {
   const classes = useStyles();
+  const { infoUser, setInfoUser } = React.useContext(Context);
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [oldPassword, setOldPassword] = React.useState('');
@@ -99,21 +100,23 @@ const PageSettings = () => {
     if (!clickedButtonSave) {
       clickButtonSave(true);
       const token = getAuthToken();
+      const headers = {};
       const data = {
         username: username,
       };
+      if (token) {
+        headers['Authorization'] = `Token ${token}`;
+      }
       if (oldPassword !== '' && newPassword !== '') {
         data['old_password'] = oldPassword;
         data['new_password'] = newPassword;
       }
       axios
-        .post(`${Settings.serverUrl}/settings/user/`, data, {
-          headers: {
-            'Authorization': token ? `Token ${token}` : null,
-          },
-        })
+        .post(`${Settings.serverUrl}/settings/user/`, data, { headers })
         .then(response => {
-          // console.log(response);
+          const newInfoUser = { ...infoUser };
+          newInfoUser['username'] = response.data.info_user.username;
+          setInfoUser(newInfoUser);
           setUsername(response.data.info_user.username);
           setErrorUsername('');
           setErrorOldPassword('');
@@ -127,9 +130,11 @@ const PageSettings = () => {
           setErrorNewPassword('');
           setOldPassword('');
           setNewPassword('');
-          // console.log(error.response);
-          if (error.response.status === 400) {
+          if (error.response && error.response.status === 400) {
             if (error.response) {
+              const newInfoUser = { ...infoUser };
+              newInfoUser['username'] = error.response.data.info_user.username;
+              setInfoUser(newInfoUser);
               setUsername(error.response.data.info_user.username);
               if (error.response.data.errors && error.response.data.errors.username) {
                 setErrorUsername(error.response.data.errors.username);
