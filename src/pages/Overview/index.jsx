@@ -53,12 +53,12 @@ const Overview = () => {
     console.log('Страница ОБЗОР');
     // setLoading(true)    
     const token = getAuthToken();
+    const headers = {};
+    if (token) {
+      headers['Authorization'] = `Token ${token}`;
+    }
     axios
-      .get(`${Settings.serverUrl}/video/promo/`,{        
-        headers: {
-          'Authorization': token ? `Token ${token}` : null,
-        },
-      })
+      .get(`${Settings.serverUrl}/video/promo/`, {headers})
       .then(response => {
         // console.log(response.data)
         setLastWeekVideo(response.data.week)

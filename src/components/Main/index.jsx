@@ -106,6 +106,11 @@ const Main = (props) => {
 
 const PageOverviewPeriod = (props) => {
   const { period } = useParams();
+  const token = getAuthToken();
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Token ${token}`;
+  }
   return (period === 'week' || period === 'month' || period === 'year') && (
     <VideoList
       url={`${Settings.serverUrl}/video/`}
@@ -113,12 +118,18 @@ const PageOverviewPeriod = (props) => {
         || (period === 'month' && 'В этом месяце')
         || (period === 'year' && 'В этом году')}
       period={period}
+      headers={headers}
     />
   )
 };
 
 const PageCategoryPeriod = (props) => {
   const { period, categoryId, subcategoryId } = useParams();
+  const token = getAuthToken();
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Token ${token}`;
+  }
   return (period === 'week' || period === 'month' || period === 'year') && (
     <VideoList
       url={`${Settings.serverUrl}/video/sorted/${categoryId}/`}
@@ -128,6 +139,7 @@ const PageCategoryPeriod = (props) => {
       categoryId={categoryId}
       subcategoryId={subcategoryId}
       period={period}
+      headers={headers}
     />
   )
 };
