@@ -12,7 +12,7 @@ import { Link as RLink, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { Context } from '../../components/Context/index.jsx';
-import { setAuthToken } from '../../auth/Auth';
+import { checkAuth, setAuthToken } from '../../auth/Auth';
 
 const useStyle = makeStyles({
   login: {
@@ -79,7 +79,7 @@ const Login = ({ loginFor }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [submitIsDisabled, setSubmitIsDisabled] = React.useState(false);
-  const { setAuth } = useContext(Context);
+  const { setAuth, setInfoUser, setLastVideo, setDarkTheme } = useContext(Context);
 
   let history = useHistory();
 
@@ -98,7 +98,8 @@ const Login = ({ loginFor }) => {
         // setPassword('');
         // Записать токен
         setAuthToken(response.data.auth_token);
-        setAuth(true);
+        checkAuth(setAuth, setInfoUser, setLastVideo, setDarkTheme);
+        // setAuth(true);
         // Перенаправить на главную
         // history.push('/');
       })

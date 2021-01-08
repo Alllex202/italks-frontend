@@ -681,7 +681,6 @@ const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll }) => {
         .then((response) => {
           clickLogout(false);
           setAuth(false);
-          removeAuthToken();
         })
     }
   };

@@ -7,18 +7,19 @@ import axios from 'axios';
 import { Settings } from './settings/settings';
 
 import { Context } from './components/Context/index';
-import { checkAuth, getAuthToken } from './auth/Auth';
+import { checkAuth, getAuthToken, removeAuthToken } from './auth/Auth';
 import { SiteRouting } from './routing';
 
 const App = (props) => {
+  let location = useLocation();
   const [auth, setAuth] = useState(null);
   const [categories, setCategories] = React.useState(null);
   const [favouriteCategories, setFavouriteCategories] = React.useState(null);
   const [infoUser, setInfoUser] = useState(null);
-  let location = useLocation();
   const [secondLevelMenuShow, setSecondLevelMenuShow] = useState(true);
   const [timerId, setTimerId] = React.useState(null);
   const [lastVideo, setLastVideo] = React.useState(null);
+  const [darkTheme, setDarkTheme] = React.useState(false);
 
   const getCategories = () => {
     axios
@@ -128,15 +129,19 @@ const App = (props) => {
   };
 
   React.useEffect(() => {
-    checkAuth(setAuth, setInfoUser);
+    checkAuth(setAuth, setInfoUser, setLastVideo, setDarkTheme);
     getCategories();
   }, []);
 
   React.useEffect(() => {
-    if (auth) {
+    if (auth === true) {
       getFavouritesCategories();
-    } else {
+    } else if (auth === false) {
       removeFavouritesCategories();
+      removeAuthToken();
+      setInfoUser(null);
+      setLastVideo(null);
+      setDarkTheme(false);
     }
   }, [auth]);
 
@@ -164,7 +169,9 @@ const App = (props) => {
           setTimerId,
           resetTimer,
           lastVideo,
-          setLastVideo
+          setLastVideo,
+          darkTheme,
+          setDarkTheme
         }}>
           <SiteRouting />
         </Context.Provider>
