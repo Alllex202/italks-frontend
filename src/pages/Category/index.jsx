@@ -134,11 +134,13 @@ const Category = () => {
   React.useEffect(() => {
     console.log('Страница КАТЕГОРИЯ или ПОДКАТЕГОРИЯ');
     const token = getAuthToken();
+    const headers = {};
+    if (token) {
+      headers['Authorization'] = `Token ${token}`;
+    }
     axios
       .get(`${Settings.serverUrl}/video/promo/`, {
-        headers: {
-          'Authorization': token ? `Token ${token}` : null,
-        },
+        headers,
         params: {
           category_id: categoryId,
           subcategory_id: subcategoryId,

@@ -58,7 +58,7 @@ const Overview = () => {
       headers['Authorization'] = `Token ${token}`;
     }
     axios
-      .get(`${Settings.serverUrl}/video/promo/`, {headers})
+      .get(`${Settings.serverUrl}/video/promo/`, { headers })
       .then(response => {
         // console.log(response.data)
         setLastWeekVideo(response.data.week)
@@ -72,7 +72,7 @@ const Overview = () => {
       });
 
     axios
-      .get(`${Settings.serverUrl}/subcategory/user/`)
+      .get(`${Settings.serverUrl}/subcategory/user/`, { headers })
       .then(response => {
         // console.log(response.data)
         setListSubcategories(response.data);
