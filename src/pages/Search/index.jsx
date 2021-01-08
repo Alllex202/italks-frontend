@@ -8,6 +8,7 @@ import { ClickAwayListener, makeStyles } from '@material-ui/core';
 import { PreviewsBlock, RoundedButton, TagsBlock, VideoItem, VideoList } from '../../components';
 import { Settings } from '../../settings/settings';
 import { CSSTransition } from 'react-transition-group';
+import { getAuthToken } from '../../auth/Auth';
 
 const useStyles = makeStyles({
   pageTitle: {
@@ -43,6 +44,13 @@ const Search = ({ searchQuery: _searchQuery }) => {
   const [searchQuery, setSearchQuery] = React.useState(decodeURI(_searchQuery));
   const [results, setResults] = React.useState([]);
 
+  
+  const token = getAuthToken();
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Token ${token}`;
+  }
+
   return (
     _searchQuery &&
     (
@@ -71,6 +79,7 @@ const Search = ({ searchQuery: _searchQuery }) => {
           title={'Видео'}
           searchQuery={searchQuery}
           setNumberSearchResults={setNumberSearchResults}
+          headers={headers}
         />
       </div>
 
