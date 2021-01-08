@@ -79,7 +79,7 @@ const useStyles = makeStyles({
 
 const PageSettings = () => {
   const classes = useStyles();
-  const { infoUser, setInfoUser } = React.useContext(Context);
+  const { infoUser, setInfoUser, setDarkTheme: setDarkThemeApp } = React.useContext(Context);
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [oldPassword, setOldPassword] = React.useState('');
@@ -132,10 +132,10 @@ const PageSettings = () => {
           setNewPassword('');
           if (error.response && error.response.status === 400) {
             if (error.response) {
-              const newInfoUser = { ...infoUser };
-              newInfoUser['username'] = error.response.data.info_user.username;
-              setInfoUser(newInfoUser);
-              setUsername(error.response.data.info_user.username);
+              // const newInfoUser = { ...infoUser };
+              // newInfoUser['username'] = error.response.data.info_user.username;
+              // setInfoUser(newInfoUser);
+              // setUsername(error.response.data.info_user.username);
               if (error.response.data.errors && error.response.data.errors.username) {
                 setErrorUsername(error.response.data.errors.username);
               }
@@ -193,6 +193,7 @@ const PageSettings = () => {
         .then(response => {
           if (response.status === 200) {
             setDarkTheme(response.data.dark_theme);
+            setDarkThemeApp(response.data.dark_theme);
           }
           console.log(response)
         })
