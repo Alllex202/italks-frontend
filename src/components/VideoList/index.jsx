@@ -200,7 +200,7 @@ const VideoList = ({
       })
   };
 
-  const lockScroll = () => _ls(currentScroll);
+  const lockScroll = (e) => _ls(currentScroll, e);
 
   const closeSortMenu = () => {
     setOpenSortMenu(false);
@@ -320,9 +320,11 @@ const SortMenu = ({
     const scroll = parseInt(window.pageYOffset);
     setScroll(scroll);
     document.addEventListener('scroll', lockScroll);
+    document.addEventListener('wheel', lockScroll, { passive: false });
 
     return () => {
       document.removeEventListener('scroll', lockScroll);
+      document.removeEventListener('wheel', lockScroll);
     }
   });
 
