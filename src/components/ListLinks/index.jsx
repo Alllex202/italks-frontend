@@ -107,18 +107,32 @@ const useStyles = makeStyles({
         transition: '.2s all',
       },
     },
+    '& > span': {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '14px',
+      lineHeight: '16px',      
+      color: SD.basic.colors.main.grey,
+      transition: '.2s color',
+    },
     '&:hover': {
       backgroundColor: SD.basic.colors.translucent.violet,
       color: SD.basic.colors.main.violetDark,
       '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
       },
+      '& > span': {
+        color: SD.basic.colors.main.violetDark,
+      }
     },
     '&:active': {
       color: SD.basic.colors.main.violetDark,
       '& > svg > path': {
         fill: SD.basic.colors.main.violetDark,
       },
+      '& > span': {
+        color: SD.basic.colors.main.violetDark,
+      }
     },
   },
   buttonShowMoreClose: {

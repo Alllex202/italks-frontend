@@ -109,6 +109,8 @@ fix
 (done) Исправить кнопки при нажатии
 
 (done) Исправить баг с блокировкой скролла
+(done) fix btn more on sidebar
+(done) fix btn favourite on video viewer
 
 * Уведомления в Safari отображаются некорректно
 

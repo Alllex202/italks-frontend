@@ -47,12 +47,17 @@ const useStyles = makeStyles({
     right: 18,
     width: 24,
     height: 24,
+    opacity: .7,
     // transition: 'opacity .3s, transform .5s',
     transition: 'opacity .3s',
     cursor: 'pointer',
+    '&:hover': {
+      opacity: 1,
+    },
   },
   favouriteActive: {
     // transform: 'rotate(360deg)',
+    opacity: 1,
     '& > $unfavouriteIcon': {
       opacity: 0,
     }
