@@ -329,12 +329,20 @@ const VideoItem = ({ className, videoData, withoutBorder, withoutTags }) => {
           <div className={classes.videoBlockDetails}>
             <span className={classes.videoDetails}>
               <span className={classes.videoDetail}>
-                <a href={videoData.resource.src}>
+                <a
+                  href={videoData.resource.src}
+                  target='_blank'
+                  rel="noopener noreferrer"
+                >
                   {videoData.resource.name}
                 </a>
               </span>
               <span className={classes.videoDetail}>
-                <a href={videoData.author.src}>
+                <a
+                  href={videoData.author.src}
+                  target='_blank'
+                  rel="noopener noreferrer"
+                >
                   {videoData.author.name}
                 </a>
               </span>
