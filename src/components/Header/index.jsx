@@ -492,7 +492,9 @@ const Header = (props) => {
   }
 
   // const actionScroll = () => window.scrollTo({ top: currentScroll });
-  const lockScroll = () => _ls(currentScroll);
+  const lockScroll = (e) => {
+    _ls(currentScroll, e, [classes.notifications])
+  };
 
   return (
     <React.Fragment>
@@ -625,7 +627,7 @@ const Header = (props) => {
   );
 };
 
-export default Header;  
+export default Header;
 
 const months = {
   0: 'Января',
@@ -678,9 +680,11 @@ const Notifications = ({ openNotifications, notificationsOpened,
     const scroll = parseInt(window.pageYOffset);
     setScroll(scroll);
     document.addEventListener('scroll', lockScroll);
+    document.addEventListener('wheel', lockScroll, { passive: false });
 
     return () => {
       document.removeEventListener('scroll', lockScroll);
+      document.removeEventListener('wheel', lockScroll);
     }
   });
 
@@ -755,9 +759,11 @@ const HeaderMenu = ({ menuOpened, openMenu, lockScroll, setScroll, infoUser: { u
     const scroll = parseInt(window.pageYOffset);
     setScroll(scroll);
     document.addEventListener('scroll', lockScroll);
+    document.addEventListener('wheel', lockScroll, { passive: false });
 
     return () => {
       document.removeEventListener('scroll', lockScroll);
+      document.removeEventListener('wheel', lockScroll);
     }
   });
 
