@@ -65,7 +65,7 @@ const useStyles = makeStyles({
     backgroundColor: SD.basic.colors.main.white,
     margin: 'auto',
   }
-})
+});
 
 const LogRegRes = ({ loginFor }) => {
   const classes = useStyles();

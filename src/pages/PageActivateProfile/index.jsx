@@ -3,7 +3,7 @@ import { Link, Redirect, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Settings } from '../../settings/settings';
 
-const ActivateProfile = () => {
+const PageActivateProfile = () => {
   const { uid, token } = useParams();
   const [isLoading, setLoading] = React.useState(true);
   const [result, setResult] = React.useState('');
@@ -44,14 +44,14 @@ const ActivateProfile = () => {
       : <div>
         {
           result === 'Done'
-            ? <React.Fragment>
-              <div>Аккаунт активирован, если не произошло автоматическое перенаправление можете <Link to={'/'}>перейти на сайт по ссылке</Link>.</div>
-              <Redirect to={'/'} />
-            </React.Fragment>
+            ? <>
+                <div>Аккаунт активирован, если не произошло автоматическое перенаправление можете <Link to={'/login'}>перейти на сайт по ссылке</Link>.</div>
+                <Redirect to={'/login'} />
+              </>
             : <div>Что-то пошло не так :-( {result}</div>
         }
       </div>
   )
 };
 
-export default ActivateProfile;
+export default PageActivateProfile;
